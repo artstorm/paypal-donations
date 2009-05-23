@@ -4,13 +4,13 @@ Donate link: http://coding.cglounge.com/wordpress-plugins/paypal-donations/#pint
 Tags: paypal, donation, shortcode, donate, button
 Requires at least: 2.7
 Tested up to: 2.7.1
-Stable tag: 1.0
+Stable tag: 1.1
 
 Easy and simple setup and insertion of PayPal donate buttons with a shortcode. Donation purpose can be set for each button. A few other customization options are available as well.
 
 == Description ==
 
-Adds a PayPal donation shortcode to WordPress. The options menu lets you setup you PayPal ID and a few other optional settings. You can choose which donation button you want to use or if you want to use your own button. You can also set an optional default purpose and reference which can be overridden on each inserted instance with the shortcode options. There is also settings for custom payment page style and the return page.
+Adds a PayPal donation shortcode to WordPress. The options menu lets you setup you PayPal ID and a few other optional settings. You can choose which donation button you want to use or if you want to use your own button. You can also set an optional default purpose and reference which can be overridden on each inserted instance with the shortcode options. There is also settings for currency, custom payment page style and the return page.
 
 Insert the button in your pages or posts with this shortcode
 
@@ -45,6 +45,10 @@ Meditation.
 1. The Admin page where you setup the plugin
 
 == Changelog ==
+
+= Version 1.1 - 23 May 2009 =
+ * Added an option to select the currency to make the donations in.
+ * Changed the default button in a new install from a custom button to the large button.
 
 = Version 1.0 - 7 May 2009 =
  * Initial Release
