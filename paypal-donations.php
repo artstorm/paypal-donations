@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.0
+Version: 1.1
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
@@ -27,10 +27,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 class paypal_donations {
-	var $plugin_options = "paypal_donations_options";
-	var $donate_buttons = array("small" => "https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif",
-						   "large" => "https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif",
-						   "cards" => "https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif");
+	var $plugin_options = 'paypal_donations_options';
+	var $donate_buttons = array('small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
+						  		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
+						  		'cards' => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif');
+	var $currency_codes = array('AUD' => 'Australian Dollars (A $)',
+						   		'CAD' => 'Canadian Dollars (C $)',
+						   		'EUR' => 'Euros (&euro;)',
+						   		'GBP' => 'Pounds Sterling (&pound;)',
+						   		'JPY' => 'Yen (&yen;)',
+						   		'USD' => 'U.S. Dollars ($)',
+						   		'NZD' => 'New Zealand Dollar ($)',
+						   		'CHF' => 'Swiss Franc',
+						   		'HKD' => 'Hong Kong Dollar ($)',
+						   		'SGD' => 'Singapore Dollar ($)',
+						   		'SEK' => 'Swedish Krona',
+						   		'DKK' => 'Danish Krone',
+						   		'PLN' => 'Polish Zloty',
+						   		'NOK' => 'Norwegian Krone',
+						   		'HUF' => 'Hungarian Forint',
+						   		'CZK' => 'Czech Koruna',
+						   		'ILS' => 'Israeli Shekel',
+						   		'MXN' => 'Mexican Peso');
 	/**
 	* Constructor
 	*
@@ -98,9 +116,12 @@ class paypal_donations {
 			$paypal_btn .=	'<input type="hidden" name="item_name" value="' .$purpose. '" />';	// Purpose
 		if ($reference)
 			$paypal_btn .=	'<input type="hidden" name="item_number" value="' .$reference. '" />';	// LightWave Plugin
-		
+
+		// More Settings
+		if (isset($pd_options['currency_code']))
+			$paypal_btn .=     '<input type="hidden" name="currency_code" value="' .$pd_options['currency_code']. '" />';
+
 		// Settings not implemented yet
-		//		$paypal_btn .=     '<input type="hidden" name="currency_code" value="SEK" />';
 		//		$paypal_btn .=     '<input type="hidden" name="amount" value="20" />';
 
 		// Get the button URL
@@ -145,6 +166,7 @@ class paypal_donations {
 			$pd_options['reference'] = trim( $_POST['reference'] );
 			$pd_options['button'] = trim( $_POST['button'] );
 			$pd_options['button_url'] = trim( $_POST['button_url'] );
+			$pd_options['currency_code'] = trim( $_POST['currency_code'] );
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
@@ -159,6 +181,17 @@ class paypal_donations {
     <tr valign="top">
     <th scope="row"><label for="paypal_account"><?php _e( 'PayPal Account', 'paypal-donations' ) ?></label></th>
     <td><input name="paypal_account" type="text" id="paypal_account" value="<?php echo $pd_options['paypal_account']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'Your PayPal email address or your PayPal secure merchant account ID.', 'paypal-donations' ) ?></span></td>
+    </tr>
+    <tr valign="top">
+    <th scope="row"><label for="currency_code"><?php _e( 'Currency', 'paypal-donations' ) ?></label></th>
+    <td><select name="currency_code" id="currency_code">
+<?php   if (isset($pd_options['currency_code'])) { $current_currency = $pd_options['currency_code']; } else { $current_currency = 'USD'; }
+		foreach ( $this->currency_codes as $key => $code ) {
+	        echo '<option value="'.$key.'"';
+			if ($current_currency == $key) { echo ' selected="selected"'; }
+			echo '>'.$code.'</option>';
+		}?></select>
+        <span class="setting-description"><br/><?php _e( 'The currency to use for the donations.', 'paypal-donations' ) ?></span></td>
     </tr>
     </table>
 
@@ -194,9 +227,10 @@ class paypal_donations {
 	<fieldset><legend class="hidden">PayPal Button</legend>
 <?php
 	$custom = TRUE;
+	if (isset($pd_options['button'])) { $current_button = $pd_options['button']; } else { $current_button = 'large'; }
 	foreach ( $this->donate_buttons as $key => $button ) {
 		echo "\t<label title='" . attribute_escape($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . attribute_escape($key) . "'";
-		if ( $pd_options['button'] === $key ) { // checked() uses "==" rather than "==="
+		if ( $current_button === $key ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = FALSE;
 		}
