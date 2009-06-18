@@ -2,8 +2,8 @@
 /*
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
-Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.1
+Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a Widget. Donation purpose can be set for each button. A few other customization options are available as well.
+Version: 1.2
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
@@ -80,6 +80,9 @@ class paypal_donations {
 	function init_hooks() {
 		add_action('admin_menu', array(&$this,'wp_admin'));
 		add_shortcode('paypal-donation', array(&$this,'paypal_shortcode'));
+		global $wp_version;
+		if ( version_compare($wp_version, '2.8', '>=') )
+			add_action( 'widgets_init',  array(&$this,'load_widget') );
 	}
 	
 	/**
@@ -92,17 +95,39 @@ class paypal_donations {
 	}
 	
 	/**
+	* Register the Widget
+	*
+	*/
+	function load_widget() {
+		register_widget( 'paypal_donations_Widget' );
+	}
+
+	/**
 	* Create and register the PayPal shortcode
 	*
 	*/
 	function paypal_shortcode($atts) {
-		$pd_options = get_option($this->plugin_options);
 		extract(shortcode_atts(array(
-			'purpose' => $pd_options['purpose'],
-			'reference' => $pd_options['reference'],
+			'purpose' => '',
+			'reference' => '',
 		), $atts));
 
-		$paypal_btn =	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="donate">';
+		return $this->generate_html($purpose, $reference);
+	}
+	
+	/**
+	* Generate the PayPal button HTML code
+	*
+	*/
+	function generate_html($purpose = null, $reference = null) {
+		$pd_options = get_option($this->plugin_options);
+
+		// Set overrides for purpose and reference if defined
+		$purpose = (!$purpose) ? $pd_options['purpose'] : $purpose;
+		$reference = (!$reference) ? $pd_options['reference'] : $reference;
+		
+		# Build the button
+		$paypal_btn =	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 		$paypal_btn .=	'<div class="paypal-donations">';
 		$paypal_btn .=	'<input type="hidden" name="cmd" value="_donations" />';
 		$paypal_btn .=	'<input type="hidden" name="business" value="' .$pd_options['paypal_account']. '" />';
@@ -134,10 +159,10 @@ class paypal_donations {
 		$paypal_btn .=	'<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
 		$paypal_btn .=	'</div>';
 		$paypal_btn .=	'</form>';
-	
+		
 		return $paypal_btn;
 	}
-	
+
 	/**
 	* The Admin Page and all it's functions
 	*
@@ -255,5 +280,118 @@ class paypal_donations {
 <?php
 	}
 }
+
+
+/**
+ * The Class for the Widget
+ *
+ */
+if (class_exists('WP_Widget')) :
+class paypal_donations_Widget extends WP_Widget {
+	/**
+	* Constructor
+	*
+	*/
+	function paypal_donations_Widget() {
+		// Widget settings.
+		$widget_ops = array ( 'classname' => 'widget_paypal_donations', 'description' => 'PayPal Donation Button' );
+
+		// Widget control settings.
+		$control_ops = array( 'id_base' => 'paypal_donations' );
+
+		// Create the Widget
+		$this->WP_Widget( 'paypal_donations', 'PayPal Donations', $widget_ops );
+	}
+
+	/**
+	* Output the Widget
+	*
+	*/
+	function widget( $args, $instance ) {
+		extract( $args );
+		global $paypal_donations;
+
+		// Get the settings
+		$title = apply_filters('widget_title', $instance['title'] );
+		$text = $instance['text'];
+		$purpose = $instance['purpose'];
+		$reference = $instance['reference'];
+
+		echo $before_widget;
+		if ( $title )
+			echo $before_title . $title . $after_title;
+		if ( $text )
+			echo wpautop( $text );
+		echo  $paypal_donations->generate_html( $purpose, $reference );
+		echo $after_widget;
+	}
+	
+	/**
+	  * Saves the widgets settings.
+	  *
+	  */
+	function update( $new_instance, $old_instance ) {
+		$instance = $old_instance;
+
+	    $instance['title'] = strip_tags(stripslashes($new_instance['title']));
+	    $instance['text'] = $new_instance['text'];
+	    $instance['purpose'] = strip_tags(stripslashes($new_instance['purpose']));
+	    $instance['reference'] = strip_tags(stripslashes($new_instance['reference']));
+
+		return $instance;
+	}
+
+	/**
+	* The Form in the Widget Admin Screen
+	*
+	*/
+	function form( $instance ) {
+		// Default Widget Settings
+		$defaults = array( 'title' => __('Donate', 'paypal-donations'), 'text' => '', 'purpose' => '', 'reference' => '' );
+		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
+        
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'paypal-donations'); ?> 
+            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($instance['title']); ?>" />
+            </label>
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Text:', 'paypal-donations'); ?> 
+            <textarea class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_attr($instance['text']); ?></textarea>
+            </label>
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('purpose'); ?>"><?php _e('Purpose:', 'paypal-donations'); ?> 
+            <input class="widefat" id="<?php echo $this->get_field_id('purpose'); ?>" name="<?php echo $this->get_field_name('purpose'); ?>" type="text" value="<?php echo esc_attr($instance['purpose']); ?>" />
+            </label>
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('reference'); ?>"><?php _e('Reference:', 'paypal-donations'); ?> 
+            <input class="widefat" id="<?php echo $this->get_field_id('reference'); ?>" name="<?php echo $this->get_field_name('reference'); ?>" type="text" value="<?php echo esc_attr($instance['reference']); ?>" />
+            </label>
+        </p>
+        <?php 
+	}
+}
+endif;
+
+/**
+ * Uninstall
+ * Clean up the WP DB by deleting the options created by the plugin.
+ *
+ */
+if ( function_exists('register_uninstall_hook') )
+	register_uninstall_hook(__FILE__, 'paypal_donations_deinstall');
+ 
+function paypal_donations_deinstall() {
+	delete_option('paypal_donations_options');
+	delete_option('widget_paypal_donations');
+}
+
+// Start the Plugin
 add_action( 'plugins_loaded', create_function( '', 'global $paypal_donations; $paypal_donations = new paypal_donations();' ) );
+
 ?>
