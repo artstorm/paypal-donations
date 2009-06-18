@@ -10,7 +10,7 @@ Easy and simple setup and insertion of PayPal donate buttons with a shortcode or
 
 == Description ==
 
-Adds a PayPal donation shortcode and sidebar Widget to WordPress. The options menu lets you setup you PayPal ID and a few other optional settings. You can choose which donation button you want to use or if you want to use your own button. You can also set an optional default purpose and reference which can be overridden on each inserted instance with the shortcode options. There is also settings for currency, custom payment page style and the return page.
+Adds a PayPal donation shortcode and sidebar Widget to WordPress. The options menu lets you setup you PayPal ID and a few other optional settings. You can choose which donation button you want to use or if you want to use your own button. You can also set an optional default purpose and reference which can be overridden on each inserted instance with the shortcode options or in the Widget settings. There is also options available for currency, custom payment page style and the return page.
 
 **Widget**
 
@@ -22,7 +22,7 @@ Insert the button in your pages or posts with this shortcode
 
 `[paypal-donation]`
 
-Which is the simples option, and uses all default and optional settings. If you want to make a specific button for a specific purpose you can add these options:
+Which is the simplest option, and uses all default and optional settings. If you want to make a specific button for a specific purpose you can add these options:
 
 `[paypal-donation purpose="Spline Importer" reference="3D Plugins"]`
 
@@ -60,7 +60,7 @@ Meditation.
 == Changelog ==
 
 = Version 1.2 - 18 June 2009 =
- * Added a sidebar Widget to display the PayPal button in (WordPress 2.8 or newer)
+ * Added a sidebar Widget (WordPress 2.8 or newer)
 
 = Version 1.1 - 23 May 2009 =
  * Added an option to select the currency to make the donations in.
