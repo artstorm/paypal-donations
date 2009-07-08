@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.2
+Version: 1.3
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
@@ -110,21 +110,23 @@ class paypal_donations {
 		extract(shortcode_atts(array(
 			'purpose' => '',
 			'reference' => '',
+			'amount' => '',
 		), $atts));
 
-		return $this->generate_html($purpose, $reference);
+		return $this->generate_html($purpose, $reference, $amount);
 	}
 	
 	/**
 	* Generate the PayPal button HTML code
 	*
 	*/
-	function generate_html($purpose = null, $reference = null) {
+	function generate_html($purpose = null, $reference = null, $amount = null) {
 		$pd_options = get_option($this->plugin_options);
 
 		// Set overrides for purpose and reference if defined
 		$purpose = (!$purpose) ? $pd_options['purpose'] : $purpose;
 		$reference = (!$reference) ? $pd_options['reference'] : $reference;
+		$amount = (!$amount) ? $pd_options['amount'] : $amount;
 		
 		# Build the button
 		$paypal_btn =	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
@@ -141,6 +143,8 @@ class paypal_donations {
 			$paypal_btn .=	'<input type="hidden" name="item_name" value="' .$purpose. '" />';	// Purpose
 		if ($reference)
 			$paypal_btn .=	'<input type="hidden" name="item_number" value="' .$reference. '" />';	// LightWave Plugin
+		if ($amount)
+			$paypal_btn .=     '<input type="hidden" name="amount" value="' .$amount. '" />';
 
 		// More Settings
 		if (isset($pd_options['currency_code']))
@@ -192,6 +196,7 @@ class paypal_donations {
 			$pd_options['button'] = trim( $_POST['button'] );
 			$pd_options['button_url'] = trim( $_POST['button_url'] );
 			$pd_options['currency_code'] = trim( $_POST['currency_code'] );
+			$pd_options['amount'] = trim( $_POST['amount'] );
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
@@ -234,6 +239,10 @@ class paypal_donations {
 
 	<h3><?php _e( 'Defaults', 'paypal-donations' ) ?></h3>
     <table class="form-table">
+    <tr valign="top">
+    <th scope="row"><label for="amount"><?php _e( 'Amount', 'paypal-donations' ) ?></label></th>
+    <td><input name="amount" type="text" id="amount" value="<?php echo $pd_options['amount']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'The default amount for a donation (Optional).', 'paypal-donations' ) ?></span></td>
+    </tr>
     <tr valign="top">
     <th scope="row"><label for="purpose"><?php _e( 'Purpose', 'paypal-donations' ) ?></label></th>
     <td><input name="purpose" type="text" id="purpose" value="<?php echo $pd_options['purpose']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'The default purpose of a donation (Optional).', 'paypal-donations' ) ?></span></td>
