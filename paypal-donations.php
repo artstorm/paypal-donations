@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.3
+Version: 1.3.1
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
@@ -273,7 +273,7 @@ class paypal_donations {
 
 	echo '	<label><input type="radio" name="button" value="custom"';
 	checked( $custom, TRUE );
-	echo '/> ' . __('Custom Button:') . ' </label>';
+	echo '/> ' . __('Custom Button:', 'paypal-donations') . ' </label>';
 ?>
 	<input type="text" name="button_url" value="<?php echo $pd_options['button_url']; ?>" class="regular-text" />
 	<p><span class="setting-description"><?php _e( 'Enter a URL to a custom donation button.', 'paypal-donations' ) ?></span></p>
@@ -303,7 +303,7 @@ class paypal_donations_Widget extends WP_Widget {
 	*/
 	function paypal_donations_Widget() {
 		// Widget settings.
-		$widget_ops = array ( 'classname' => 'widget_paypal_donations', 'description' => 'PayPal Donation Button' );
+		$widget_ops = array ( 'classname' => 'widget_paypal_donations', 'description' => __('PayPal Donation Button', 'paypal-donations') );
 
 		// Widget control settings.
 		$control_ops = array( 'id_base' => 'paypal_donations' );
