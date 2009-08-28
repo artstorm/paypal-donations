@@ -4,7 +4,7 @@ Donate link: http://coding.cglounge.com/wordpress-plugins/paypal-donations/#pint
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
 Tested up to: 2.8.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 
 Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
 
@@ -30,7 +30,10 @@ as an example.
 
 This donation plugin generates valid XHTML Transitional and Strict code.
 
-For complete usage instructions see: [PayPal Donations](http://coding.cglounge.com/wordpress-plugins/paypal-donations/ "Complete Usage Instructions for PayPal Donations") 
+For complete usage instructions see: [PayPal Donations](http://coding.cglounge.com/wordpress-plugins/paypal-donations/ "Complete Usage Instructions for PayPal Donations")
+
+See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changelog/) for what's new. Available [Translations](http://coding.cglounge.com/wordpress-plugins/paypal-donations/#translations).
+
 
 == Installation ==
 
@@ -57,6 +60,9 @@ Please visit [PayPal Donations' Comments](http://coding.cglounge.com/wordpress-p
 
 == Changelog ==
 
+= Version 1.3.2 - 28 Aug 2009 =
+ * Included Russian translation by [FatCow](http://www.fatcow.com/).
+ 
 = Version 1.3.1 - 25 August 2009 =
  * Added Swedish translation.
  * Added the .pot file and textdomained all strings to allow translations.
