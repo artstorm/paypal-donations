@@ -61,7 +61,7 @@ Please visit [PayPal Donations' Comments](http://coding.cglounge.com/wordpress-p
 == Changelog ==
 
 = Version 1.3.3 - 2 Sep 2009 =
- * Included French translation by [Thomas Cailhe (Oyabi)](http://oyabi.toile-libre.org/).
+ * Included French translation by [Thomas Cailhe (Oyabi)](http://www.oyabi.fr/).
 
 = Version 1.3.2 - 28 Aug 2009 =
  * Included Russian translation by [FatCow](http://www.fatcow.com/).
