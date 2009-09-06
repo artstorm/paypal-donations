@@ -61,7 +61,7 @@ Please visit [PayPal Donations' Comments](http://coding.cglounge.com/wordpress-p
 == Changelog ==
 
 = Version 1.4 - 6 Sep 2009 =
- * Added a dropdown menu to select country and language for the graphics of the donation button.
+ * Added a dropdown menu to select country and language to localize the graphics of the donation button.
 
 = Version 1.3.3 - 2 Sep 2009 =
  * Included French translation by [Thomas Cailhe (Oyabi)](http://www.oyabi.fr/).
