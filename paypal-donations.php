@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.3.3
+Version: 1.4
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
@@ -49,6 +49,238 @@ class paypal_donations {
 						   		'CZK' => 'Czech Koruna',
 						   		'ILS' => 'Israeli Shekel',
 						   		'MXN' => 'Mexican Peso');
+	var $localized_buttons = array('en_AL' => 'Albania - U.K. English',
+								   'en_DZ' => 'Algeria - U.K. English',
+								   'en_AD' => 'Andorra - U.K. English',
+								   'en_AO' => 'Angola - U.K. English',
+								   'en_AI' => 'Anguilla - U.K. English',
+								   
+								   'en_AG' => 'Antigua and Barbuda - U.K. English',
+								   'en_AR' => 'Argentina - U.K. English',
+								   'en_AM' => 'Armenia - U.K. English',
+								   'en_AW' => 'Aruba - U.K. English',
+								   'en_AU' => 'Australia - Australian English',
+								   'de_AT' => 'Austria - German',
+								   'en_AT' => 'Austria - U.S. English',
+								   'en_AZ' => 'Azerbaijan Republic - U.K. English',
+								   'en_BS' => 'Bahamas - U.K. English',
+								   
+								   'en_BH' => 'Bahrain - U.K. English',
+								   'en_BB' => 'Barbados - U.K. English',
+								   'en_BE' => 'Belgium - U.S. English',
+								   'nl_BE' => 'Belgium - Dutch',
+								   'fr_BE' => 'Belgium - French',
+								   'en_BZ' => 'Belize - U.K. English',
+								   'en_BJ' => 'Benin - U.K. English',
+								   'en_BM' => 'Bermuda - U.K. English',
+								   'en_BT' => 'Bhutan - U.K. English',
+								   
+								   'en_BO' => 'Bolivia - U.K. English',
+								   'en_BA' => 'Bosnia and Herzegovina - U.K. English',
+								   'en_BW' => 'Botswana - U.K. English',
+								   'en_BR' => 'Brazil - U.K. English',
+								   'en_VG' => 'British Virgin Islands - U.K. English',
+								   'en_BN' => 'Brunei - U.K. English',
+								   'en_BG' => 'Bulgaria - U.K. English',
+								   'en_BF' => 'Burkina Faso - U.K. English',
+								   'en_BI' => 'Burundi - U.K. English',
+								   
+								   'en_KH' => 'Cambodia - U.K. English',
+								   'en_CA' => 'Canada - U.S. English',
+								   'fr_CA' => 'Canada - French',
+								   'en_CV' => 'Cape Verde - U.K. English',
+								   'en_KY' => 'Cayman Islands - U.K. English',
+								   'en_TD' => 'Chad - U.K. English',
+								   'en_CL' => 'Chile - U.K. English',
+								   'en_C2' => 'China - U.S. English',
+								   'zh_C2' => 'China - Simplified Chinese',
+								   
+								   'en_CO' => 'Colombia - U.K. English',
+								   'en_KM' => 'Comoros - U.K. English',
+								   'en_CK' => 'Cook Islands - U.K. English',
+								   'en_CR' => 'Costa Rica - U.K. English',
+								   'en_HR' => 'Croatia - U.K. English',
+								   'en_CY' => 'Cyprus - U.K. English',
+								   'en_CZ' => 'Czech Republic - U.K. English',
+								   'en_CD' => 'Democratic Republic of the Congo - U.K. English',
+								   'en_DK' => 'Denmark - U.K. English',
+								   
+								   'en_DJ' => 'Djibouti - U.K. English',
+								   'en_DM' => 'Dominica - U.K. English',
+								   'en_DO' => 'Dominican Republic - U.K. English',
+								   'en_EC' => 'Ecuador - U.K. English',
+								   'en_SV' => 'El Salvador - U.K. English',
+								   'en_ER' => 'Eritrea - U.K. English',
+								   'en_EE' => 'Estonia - U.K. English',
+								   'en_ET' => 'Ethiopia - U.K. English',
+								   'en_FK' => 'Falkland Islands - U.K. English',
+								   
+								   'en_FO' => 'Faroe Islands - U.K. English',
+								   'en_FM' => 'Federated States of Micronesia - U.K. English',
+								   'en_FJ' => 'Fiji - U.K. English',
+								   'en_FI' => 'Finland - U.K. English',
+								   'fr_FR' => 'France - French',
+								   'en_FR' => 'France - U.S. English',
+								   'en_GF' => 'French Guiana - U.K. English',
+								   'en_PF' => 'French Polynesia - U.K. English',
+								   'en_GA' => 'Gabon Republic - U.K. English',
+								   
+								   'en_GM' => 'Gambia - U.K. English',
+								   'de_DE' => 'Germany - German',
+								   'en_DE' => 'Germany - U.S. English',
+								   'en_GI' => 'Gibraltar - U.K. English',
+								   'en_GR' => 'Greece - U.K. English',
+								   'en_GL' => 'Greenland - U.K. English',
+								   'en_GD' => 'Grenada - U.K. English',
+								   'en_GP' => 'Guadeloupe - U.K. English',
+								   'en_GT' => 'Guatemala - U.K. English',
+								   
+								   'en_GN' => 'Guinea - U.K. English',
+								   'en_GW' => 'Guinea Bissau - U.K. English',
+								   'en_GY' => 'Guyana - U.K. English',
+								   'en_HN' => 'Honduras - U.K. English',
+								   'zh_HK' => 'Hong Kong - Traditional Chinese',
+								   'en_HK' => 'Hong Kong - U.K. English',
+								   'en_HU' => 'Hungary - U.K. English',
+								   'en_IS' => 'Iceland - U.K. English',
+								   'en_IN' => 'India - U.K. English',
+								   
+								   'en_ID' => 'Indonesia - U.K. English',
+								   'en_IE' => 'Ireland - U.K. English',
+								   'en_IL' => 'Israel - U.K. English',
+								   'it_IT' => 'Italy - Italian',
+								   'en_IT' => 'Italy - U.S. English',
+								   'en_JM' => 'Jamaica - U.K. English',
+								   'ja_JP' => 'Japan - Japanese',
+								   'en_JP' => 'Japan - U.S. English',
+								   'en_JO' => 'Jordan - U.K. English',
+								   
+								   'en_KZ' => 'Kazakhstan - U.K. English',
+								   'en_KE' => 'Kenya - U.K. English',
+								   'en_KI' => 'Kiribati - U.K. English',
+								   'en_KW' => 'Kuwait - U.K. English',
+								   'en_KG' => 'Kyrgyzstan - U.K. English',
+								   'en_LA' => 'Laos - U.K. English',
+								   'en_LV' => 'Latvia - U.K. English',
+								   'en_LS' => 'Lesotho - U.K. English',
+								   'en_LI' => 'Liechtenstein - U.K. English',
+								   
+								   'en_LT' => 'Lithuania - U.K. English',
+								   'en_LU' => 'Luxembourg - U.K. English',
+								   'en_MG' => 'Madagascar - U.K. English',
+								   'en_MW' => 'Malawi - U.K. English',
+								   'en_MY' => 'Malaysia - U.K. English',
+								   'en_MV' => 'Maldives - U.K. English',
+								   'en_ML' => 'Mali - U.K. English',
+								   'en_MT' => 'Malta - U.K. English',
+								   'en_MH' => 'Marshall Islands - U.K. English',
+								   
+								   'en_MQ' => 'Martinique - U.K. English',
+								   'en_MR' => 'Mauritania - U.K. English',
+								   'en_MU' => 'Mauritius - U.K. English',
+								   'en_YT' => 'Mayotte - U.K. English',
+								   'es_MX' => 'Mexico - Spanish',
+								   'en_MX' => 'Mexico - U.S. English',
+								   'en_MN' => 'Mongolia - U.K. English',
+								   'en_MS' => 'Montserrat - U.K. English',
+								   'en_MA' => 'Morocco - U.K. English',
+								   
+								   'en_MZ' => 'Mozambique - U.K. English',
+								   'en_NA' => 'Namibia - U.K. English',
+								   'en_NR' => 'Nauru - U.K. English',
+								   'en_NP' => 'Nepal - U.K. English',
+								   'nl_NL' => 'Netherlands - Dutch',
+								   'en_NL' => 'Netherlands - U.S. English',
+								   'en_AN' => 'Netherlands Antilles - U.K. English',
+								   'en_NC' => 'New Caledonia - U.K. English',
+								   'en_NZ' => 'New Zealand - U.K. English',
+								   
+								   'en_NI' => 'Nicaragua - U.K. English',
+								   'en_NE' => 'Niger - U.K. English',
+								   'en_NU' => 'Niue - U.K. English',
+								   'en_NF' => 'Norfolk Island - U.K. English',
+								   'en_NO' => 'Norway - U.K. English',
+								   'en_OM' => 'Oman - U.K. English',
+								   'en_PW' => 'Palau - U.K. English',
+								   'en_PA' => 'Panama - U.K. English',
+								   'en_PG' => 'Papua New Guinea - U.K. English',
+								   
+								   'en_PE' => 'Peru - U.K. English',
+								   'en_PH' => 'Philippines - U.K. English',
+								   'en_PN' => 'Pitcairn Islands - U.K. English',
+								   'pl_PL' => 'Poland - Polish',
+								   'en_PL' => 'Poland - U.S. English',
+								   'en_PT' => 'Portugal - U.K. English',
+								   'en_QA' => 'Qatar - U.K. English',
+								   'en_CG' => 'Republic of the Congo - U.K. English',
+								   'en_RE' => 'Reunion - U.K. English',
+								   
+								   'en_RO' => 'Romania - U.K. English',
+								   'en_RU' => 'Russia - U.K. English',
+								   'en_RW' => 'Rwanda - U.K. English',
+								   'en_VC' => 'Saint Vincent and the Grenadines - U.K. English',
+								   'en_WS' => 'Samoa - U.K. English',
+								   'en_SM' => 'San Marino - U.K. English',
+								   'en_ST' => 'São Tomé and Príncipe - U.K. English',
+								   'en_SA' => 'Saudi Arabia - U.K. English',
+								   'en_SN' => 'Senegal - U.K. English',
+								   
+								   'en_SC' => 'Seychelles - U.K. English',
+								   'en_SL' => 'Sierra Leone - U.K. English',
+								   'en_SG' => 'Singapore - U.K. English',
+								   'en_SK' => 'Slovakia - U.K. English',
+								   'en_SI' => 'Slovenia - U.K. English',
+								   'en_SB' => 'Solomon Islands - U.K. English',
+								   'en_SO' => 'Somalia - U.K. English',
+								   'en_ZA' => 'South Africa - U.K. English',
+								   'en_KR' => 'South Korea - U.K. English',
+								   
+								   'es_ES' => 'Spain - Spanish',
+								   'en_ES' => 'Spain - U.S. English',
+								   'en_LK' => 'Sri Lanka - U.K. English',
+								   'en_SH' => 'St. Helena - U.K. English',
+								   'en_KN' => 'St. Kitts and Nevis - U.K. English',
+								   'en_LC' => 'St. Lucia - U.K. English',
+								   'en_PM' => 'St. Pierre and Miquelon - U.K. English',
+								   'en_SR' => 'Suriname - U.K. English',
+								   'en_SJ' => 'Svalbard and Jan Mayen Islands - U.K. English',
+								   
+								   'en_SZ' => 'Swaziland - U.K. English',
+								   'en_SE' => 'Sweden - U.K. English',
+								   'de_CH' => 'Switzerland - German',
+								   'fr_CH' => 'Switzerland - French',
+								   'en_CH' => 'Switzerland - U.S. English',
+								   'en_TW' => 'Taiwan - U.K. English',
+								   'en_TJ' => 'Tajikistan - U.K. English',
+								   'en_TZ' => 'Tanzania - U.K. English',
+								   'en_TH' => 'Thailand - U.K. English',
+								   
+								   'en_TG' => 'Togo - U.K. English',
+								   'en_TO' => 'Tonga - U.K. English',
+								   'en_TT' => 'Trinidad and Tobago - U.K. English',
+								   'en_TN' => 'Tunisia - U.K. English',
+								   'en_TR' => 'Turkey - U.K. English',
+								   'en_TM' => 'Turkmenistan - U.K. English',
+								   'en_TC' => 'Turks and Caicos Islands - U.K. English',
+								   'en_TV' => 'Tuvalu - U.K. English',
+								   'en_UG' => 'Uganda - U.K. English',
+								   
+								   'en_UA' => 'Ukraine - U.K. English',
+								   'en_AE' => 'United Arab Emirates - U.K. English',
+								   'en_GB' => 'United Kingdom - U.K. English',
+								   'en_US' => 'United States - U.S. English',
+								   'fr_US' => 'United States - French',
+								   'es_US' => 'United States - Spanish',
+								   'zh_US' => 'United States - Simplified Chinese',
+								   'en_UY' => 'Uruguay - U.K. English',
+								   'en_VU' => 'Vanuatu - U.K. English',
+								   
+								   'en_VA' => 'Vatican City State - U.K. English',
+								   'en_VE' => 'Venezuela - U.K. English',
+								   'en_VN' => 'Vietnam - U.K. English',
+								   'en_WF' => 'Wallis and Futuna Islands - U.K. English',
+								   'en_YE' => 'Yemen - U.K. English',
+								   'en_ZM' => 'Zambia - U.K. English');
 	/**
 	* Constructor
 	*
@@ -149,6 +381,8 @@ class paypal_donations {
 		// More Settings
 		if (isset($pd_options['currency_code']))
 			$paypal_btn .=     '<input type="hidden" name="currency_code" value="' .$pd_options['currency_code']. '" />';
+		if (isset($pd_options['button_localized']))
+			{ $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
 
 		// Settings not implemented yet
 		//		$paypal_btn .=     '<input type="hidden" name="amount" value="20" />';
@@ -157,7 +391,7 @@ class paypal_donations {
 		if ( $pd_options['button'] == "custom" )
 			$button_url = $pd_options['button_url'];
 		else
-			$button_url = $this->donate_buttons[$pd_options['button']];
+			$button_url = str_replace('en_US', $button_localized, $this->donate_buttons[$pd_options['button']]);
 
 		$paypal_btn .=	'<input type="image" src="' .$button_url. '" name="submit" alt="PayPal - The safer, easier way to pay online." />';
 		$paypal_btn .=	'<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
@@ -197,6 +431,7 @@ class paypal_donations {
 			$pd_options['button_url'] = trim( $_POST['button_url'] );
 			$pd_options['currency_code'] = trim( $_POST['currency_code'] );
 			$pd_options['amount'] = trim( $_POST['amount'] );
+			$pd_options['button_localized'] = trim( $_POST['button_localized'] );
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
@@ -261,6 +496,7 @@ class paypal_donations {
 	<fieldset><legend class="hidden">PayPal Button</legend>
 <?php
 	$custom = TRUE;
+	if (isset($pd_options['button_localized'])) { $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
 	if (isset($pd_options['button'])) { $current_button = $pd_options['button']; } else { $current_button = 'large'; }
 	foreach ( $this->donate_buttons as $key => $button ) {
 		echo "\t<label title='" . attribute_escape($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . attribute_escape($key) . "'";
@@ -268,18 +504,28 @@ class paypal_donations {
 			echo " checked='checked'";
 			$custom = FALSE;
 		}
-		echo " /> <img src='" . $button . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
+		echo " /> <img src='" . str_replace('en_US', $button_localized, $button) . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
 	}
 
 	echo '	<label><input type="radio" name="button" value="custom"';
 	checked( $custom, TRUE );
 	echo '/> ' . __('Custom Button:', 'paypal-donations') . ' </label>';
 ?>
-	<input type="text" name="button_url" value="<?php echo $pd_options['button_url']; ?>" class="regular-text" />
-	<p><span class="setting-description"><?php _e( 'Enter a URL to a custom donation button.', 'paypal-donations' ) ?></span></p>
+	<input type="text" name="button_url" value="<?php echo $pd_options['button_url']; ?>" class="regular-text" /><br/>
+	<span class="setting-description"><?php _e( 'Enter a URL to a custom donation button.', 'paypal-donations' ) ?></span>
 	</fieldset>
 	</td>
 	</tr>
+    <tr valign="top">
+    <th scope="row"><label for="button_localized"><?php _e( 'Country and Language', 'paypal-donations' ) ?></label></th>
+    <td><select name="button_localized" id="button_localized">
+<?php   foreach ( $this->localized_buttons as $key => $localize ) {
+	        echo '<option value="'.$key.'"';
+			if ($button_localized == $key) { echo ' selected="selected"'; }
+			echo '>'.utf8_encode($localize).'</option>';
+		}?></select>
+        <span class="setting-description"><br/><?php _e( 'Localize the language and the country for the button (Updated after saving the settings).', 'paypal-donations' ) ?></span></td>
+    </tr>    
     </table>
 
     <p class="submit">
