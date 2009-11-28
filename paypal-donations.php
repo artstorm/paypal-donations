@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.4.4
+Version: 1.4.5
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
@@ -50,238 +50,22 @@ class paypal_donations {
 						   		'ILS' => 'Israeli Shekel',
 						   		'MXN' => 'Mexican Peso');
 	// Languages that PayPal default to en_US has been commented out for the time being.
-	var $localized_buttons = array(//'en_AL' => 'Albania - U.K. English',
-								   //'en_DZ' => 'Algeria - U.K. English',
-								   //'en_AD' => 'Andorra - U.K. English',
-								   //'en_AO' => 'Angola - U.K. English',
-								   //'en_AI' => 'Anguilla - U.K. English',
-								   
-								   //'en_AG' => 'Antigua and Barbuda - U.K. English',
-								   //'en_AR' => 'Argentina - U.K. English',
-								   //'en_AM' => 'Armenia - U.K. English',
-								   //'en_AW' => 'Aruba - U.K. English',
-								   'en_AU' => 'Australia - Australian English',
-								   'de_DE/AT' => 'Austria - German',							//de_DE/AT/i/ (de_AT)
-								   //'en_US/AT' => 'Austria - U.S. English',						//en_US/AT/i/ (en_AT)	-- ACTIVATE THIS ONE
-								   //'en_AZ' => 'Azerbaijan Republic - U.K. English',
-								   //'en_BS' => 'Bahamas - U.K. English',
-								   
-								   //'en_BH' => 'Bahrain - U.K. English',
-								   //'en_BB' => 'Barbados - U.K. English',
-								   //'en_US/BE' => 'Belgium - U.S. English',						//en_US/BE/i (en_BE)	-- ACTIVATE THIS ONE
-								   'nl_NL/BE' => 'Belgium - Dutch',							//nl_NL/BE/i (nl_BE)
-								   'fr_FR/BE' => 'Belgium - French',							//fr_FR/BE/i (fr_BE)
-								   //'en_BZ' => 'Belize - U.K. English',
-								   //'en_BJ' => 'Benin - U.K. English',
-								   //'en_BM' => 'Bermuda - U.K. English',
-								   //'en_BT' => 'Bhutan - U.K. English',
-								   
-								   //'en_BO' => 'Bolivia - U.K. English',
-								   //'en_BA' => 'Bosnia and Herzegovina - U.K. English',
-								   //'en_BW' => 'Botswana - U.K. English',
-								   //'en_BR' => 'Brazil - U.K. English',
-								   //'en_VG' => 'British Virgin Islands - U.K. English',
-								   //'en_BN' => 'Brunei - U.K. English',
-								   //'en_BG' => 'Bulgaria - U.K. English',
-								   //'en_BF' => 'Burkina Faso - U.K. English',
-								   //'en_BI' => 'Burundi - U.K. English',
-								   
-								   //'en_KH' => 'Cambodia - U.K. English',
-								   //'en_CA' => 'Canada - U.S. English',
-								   'fr_XC' => 'Canada - French',							//fr_XC/i (fr_CA)
-								   //'en_CV' => 'Cape Verde - U.K. English',
-								   //'en_KY' => 'Cayman Islands - U.K. English',
-								   //'en_TD' => 'Chad - U.K. English',
-								   //'en_CL' => 'Chile - U.K. English',
-								   //'en_C2' => 'China - U.S. English',
-								   'zh_XC' => 'China - Simplified Chinese',					//zh_XC/i (zh_C2)
-								   
-								   //'en_CO' => 'Colombia - U.K. English',
-								   //'en_KM' => 'Comoros - U.K. English',
-								   //'en_CK' => 'Cook Islands - U.K. English',
-								   //'en_CR' => 'Costa Rica - U.K. English',
-								   //'en_HR' => 'Croatia - U.K. English',
-								   //'en_CY' => 'Cyprus - U.K. English',
-								   //'en_CZ' => 'Czech Republic - U.K. English',
-								   //'en_CD' => 'Democratic Republic of the Congo - U.K. English',
-								   //'en_DK' => 'Denmark - U.K. English',
-								   
-								   //'en_DJ' => 'Djibouti - U.K. English',
-								   //'en_DM' => 'Dominica - U.K. English',
-								   //'en_DO' => 'Dominican Republic - U.K. English',
-								   //'en_EC' => 'Ecuador - U.K. English',
-								   //'en_SV' => 'El Salvador - U.K. English',
-								   //'en_ER' => 'Eritrea - U.K. English',
-								   //'en_EE' => 'Estonia - U.K. English',
-								   //'en_ET' => 'Ethiopia - U.K. English',
-								   //'en_FK' => 'Falkland Islands - U.K. English',
-								   
-								   //'en_FO' => 'Faroe Islands - U.K. English',
-								   //'en_FM' => 'Federated States of Micronesia - U.K. English',
-								   //'en_FJ' => 'Fiji - U.K. English',
-								   //'en_FI' => 'Finland - U.K. English',
-								   'fr_FR/FR' => 'France - French',						//fr_FR/FR/i/ (fr_FR)
-								   //'en_US/FR' => 'France - U.S. English',					//en_US/FR/i/ (en_FR)		-- ACTIVATE THIS ONE
-								   //'en_GF' => 'French Guiana - U.K. English',
-								   //'en_PF' => 'French Polynesia - U.K. English',
-								   //'en_GA' => 'Gabon Republic - U.K. English',
-								   
-								   //'en_GM' => 'Gambia - U.K. English',
-								   'de_DE/DE' => 'Germany - German',						//de_DE/DE/i (de_DE)
-								   //'en_US/DE' => 'Germany - U.S. English',					//en_US/DE/i (en_DE)	-- ACTIVATE THIS ONE
-								   //'en_GI' => 'Gibraltar - U.K. English',
-								   //'en_GR' => 'Greece - U.K. English',
-								   //'en_GL' => 'Greenland - U.K. English',
-								   //'en_GD' => 'Grenada - U.K. English',
-								   //'en_GP' => 'Guadeloupe - U.K. English',
-								   //'en_GT' => 'Guatemala - U.K. English',
-								   
-								   //'en_GN' => 'Guinea - U.K. English',
-								   //'en_GW' => 'Guinea Bissau - U.K. English',
-								   //'en_GY' => 'Guyana - U.K. English',
-								   //'en_HN' => 'Honduras - U.K. English',
-								   //'zh_HK/HK' => 'Hong Kong - Traditional Chinese',		//zh_HK/HK/i (zh_HK)		-- ACTIVATE THIS ONE
-								   //'en_GB/HK' => 'Hong Kong - U.K. English',				//en_GB/HK/i (en_HK)		-- ACTIVATE THIS ONE
-								   //'en_HU' => 'Hungary - U.K. English',
-								   //'en_IS' => 'Iceland - U.K. English',
-								   //'en_IN' => 'India - U.K. English',
-								   
-								   //'en_ID' => 'Indonesia - U.K. English',
-								   //'en_IE' => 'Ireland - U.K. English',
-								   //'en_IL' => 'Israel - U.K. English',
-								   'it_IT/IT' => 'Italy - Italian',						//it_IT/IT/i (it_IT)
-								   //'en_US/IT' => 'Italy - U.S. English',					//en_US/IT/i (en_IT			-- ACTIVATE THIS ONE
-								   //'en_JM' => 'Jamaica - U.K. English',
-								   'ja_JP/JP' => 'Japan - Japanese',						//ja_JP/JP/i (ja_JP)
-								   //'en_US/JP' => 'Japan - U.S. English',					//en_US/JP/i (en_JP)		-- ACTIVATE THIS ONE
-								   //'en_JO' => 'Jordan - U.K. English',
-								   
-								   //'en_KZ' => 'Kazakhstan - U.K. English',
-								   //'en_KE' => 'Kenya - U.K. English',
-								   //'en_KI' => 'Kiribati - U.K. English',
-								   //'en_KW' => 'Kuwait - U.K. English',
-								   //'en_KG' => 'Kyrgyzstan - U.K. English',
-								   //'en_LA' => 'Laos - U.K. English',
-								   //'en_LV' => 'Latvia - U.K. English',
-								   //'en_LS' => 'Lesotho - U.K. English',
-								   //'en_LI' => 'Liechtenstein - U.K. English',
-								   
-								   //'en_LT' => 'Lithuania - U.K. English',
-								   //'en_LU' => 'Luxembourg - U.K. English',
-								   //'en_MG' => 'Madagascar - U.K. English',
-								   //'en_MW' => 'Malawi - U.K. English',
-								   //'en_MY' => 'Malaysia - U.K. English',
-								   //'en_MV' => 'Maldives - U.K. English',
-								   //'en_ML' => 'Mali - U.K. English',
-								   //'en_MT' => 'Malta - U.K. English',
-								   //'en_MH' => 'Marshall Islands - U.K. English',
-								   
-								   //'en_MQ' => 'Martinique - U.K. English',
-								   //'en_MR' => 'Mauritania - U.K. English',
-								   //'en_MU' => 'Mauritius - U.K. English',
-								   //'en_YT' => 'Mayotte - U.K. English',
-								   'es_XC' => 'Mexico - Spanish',						//es_XC/i (es_MX)
-								   //'en_MX' => 'Mexico - U.S. English',
-								   //'en_MN' => 'Mongolia - U.K. English',
-								   //'en_MS' => 'Montserrat - U.K. English',
-								   //'en_MA' => 'Morocco - U.K. English',
-								   
-								   //'en_MZ' => 'Mozambique - U.K. English',
-								   //'en_NA' => 'Namibia - U.K. English',
-								   //'en_NR' => 'Nauru - U.K. English',
-								   //'en_NP' => 'Nepal - U.K. English',
-								   'nl_NL/NL' => 'Netherlands - Dutch',					//nl_NL/NL/i (nl_NL)
-								   //'en_US/NL' => 'Netherlands - U.S. English',				//en_US/NL/i (en_NL)	-- ACTIVATE THIS ONE
-								   //'en_AN' => 'Netherlands Antilles - U.K. English',
-								   //'en_NC' => 'New Caledonia - U.K. English',
-								   //'en_NZ' => 'New Zealand - U.K. English',
-								   
-								   //'en_NI' => 'Nicaragua - U.K. English',
-								   //'en_NE' => 'Niger - U.K. English',
-								   //'en_NU' => 'Niue - U.K. English',
-								   //'en_NF' => 'Norfolk Island - U.K. English',
-								   //'en_NO' => 'Norway - U.K. English',
-								   //'en_OM' => 'Oman - U.K. English',
-								   //'en_PW' => 'Palau - U.K. English',
-								   //'en_PA' => 'Panama - U.K. English',
-								   //'en_PG' => 'Papua New Guinea - U.K. English',
-								   
-								   //'en_PE' => 'Peru - U.K. English',
-								   //'en_PH' => 'Philippines - U.K. English',
-								   //'en_PN' => 'Pitcairn Islands - U.K. English',
-								   'pl_PL/PL' => 'Poland - Polish',						//pl_PL/PL/i (pl_PL)
-								   //'en_US/PL' => 'Poland - U.S. English',					//en_US/PL/i (en_PL)	-- ACTIVATE THIS ONE
-								   //'en_PT' => 'Portugal - U.K. English',
-								   //'en_QA' => 'Qatar - U.K. English',
-								   //'en_CG' => 'Republic of the Congo - U.K. English',
-								   //'en_RE' => 'Reunion - U.K. English',
-								   
-								   //'en_RO' => 'Romania - U.K. English',
-								   //'en_RU' => 'Russia - U.K. English',
-								   //'en_RW' => 'Rwanda - U.K. English',
-								   //'en_VC' => 'Saint Vincent and the Grenadines - U.K. English',
-								   //'en_WS' => 'Samoa - U.K. English',
-								   //'en_SM' => 'San Marino - U.K. English',
-								   //'en_ST' => 'São Tomé and Príncipe - U.K. English',
-								   //'en_SA' => 'Saudi Arabia - U.K. English',
-								   //'en_SN' => 'Senegal - U.K. English',
-								   
-								   //'en_SC' => 'Seychelles - U.K. English',
-								   //'en_SL' => 'Sierra Leone - U.K. English',
-								   //'en_SG' => 'Singapore - U.K. English',
-								   //'en_SK' => 'Slovakia - U.K. English',
-								   //'en_SI' => 'Slovenia - U.K. English',
-								   //'en_SB' => 'Solomon Islands - U.K. English',
-								   //'en_SO' => 'Somalia - U.K. English',
-								   //'en_ZA' => 'South Africa - U.K. English',
-								   //'en_KR' => 'South Korea - U.K. English',
-								   
-								   'es_ES/ES' => 'Spain - Spanish',								//es_ES/ES/i (es_ES)
-								   //'en_US/ES' => 'Spain - U.S. English',							//en_US/ES/i (en_ES)	-- ACTIVATE THIS ONE
-								   //'en_LK' => 'Sri Lanka - U.K. English',
-								   //'en_SH' => 'St. Helena - U.K. English',
-								   //'en_KN' => 'St. Kitts and Nevis - U.K. English',
-								   //'en_LC' => 'St. Lucia - U.K. English',
-								   //'en_PM' => 'St. Pierre and Miquelon - U.K. English',
-								   //'en_SR' => 'Suriname - U.K. English',
-								   //'en_SJ' => 'Svalbard and Jan Mayen Islands - U.K. English',
-								   
-								   //'en_SZ' => 'Swaziland - U.K. English',
-								   //'en_SE' => 'Sweden - U.K. English',
-								   'de_DE/CH' => 'Switzerland - German',							//de_DE/CH/i (de_CH)
-								   'fr_FR/CH' => 'Switzerland - French',							//fr_FR/CH/i (fr_CH)
-								   //'en_US/CH' => 'Switzerland - U.S. English',						//en_US/CH/i (en_CH)	-- ACTIVATE THIS ONE
-								   //'en_TW' => 'Taiwan - U.K. English',
-								   //'en_TJ' => 'Tajikistan - U.K. English',
-								   //'en_TZ' => 'Tanzania - U.K. English',
-								   //'en_TH' => 'Thailand - U.K. English',
-								   
-								   //'en_TG' => 'Togo - U.K. English',
-								   //'en_TO' => 'Tonga - U.K. English',
-								   //'en_TT' => 'Trinidad and Tobago - U.K. English',
-								   //'en_TN' => 'Tunisia - U.K. English',
-								   //'en_TR' => 'Turkey - U.K. English',
-								   //'en_TM' => 'Turkmenistan - U.K. English',
-								   //'en_TC' => 'Turks and Caicos Islands - U.K. English',
-								   //'en_TV' => 'Tuvalu - U.K. English',
-								   //'en_UG' => 'Uganda - U.K. English',
-								   
-								   //'en_UA' => 'Ukraine - U.K. English',
-								   //'en_AE' => 'United Arab Emirates - U.K. English',
-								   //'en_US/GB' => 'United Kingdom - U.K. English',					//en_US/GB/i (en_GB)		-- ACTIVATE THIS ONE
+	var $localized_buttons = array('en_AU' => 'Australia - Australian English',
+								   'de_DE/AT' => 'Austria - German',
+								   'nl_NL/BE' => 'Belgium - Dutch',
+								   'fr_XC' => 'Canada - French',
+								   'zh_XC' => 'China - Simplified Chinese',
+								   'fr_FR/FR' => 'France - French',
+								   'de_DE/DE' => 'Germany - German',
+								   'it_IT/IT' => 'Italy - Italian',
+								   'ja_JP/JP' => 'Japan - Japanese',
+								   'es_XC' => 'Mexico - Spanish',
+								   'nl_NL/NL' => 'Netherlands - Dutch',
+								   'pl_PL/PL' => 'Poland - Polish',
+								   'es_ES/ES' => 'Spain - Spanish',
+								   'de_DE/CH' => 'Switzerland - German',
+								   'fr_FR/CH' => 'Switzerland - French',
 								   'en_US' => 'United States - U.S. English');
-								   //'fr_US' => 'United States - French',							//fr_XC/i
-								   //'es_US' => 'United States - Spanish',						//es_XC/i
-								   //'zh_US' => 'United States - Simplified Chinese',				//zh_XC/i
-								   //'en_UY' => 'Uruguay - U.K. English',
-								   //'en_VU' => 'Vanuatu - U.K. English',
-								   
-								   //'en_VA' => 'Vatican City State - U.K. English',
-								   //'en_VE' => 'Venezuela - U.K. English',
-								   //'en_VN' => 'Vietnam - U.K. English',
-								   //'en_WF' => 'Wallis and Futuna Islands - U.K. English',
-								   //'en_YE' => 'Yemen - U.K. English',
-								   //'en_ZM' => 'Zambia - U.K. English');
 	/**
 	* Constructor
 	*
@@ -344,22 +128,24 @@ class paypal_donations {
 			'purpose' => '',
 			'reference' => '',
 			'amount' => '',
+			'return_page' => '',
 		), $atts));
 
-		return $this->generate_html($purpose, $reference, $amount);
+		return $this->generate_html($purpose, $reference, $amount, $return_page);
 	}
 	
 	/**
 	* Generate the PayPal button HTML code
 	*
 	*/
-	function generate_html($purpose = null, $reference = null, $amount = null) {
+	function generate_html($purpose = null, $reference = null, $amount = null, $return_page = null) {
 		$pd_options = get_option($this->plugin_options);
 
 		// Set overrides for purpose and reference if defined
 		$purpose = (!$purpose) ? $pd_options['purpose'] : $purpose;
 		$reference = (!$reference) ? $pd_options['reference'] : $reference;
 		$amount = (!$amount) ? $pd_options['amount'] : $amount;
+		$return_page = (!$return_page) ? $pd_options['return_page'] : $return_page;
 		
 		# Build the button
 		$paypal_btn =	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
@@ -370,8 +156,8 @@ class paypal_donations {
 		// Optional Settings
 		if ($pd_options['page_style'])
 			$paypal_btn .=	'<input type="hidden" name="page_style" value="' .$pd_options['page_style']. '" />';
-		if ($pd_options['return_page'])
-			$paypal_btn .=	'<input type="hidden" name="return" value="' .$pd_options['return_page']. '" />'; // Return Page
+		if ($return_page)
+			$paypal_btn .=	'<input type="hidden" name="return" value="' .$return_page. '" />'; // Return Page
 		if ($purpose)
 			$paypal_btn .=	'<input type="hidden" name="item_name" value="' .$purpose. '" />';	// Purpose
 		if ($reference)
