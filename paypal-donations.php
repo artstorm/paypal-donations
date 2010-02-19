@@ -3,12 +3,12 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://coding.cglounge.com/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.4.5
+Version: 1.4.6
 Author: Johan Steen
 Author URI: http://coding.cglounge.com/
 Text Domain: paypal-donations 
 
-Copyright 2009  Johan Steen  (email : artstorm [at] gmail [dot] com)
+Copyright 2010  Johan Steen  (email : artstorm [at] gmail [dot] com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
