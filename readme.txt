@@ -1,6 +1,6 @@
 === PayPal Donations ===
 Contributors: artstorm
-Donate link: http://coding.cglounge.com/wordpress-plugins/paypal-donations/#pintware
+Donate link: http://wpstorm.net/wordpress-plugins/paypal-donations/#pintware
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
 Tested up to: 2.9.2
@@ -30,9 +30,9 @@ as an example.
 
 This donation plugin generates valid XHTML Transitional and Strict code.
 
-For complete usage instructions see: [PayPal Donations](http://coding.cglounge.com/wordpress-plugins/paypal-donations/ "Complete Usage Instructions for PayPal Donations")
+For complete usage instructions see: [PayPal Donations](http://wpstorm.net/wordpress-plugins/paypal-donations/ "Complete Usage Instructions for PayPal Donations")
 
-See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changelog/) for what's new. Available [Translations](http://coding.cglounge.com/wordpress-plugins/paypal-donations/#translations).
+See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changelog/) for what's new. Available [Translations](http://wpstorm.net/wordpress-plugins/paypal-donations/#translations).
 
 
 == Installation ==
@@ -51,7 +51,7 @@ See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changel
 
 == Frequently Asked Questions ==
 
-Please visit [PayPal Donations' Comments](http://coding.cglounge.com/wordpress-plugins/paypal-donations/#comments) for questions and answers.
+Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/paypal-donations/#comments) for questions and answers.
 
 == Screenshots ==
 
