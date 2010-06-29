@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.4.7
+Version: 1.4.8
 Author: Johan Steen
 Author URI: http://wpstorm.net/
 Text Domain: paypal-donations 
@@ -128,16 +128,17 @@ class paypal_donations {
 			'reference' => '',
 			'amount' => '',
 			'return_page' => '',
+			'button_url' => '',
 		), $atts));
 
-		return $this->generate_html($purpose, $reference, $amount, $return_page);
+		return $this->generate_html($purpose, $reference, $amount, $return_page, $button_url);
 	}
 	
 	/**
 	* Generate the PayPal button HTML code
 	*
 	*/
-	function generate_html($purpose = null, $reference = null, $amount = null, $return_page = null) {
+	function generate_html($purpose = null, $reference = null, $amount = null, $return_page = null, $button_url = null) {
 		$pd_options = get_option($this->plugin_options);
 
 		// Set overrides for purpose and reference if defined
@@ -145,9 +146,11 @@ class paypal_donations {
 		$reference = (!$reference) ? $pd_options['reference'] : $reference;
 		$amount = (!$amount) ? $pd_options['amount'] : $amount;
 		$return_page = (!$return_page) ? $pd_options['return_page'] : $return_page;
+		$button_url = (!$button_url) ? $pd_options['button_url'] : $button_url;
 		
 		# Build the button
-		$paypal_btn =	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+		$paypal_btn  =	"\n<!-- Begin PayPal Donations by http://wpstorm.net/ -->\n";
+		$paypal_btn .=	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
 		$paypal_btn .=	'<div class="paypal-donations">';
 		$paypal_btn .=	'<input type="hidden" name="cmd" value="_donations" />';
 		$paypal_btn .=	'<input type="hidden" name="business" value="' .$pd_options['paypal_account']. '" />';
@@ -174,15 +177,14 @@ class paypal_donations {
 		//		$paypal_btn .=     '<input type="hidden" name="amount" value="20" />';
 
 		// Get the button URL
-		if ( $pd_options['button'] == "custom" )
-			$button_url = $pd_options['button_url'];
-		else
+		if ( $pd_options['button'] != "custom" && !$button_url)
 			$button_url = str_replace('en_US', $button_localized, $this->donate_buttons[$pd_options['button']]);
 
 		$paypal_btn .=	'<input type="image" src="' .$button_url. '" name="submit" alt="PayPal - The safer, easier way to pay online." />';
 		$paypal_btn .=	'<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
 		$paypal_btn .=	'</div>';
 		$paypal_btn .=	'</form>';
+		$paypal_btn .=	"\n<!-- End PayPal Donations -->\n";
 		
 		return $paypal_btn;
 	}
@@ -193,7 +195,7 @@ class paypal_donations {
 	*/
 	function wp_admin()	{
 		if (function_exists('add_options_page')) {
-			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 10, __FILE__, array(&$this, 'options_page') );
+			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', __FILE__, array(&$this, 'options_page') );
 		}
 	}
 
@@ -285,7 +287,7 @@ class paypal_donations {
 	if (isset($pd_options['button_localized'])) { $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
 	if (isset($pd_options['button'])) { $current_button = $pd_options['button']; } else { $current_button = 'large'; }
 	foreach ( $this->donate_buttons as $key => $button ) {
-		echo "\t<label title='" . attribute_escape($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . attribute_escape($key) . "'";
+		echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . esc_attr($key) . "'";
 		if ( $current_button === $key ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = FALSE;
@@ -435,4 +437,16 @@ function paypal_donations_deinstall() {
 // Start the Plugin
 add_action( 'plugins_loaded', create_function( '', 'global $paypal_donations; $paypal_donations = new paypal_donations();' ) );
 
+/**
+ * For backwards compability with earlier WordPress Versions
+ *
+ * @since PayPal Donations 1.4.8
+ */
+
+# esc_attr isn't available in WordPress < 2.8.
+if (!function_exists('esc_attr')) :
+function esc_attr($arg) {
+	return attribute_escape($arg);
+}
+endif;
 ?>
