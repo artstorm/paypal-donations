@@ -4,7 +4,7 @@ Donate link: http://wpstorm.net/wordpress-plugins/paypal-donations/#pintware
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
 Tested up to: 3.0
-Stable tag: 1.4.8
+Stable tag: 1.4.9
 
 Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
 
@@ -60,8 +60,11 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 
 == Changelog ==
 
+= Version 1.4.9 - 08 Jul 2010 =
+ * Included Dutch translation by [WP webshop](http://wpwebshop.com/premium-wordpress-themes/).
+
 = Version 1.4.8 - 29 Jun 2010 =
- * Added shortcodes for button_url.
+ * Added shortcode for button_url.
  * Removed a few deprecated functions from the code.
  * Included German translation by [Rian Kremer](http://heftruckcursus.tel/).
 
