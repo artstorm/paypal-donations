@@ -1,6 +1,5 @@
 === PayPal Donations ===
 Contributors: artstorm
-Donate link: http://wpstorm.net/wordpress-plugins/paypal-donations/#pintware
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
 Tested up to: 3.0
