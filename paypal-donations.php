@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.4.9.2
+Version: 1.4.9.3
 Author: Johan Steen
 Author URI: http://wpstorm.net/
 Text Domain: paypal-donations 
@@ -52,6 +52,7 @@ class paypal_donations {
 						   		'BRL' => 'Brazilian Real',
 						   		'TWD' => 'Taiwan New Dollar',
 						   		'PHP' => 'Philippine Peso',
+						   		'TRY' => 'Turkish Lira',
 						   		'THB' => 'Thai Baht');
 	var $localized_buttons = array('en_AU' => 'Australia - Australian English',
 								   'de_DE/AT' => 'Austria - German',
