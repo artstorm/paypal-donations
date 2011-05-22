@@ -3,8 +3,8 @@ Contributors: artstorm
 Donate link: http://wpstorm.net/wordpress-plugins/paypal-donations/#donation
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
-Tested up to: 3.1.1
-Stable tag: 1.4.9.3
+Tested up to: 3.1.2
+Stable tag: 1.4.9.4
 
 Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
 
@@ -60,13 +60,16 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 
 == Changelog ==
 
+= Version 1.4.9.4 - 22 May 2011 =
+ * Included Norwegian translations by [Tore Johnny Bråtveit](http://www.punktlig-ikt.no/).
+
 = Version 1.4.9.3 - 18 Apr 2011 =
  * Added Turkish Lira (TRY) to the list of currencies.
  
- = Version 1.4.9.2 - 02 Apr 2011 =
+= Version 1.4.9.2 - 02 Apr 2011 =
  * Added four new currencies that PayPal supports for donations to choose from: Brazilian Real (BRL), Taiwan New Dollar (TWD), Philippine Peso (PHP), Thai Baht (THB)
 
- = Version 1.4.9.1 - 08 Jan 2011 =
+= Version 1.4.9.1 - 08 Jan 2011 =
  * Included Turkish translation by [Ersan Özdil](http://www.tml.web.tr/).
 
 = Version 1.4.9 - 08 Jul 2010 =
