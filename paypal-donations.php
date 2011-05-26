@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 
-class paypal_donations {
+class Paypal_Donations {
 	var $plugin_options = 'paypal_donations_options';
 	var $donate_buttons = array('small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
 						  		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
@@ -436,7 +436,7 @@ function paypal_donations_deinstall() {
 }
 
 // Start the Plugin
-add_action( 'plugins_loaded', create_function( '', 'global $paypal_donations; $paypal_donations = new paypal_donations();' ) );
+add_action( 'plugins_loaded', create_function( '', 'global $paypal_donations; $paypal_donations = new Paypal_Donations();' ) );
 
 /**
  * For backwards compability with earlier WordPress Versions
