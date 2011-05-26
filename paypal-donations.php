@@ -70,12 +70,8 @@ class paypal_donations {
 								   'de_DE/CH' => 'Switzerland - German',
 								   'fr_FR/CH' => 'Switzerland - French',
 								   'en_US' => 'United States - U.S. English');
-	/**
-	* Constructor
-	*
-	*/
-	function paypal_donations()
-	{
+
+	public function __construct() {
 		// define URL
 		define('paypal_donations_ABSPATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
 		define('paypal_donations_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
