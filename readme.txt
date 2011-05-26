@@ -60,6 +60,9 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 
 == Changelog ==
 
+= Version 1.4.9.XXXXX - XX XXX 2011 =
+ * Changed the plugin class name from paypal_donations to Paypal_Donations.
+
 = Version 1.4.9.4 - 22 May 2011 =
  * Included Norwegian translations by [Tore Johnny Bråtveit](http://www.punktlig-ikt.no/).
 
