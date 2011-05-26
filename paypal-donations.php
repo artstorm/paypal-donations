@@ -81,12 +81,10 @@ class Paypal_Donations {
 
 		// Check installed Wordpress version.
 		global $wp_version;
-		if ( version_compare($wp_version, '2.7', '>=') ) {
-//			include_once (dirname (__FILE__)."/tinymce/tinymce.php");
+		if ( version_compare($wp_version, '2.7', '>=') )
 			$this->init_hooks();
-		} else {
+		else
 			$this->version_warning();
-		}
 	}
 
 	/**
@@ -166,7 +164,7 @@ class Paypal_Donations {
 		if ($reference)
 			$paypal_btn .=	'<input type="hidden" name="item_number" value="' .$reference. '" />';	// LightWave Plugin
 		if ($amount)
-			$paypal_btn .=     '<input type="hidden" name="amount" value="' .$amount. '" />';
+			$paypal_btn .=	'<input type="hidden" name="amount" value="' .$amount. '" />';
 
 		// More Settings
 		if (isset($pd_options['currency_code']))
@@ -195,9 +193,8 @@ class Paypal_Donations {
 	*
 	*/
 	function wp_admin()	{
-		if (function_exists('add_options_page')) {
+		if (function_exists('add_options_page'))
 			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', __FILE__, array(&$this, 'options_page') );
-		}
 	}
 
 	function admin_message($message) {
