@@ -3,7 +3,7 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.4.9.4
+Version: 1.4.9.5
 Author: Johan Steen
 Author URI: http://wpstorm.net/
 Text Domain: paypal-donations 
@@ -149,7 +149,7 @@ class Paypal_Donations {
 		
 		# Build the button
 		$paypal_btn  =	"\n<!-- Begin PayPal Donations by http://wpstorm.net/ -->\n";
-		$paypal_btn .=	'<form action="https://www.paypal.com/cgi-bin/webscr" method="post">';
+		$paypal_btn .=	'<form action="' . apply_filters( 'paypal_donations_url', 'https://www.paypal.com/cgi-bin/webscr') . '" method="post">';
 		$paypal_btn .=	'<div class="paypal-donations">';
 		$paypal_btn .=	'<input type="hidden" name="cmd" value="_donations" />';
 		$paypal_btn .=	'<input type="hidden" name="business" value="' .$pd_options['paypal_account']. '" />';
@@ -164,7 +164,7 @@ class Paypal_Donations {
 		if ($reference)
 			$paypal_btn .=	'<input type="hidden" name="item_number" value="' .$reference. '" />';	// LightWave Plugin
 		if ($amount)
-			$paypal_btn .=	'<input type="hidden" name="amount" value="' .$amount. '" />';
+			$paypal_btn .=	'<input type="hidden" name="amount" value="' . apply_filters( 'paypal_donations_amount', $amount ) . '" />';
 
 		// More Settings
 		if (isset($pd_options['currency_code']))
