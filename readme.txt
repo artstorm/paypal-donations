@@ -6,7 +6,7 @@ Requires at least: 2.7
 Tested up to: 3.2.1
 Stable tag: 1.4.9.6
 
-Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
+Easy, simple setup to add a PayPal Donation button as a Widget or with a shortcode.
 
 == Description ==
 
