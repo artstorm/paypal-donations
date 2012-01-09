@@ -63,51 +63,56 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
  
 = Version 1.5 - 9 Jan 2012 =
  * Added an option to disable PayPal statistics tracking image.
+ * Added an option to center the button by overriding the theme CSS.
 
 = Version 1.4.9.6 - 23 Oct 2011 =
- * Included Malay – Bahasa Melayu translation by [Amir Shariff](http://www.visitmalaysianow.com/).
+ * Included Malay – Bahasa Melayu translation by Amir Shariff.
 
 = Version 1.4.9.5 - 3 Sep 2011 =
- * Added filter 'paypal_donations_url', to hook into the URL used, to be able to try the button against PayPal's Sandbox for instance.
- * Added filter 'paypal_donations_amount', to hook into the set amount before rendering the button. 
- * Included Lithuanian translation by [Nata Strazda](http://www.webhostinghub.com/).
+ * Added filter 'paypal_donations_url', to hook into the URL used, to be able to
+   try the button against PayPal's Sandbox for instance.
+ * Added filter 'paypal_donations_amount', to hook into the set amount before
+   rendering the button. 
+ * Included Lithuanian translation by Nata Strazda.
  * Changed the plugin class name from paypal_donations to Paypal_Donations.
 
 = Version 1.4.9.4 - 22 May 2011 =
- * Included Norwegian translations by [Tore Johnny Bråtveit](http://www.punktlig-ikt.no/).
+ * Included Norwegian translations by Tore Johnny Bråtveit.
 
 = Version 1.4.9.3 - 18 Apr 2011 =
  * Added Turkish Lira (TRY) to the list of currencies.
  
 = Version 1.4.9.2 - 02 Apr 2011 =
- * Added four new currencies that PayPal supports for donations to choose from: Brazilian Real (BRL), Taiwan New Dollar (TWD), Philippine Peso (PHP), Thai Baht (THB)
+ * Added four new currencies that PayPal supports for donations to choose from:
+   Brazilian Real (BRL), Taiwan New Dollar (TWD), Philippine Peso (PHP), Thai
+   Baht (THB)
 
 = Version 1.4.9.1 - 08 Jan 2011 =
- * Included Turkish translation by [Ersan Özdil](http://www.tml.web.tr/).
+ * Included Turkish translation by Ersan Özdil.
 
 = Version 1.4.9 - 08 Jul 2010 =
- * Included Dutch translation by [WP webshop](http://wpwebshop.com/premium-wordpress-themes/).
+ * Included Dutch translation by WP webshop.
 
 = Version 1.4.8 - 29 Jun 2010 =
  * Added shortcode for button_url.
  * Removed a few deprecated functions from the code.
- * Included German translation by [Rian Kremer](http://heftruckcursus.tel/).
+ * Included German translation by Rian Kremer.
 
 = Version 1.4.7 - 30 Apr 2010 =
- * Included Spanish translation by [Neoshinji](http://blog.tuayudainformatica.com/).
+ * Included Spanish translation by Neoshinji.
 
 = Version 1.4.6 - 19 Feb 2010 =
- * Included Italian translation by [Gianni Diurno](http://gidibao.net/).
+ * Included Italian translation by Gianni Diurno.
  * Updated the .pot file to include the latest strings for translations.
 
 = Version 1.4.5 - 28 Nov 2009 =
- * Added shortcode for the return_page (Thanks [Bob King](http://wealthynetizen.com/)).
+ * Added shortcode for the return_page.
 
 = Version 1.4.4 - 4 Nov 2009 =
- * Included Hebrew translation by [Daniel Chcouri](http://www.anarchy.co.il/).
+ * Included Hebrew translation by Daniel Chcouri.
 
 = Version 1.4.3 - 15 Oct 2009 =
- * Included Danish translation by [Georg S. Adamsen](http://wordpress.blogos.dk/).
+ * Included Danish translation by Georg S. Adamsen.
 
 = Version 1.4.2 - 14 Oct 2009 =
  * Included Albanian translation by [Romeo Shuka](http://www.romeolab.com/).

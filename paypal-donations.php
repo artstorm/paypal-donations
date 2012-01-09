@@ -8,7 +8,7 @@ Author: Johan Steen
 Author URI: http://wpstorm.net/
 Text Domain: paypal-donations 
 
-Copyright 2011  Johan Steen  (email : artstorm [at] gmail [dot] com)
+Copyright 2009-2012  Johan Steen  (email : artstorm [at] gmail [dot] com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -95,11 +95,25 @@ class Paypal_Donations
 	function init_hooks() {
 		add_action('admin_menu', array(&$this,'wp_admin'));
 		add_shortcode('paypal-donation', array(&$this,'paypal_shortcode'));
+
+		add_action( 'wp_head', array($this, 'add_css'), 999 );
+
 		global $wp_version;
 		if ( version_compare($wp_version, '2.8', '>=') )
 			add_action( 'widgets_init',  array(&$this,'load_widget') );
 	}
 	
+	function add_css()
+	{
+		$pd_options = get_option($this->plugin_options);
+		if ( isset($pd_options['center_button']) and $pd_options['center_button'] == true ) {
+			echo '<style type="text/css">'."\n";
+			echo '.paypal-donations { text-align: center !important }'."\n";
+			echo '</style>'."\n";
+		}
+	}
+
+
 	/**
 	* Displays a warning when installed in an old Wordpress Version
 	*
@@ -222,6 +236,7 @@ class Paypal_Donations
 			$pd_options['amount'] = trim( $_POST['amount'] );
 			$pd_options['button_localized'] = trim( $_POST['button_localized'] );
 			$pd_options['disable_stats'] = isset($_POST['disable_stats']) ? true : false;
+			$pd_options['center_button'] = isset($_POST['center_button']) ? true : false;
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
@@ -379,8 +394,6 @@ if($paypal_donations_test_host->passed) {
  * Checks that the host environment fulfils the requirements of Post Snippets.
  * This class is designed to work with PHP versions below 5, to make sure it's
  * always executed.
- *
- * - PHP Version 5.2.4 is on par with the requirements for WordPress 3.3.
  *
  * @since	PayPal Donations 1.5
  */

@@ -132,6 +132,10 @@ class Paypal_Donations_Settings
 		'disable_stats',
 		$pd_options['disable_stats']);
 
+	$this->checkbox(
+		__('Theme CSS Override: Center Button', 'paypal-donations'),
+		'center_button',
+		$pd_options['center_button']);
 	?>
 
     <p class="submit">
