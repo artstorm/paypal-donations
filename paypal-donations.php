@@ -403,6 +403,7 @@ class Paypal_Donations_Host_Environment
 		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
 			// Display notice
 			add_action( 'admin_notices', array(&$this, 'php_version_error') );
+			$this->passed = false;
 		}
 
 		// Check if WordPress is too old
