@@ -5,7 +5,7 @@ Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
 Version: 1.4.9.6
 Author: Johan Steen
-Author URI: http://wpstorm.net/
+Author URI: http://johansteen.se/
 Text Domain: paypal-donations 
 
 Copyright 2009-2012  Johan Steen  (email : artstorm [at] gmail [dot] com)
@@ -72,25 +72,16 @@ class Paypal_Donations
 								   'en_US' => 'United States - U.S. English');
 
 	public function __construct() {
-		// define URL
-		define('paypal_donations_ABSPATH', WP_PLUGIN_DIR.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-		define('paypal_donations_URLPATH', WP_PLUGIN_URL.'/'.plugin_basename( dirname(__FILE__) ).'/' );
-
 		// Define the domain for translations
 		load_plugin_textdomain(	'paypal-donations', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
-		// Check installed Wordpress version.
-		global $wp_version;
-		if ( version_compare($wp_version, '2.7', '>=') )
-			$this->init_hooks();
-		else
-			$this->version_warning();
+		$this->init_hooks();
 	}
 
 	/**
 	* Initializes the hooks for the plugin
 	*
-	* @returns	Nothing
+	* @return	Nothing
 	*/
 	function init_hooks() {
 		add_action('admin_menu', array(&$this,'wp_admin'));
@@ -103,6 +94,10 @@ class Paypal_Donations
 			add_action( 'widgets_init',  array(&$this,'load_widget') );
 	}
 	
+	/**
+	* Adds inline CSS code to the head section of the html pages to center the
+	* PayPal button.
+	*/
 	function add_css()
 	{
 		$pd_options = get_option($this->plugin_options);
@@ -113,16 +108,6 @@ class Paypal_Donations
 		}
 	}
 
-
-	/**
-	* Displays a warning when installed in an old Wordpress Version
-	*
-	* @returns	Nothing
-	*/
-	function version_warning() {
-		echo '<div class="updated fade"><p><strong>'.__('PayPal Donations requires WordPress version 2.7 or later!', 'paypal-donations').'</strong></p></div>';
-	}
-	
 	/**
 	* Register the Widget
 	*

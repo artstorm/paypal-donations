@@ -115,19 +115,20 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
  * Included Danish translation by Georg S. Adamsen.
 
 = Version 1.4.2 - 14 Oct 2009 =
- * Included Albanian translation by [Romeo Shuka](http://www.romeolab.com/).
+ * Included Albanian translation by Romeo Shuka.
 
 = Version 1.4.1 - 6 Sep 2009 =
  * Corrected available language translations for the button graphics.
 
 = Version 1.4 - 6 Sep 2009 =
- * Added a dropdown menu to select country and language to localize the graphics of the donation button.
+ * Added a dropdown menu to select country and language to localize the graphics
+   of the donation button.
 
 = Version 1.3.3 - 2 Sep 2009 =
- * Included French translation by [Thomas Cailhe (Oyabi)](http://www.oyabi.fr/).
+ * Included French translation by Thomas Cailhe (Oyabi).
 
 = Version 1.3.2 - 28 Aug 2009 =
- * Included Russian translation by [FatCow](http://www.fatcow.com/).
+ * Included Russian translation by FatCow.
  
 = Version 1.3.1 - 25 August 2009 =
  * Added Swedish translation.
@@ -141,7 +142,8 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 
 = Version 1.1 - 23 May 2009 =
  * Added an option to select the currency to make the donations in.
- * Changed the default button in a new install from a custom button to the large button.
+ * Changed the default button in a new install from a custom button to the large
+   button.
 
 = Version 1.0 - 7 May 2009 =
  * Initial Release
