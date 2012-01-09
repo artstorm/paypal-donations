@@ -25,8 +25,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
-class Paypal_Donations {
+class Paypal_Donations
+{
 	var $plugin_options = 'paypal_donations_options';
 	var $donate_buttons = array('small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
 						  		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
@@ -194,7 +194,7 @@ class Paypal_Donations {
 	*/
 	function wp_admin()	{
 		if (function_exists('add_options_page'))
-			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', __FILE__, array(&$this, 'options_page') );
+			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', basename(__FILE__), array(&$this, 'options_page') );
 	}
 
 	function admin_message($message) {
@@ -221,103 +221,15 @@ class Paypal_Donations {
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
+
+
+		// Render the settings screen
+		$settings = new Paypal_Donations_Settings();
+		$settings->set_options( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons);
+		$settings->render();
+
+
 ?>
-<div class=wrap>
-    <h2>PayPal Donations</h2>
-
-	<form method="post" action="">
-	<?php wp_nonce_field('update-options'); ?>
-	<?php $pd_options = get_option($this->plugin_options); ?>
-    <table class="form-table">
-    <tr valign="top">
-    <th scope="row"><label for="paypal_account"><?php _e( 'PayPal Account', 'paypal-donations' ) ?></label></th>
-    <td><input name="paypal_account" type="text" id="paypal_account" value="<?php echo $pd_options['paypal_account']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'Your PayPal email address or your PayPal secure merchant account ID.', 'paypal-donations' ) ?></span></td>
-    </tr>
-    <tr valign="top">
-    <th scope="row"><label for="currency_code"><?php _e( 'Currency', 'paypal-donations' ) ?></label></th>
-    <td><select name="currency_code" id="currency_code">
-<?php   if (isset($pd_options['currency_code'])) { $current_currency = $pd_options['currency_code']; } else { $current_currency = 'USD'; }
-		foreach ( $this->currency_codes as $key => $code ) {
-	        echo '<option value="'.$key.'"';
-			if ($current_currency == $key) { echo ' selected="selected"'; }
-			echo '>'.$code.'</option>';
-		}?></select>
-        <span class="setting-description"><br/><?php _e( 'The currency to use for the donations.', 'paypal-donations' ) ?></span></td>
-    </tr>
-    </table>
-
-	<h3><?php _e( 'Optional Settings', 'paypal-donations' ) ?></h3>
-    <table class="form-table">
-    <tr valign="top">
-    <th scope="row"><label for="page_style"><?php _e( 'Page Style', 'paypal-donations' ) ?></label></th>
-    <td><input name="page_style" type="text" id="page_style" value="<?php echo $pd_options['page_style']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'Specify the name of a custom payment page style from your PayPal account profile.', 'paypal-donations' ) ?></span></td>
-    </tr>
-    <tr valign="top">
-    <th scope="row"><label for="return_page"><?php _e( 'Return Page', 'paypal-donations' ) ?></label></th>
-    <td><input name="return_page" type="text" id="return_page" value="<?php echo $pd_options['return_page']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'URL to which the donator comes to after completing the donation; for example, a URL on your site that displays a "Thank you for your donation".', 'paypal-donations' ) ?></span></td>
-    </tr>    
-    </table>
-
-	<h3><?php _e( 'Defaults', 'paypal-donations' ) ?></h3>
-    <table class="form-table">
-    <tr valign="top">
-    <th scope="row"><label for="amount"><?php _e( 'Amount', 'paypal-donations' ) ?></label></th>
-    <td><input name="amount" type="text" id="amount" value="<?php echo $pd_options['amount']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'The default amount for a donation (Optional).', 'paypal-donations' ) ?></span></td>
-    </tr>
-    <tr valign="top">
-    <th scope="row"><label for="purpose"><?php _e( 'Purpose', 'paypal-donations' ) ?></label></th>
-    <td><input name="purpose" type="text" id="purpose" value="<?php echo $pd_options['purpose']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'The default purpose of a donation (Optional).', 'paypal-donations' ) ?></span></td>
-    </tr>
-    <tr valign="top">
-    <th scope="row"><label for="reference"><?php _e( 'Reference', 'paypal-donations' ) ?></label></th>
-    <td><input name="reference" type="text" id="reference" value="<?php echo $pd_options['reference']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'Default reference for the donation (Optional).', 'paypal-donations' ) ?></span></td>
-    </tr>    
-    </table>
-
-	<h3><?php _e( 'Donation Button', 'paypal-donations' ) ?></h3>
-    <table class="form-table">
-    <tr>
-	<th scope="row"><?php _e( 'Select Button', 'paypal-donations' ) ?></th>
-	<td>
-	<fieldset><legend class="hidden">PayPal Button</legend>
-<?php
-	$custom = TRUE;
-	if (isset($pd_options['button_localized'])) { $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
-	if (isset($pd_options['button'])) { $current_button = $pd_options['button']; } else { $current_button = 'large'; }
-	foreach ( $this->donate_buttons as $key => $button ) {
-		echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . esc_attr($key) . "'";
-		if ( $current_button === $key ) { // checked() uses "==" rather than "==="
-			echo " checked='checked'";
-			$custom = FALSE;
-		}
-		echo " /> <img src='" . str_replace('en_US', $button_localized, $button) . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
-	}
-
-	echo '	<label><input type="radio" name="button" value="custom"';
-	checked( $custom, TRUE );
-	echo '/> ' . __('Custom Button:', 'paypal-donations') . ' </label>';
-?>
-	<input type="text" name="button_url" value="<?php echo $pd_options['button_url']; ?>" class="regular-text" /><br/>
-	<span class="setting-description"><?php _e( 'Enter a URL to a custom donation button.', 'paypal-donations' ) ?></span>
-	</fieldset>
-	</td>
-	</tr>
-    <tr valign="top">
-    <th scope="row"><label for="button_localized"><?php _e( 'Country and Language', 'paypal-donations' ) ?></label></th>
-    <td><select name="button_localized" id="button_localized">
-<?php   foreach ( $this->localized_buttons as $key => $localize ) {
-	        echo '<option value="'.$key.'"';
-			if ($button_localized == $key) { echo ' selected="selected"'; }
-			echo '>'.$localize.'</option>';
-		}?></select>
-        <span class="setting-description"><br/><?php _e( 'Localize the language and the country for the button (Updated after saving the settings).', 'paypal-donations' ) ?></span></td>
-    </tr>    
-    </table>
-
-    <p class="submit">
-    <input type="submit" name="Submit" class="button-primary" value="<?php _e( 'Save Changes', 'paypal-donations' ) ?>" />
-    </p>
-</div>
 <?php
 	}
 }
@@ -432,8 +344,106 @@ function paypal_donations_deinstall() {
 	delete_option('widget_paypal_donations');
 }
 
-// Start the Plugin
-add_action( 'plugins_loaded', create_function( '', 'global $paypal_donations; $paypal_donations = new Paypal_Donations();' ) );
+
+// -----------------------------------------------------------------------------
+// Start the plugin
+// -----------------------------------------------------------------------------
+
+// Check the host environment
+$paypal_donations_test_host = new Paypal_Donations_Host_Environment();
+
+// If environment is up to date, start the plugin
+if($paypal_donations_test_host->passed) {
+	// Load external classes
+	if (is_admin()) {
+		require plugin_dir_path(__FILE__).'classes/settings.php';
+	}
+
+	add_action(
+		'plugins_loaded', 
+		create_function( 
+			'',
+			'global $paypal_donations; $paypal_donations = new Paypal_Donations();'
+		)
+	);
+}
+
+
+/**
+ * PayPal Donations Host Environment.
+ *
+ * Checks that the host environment fulfils the requirements of Post Snippets.
+ * This class is designed to work with PHP versions below 5, to make sure it's
+ * always executed.
+ *
+ * - PHP Version 5.2.4 is on par with the requirements for WordPress 3.3.
+ *
+ * @since	PayPal Donations 1.5
+ */
+class Paypal_Donations_Host_Environment
+{
+	// Minimum versions required
+	var $MIN_PHP_VERSION	= '5';
+	var $MIN_WP_VERSION		= '2.7';
+	var $PLUGIN_NAME		= 'PayPal Donations';
+	var $passed				= true;
+
+	/**
+	 * Constructor.
+	 *
+	 * Checks PHP and WordPress versions. If any check failes, a system notice
+	 * is added and $passed is set to fail, which can be checked before trying
+	 * to create the main class.
+	 */
+	function Paypal_Donations_Host_Environment()
+	{
+		// Check if PHP is too old
+		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
+			// Display notice
+			add_action( 'admin_notices', array(&$this, 'php_version_error') );
+		}
+
+		// Check if WordPress is too old
+		global $wp_version;
+		if ( version_compare($wp_version, $this->MIN_WP_VERSION, '<') ) {
+			add_action( 'admin_notices', array(&$this, 'wp_version_error') );
+			$this->passed = false;
+		}
+	}
+
+	/**
+	 * Displays a warning when installed on an old PHP version.
+	 */
+	function php_version_error() {
+		echo '<div class="error"><p><strong>';
+		printf( __(
+			'Error:<br/>
+			%1$s requires at least PHP version %2$s.
+			<br/>
+			Your installed PHP version: %3$s',
+			'post-snippets'),
+			$this->PLUGIN_NAME, $this->MIN_PHP_VERSION, PHP_VERSION);
+		echo '</strong></p></div>';
+	}
+
+	/**
+	 * Displays a warning when installed in an old Wordpress version.
+	 */
+	function wp_version_error() {
+		echo '<div class="error"><p><strong>';
+		printf( __( 
+			'Error: %1$s requires WordPress Version %2$s or higher.',
+			'post-snippets'),
+			$this->PLUGIN_NAME, $this->MIN_WP_VERSION );
+		echo '</strong></p></div>';
+	}
+}
+
+
+
+// -----------------------------------------------------------------------------
+// Helper functions
+// -----------------------------------------------------------------------------
 
 /**
  * For backwards compability with earlier WordPress Versions
