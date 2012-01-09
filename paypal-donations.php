@@ -178,9 +178,12 @@ class Paypal_Donations
 		// Get the button URL
 		if ( $pd_options['button'] != "custom" && !$button_url)
 			$button_url = str_replace('en_US', $button_localized, $this->donate_buttons[$pd_options['button']]);
-
 		$paypal_btn .=	'<input type="image" src="' .$button_url. '" name="submit" alt="PayPal - The safer, easier way to pay online." />';
-		$paypal_btn .=	'<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
+
+		// PayPal stats tracking
+		if (!isset($pd_options['disable_stats']) or $pd_options['disable_stats'] != true)
+			$paypal_btn .=	'<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
+
 		$paypal_btn .=	'</div>';
 		$paypal_btn .=	'</form>';
 		$paypal_btn .=	"\n<!-- End PayPal Donations -->\n";
@@ -218,6 +221,7 @@ class Paypal_Donations
 			$pd_options['currency_code'] = trim( $_POST['currency_code'] );
 			$pd_options['amount'] = trim( $_POST['amount'] );
 			$pd_options['button_localized'] = trim( $_POST['button_localized'] );
+			$pd_options['disable_stats'] = isset($_POST['disable_stats']) ? true : false;
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}

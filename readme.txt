@@ -61,10 +61,13 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 == Changelog ==
 
  
+= Version 1.5 - 9 Jan 2012 =
+ * Added an option to disable PayPal statistics tracking image.
+
 = Version 1.4.9.6 - 23 Oct 2011 =
  * Included Malay – Bahasa Melayu translation by [Amir Shariff](http://www.visitmalaysianow.com/).
 
- = Version 1.4.9.5 - 3 Sep 2011 =
+= Version 1.4.9.5 - 3 Sep 2011 =
  * Added filter 'paypal_donations_url', to hook into the URL used, to be able to try the button against PayPal's Sandbox for instance.
  * Added filter 'paypal_donations_amount', to hook into the set amount before rendering the button. 
  * Included Lithuanian translation by [Nata Strazda](http://www.webhostinghub.com/).

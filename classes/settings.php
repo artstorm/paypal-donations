@@ -121,6 +121,19 @@ class Paypal_Donations_Settings
     </tr>    
     </table>
 
+	<?php
+	// Extras
+	?>
+	<h3><?php _e( 'Extras', 'paypal-donations' ) ?></h3>
+	<p>Optional extra settings to fine tune the setup in certain scenarios.</p>
+	<?php
+	$this->checkbox(
+		__('Disable PayPal Statistics', 'paypal-donations'),
+		'disable_stats',
+		$pd_options['disable_stats']);
+
+	?>
+
     <p class="submit">
     <input type="submit" name="Submit" class="button-primary" value="<?php _e( 'Save Changes', 'paypal-donations' ) ?>" />
     </p>
@@ -129,4 +142,26 @@ class Paypal_Donations_Settings
 
 <?php
 	}
+
+	// -------------------------------------------------------------------------
+	// HTML and Form element methods
+	// -------------------------------------------------------------------------
+	
+	/**
+	 * Checkbox.
+	 * Renders the HTML for an input checkbox.
+	 *
+	 * @param	string	$label		The label rendered to screen
+	 * @param	string	$name		The unique name to identify the input
+	 * @param	boolean	$checked	If the input is checked or not
+	 */
+	private function checkbox( $label, $name, $checked )
+	{
+		printf( '<input type="checkbox" name="%s" value="true"', $name );
+		if ($checked)
+			echo ' checked';
+		echo ' />';
+		echo ' '.$label.'<br/>';
+	}
+
 }
