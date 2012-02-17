@@ -61,6 +61,9 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 == Changelog ==
 
  
+= Version X.X - X XXX 2012 =
+ * Included Romanian translation by Marko Pozner.
+
 = Version 1.5 - 9 Jan 2012 =
  * Added an option to disable PayPal statistics tracking image.
  * Added an option to center the button by overriding the theme CSS.
