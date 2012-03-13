@@ -15,13 +15,15 @@ class Paypal_Donations_Settings
 	private $currency_codes;
 	private $donate_buttons;
 	private $localized_buttons;
+	private $checkout_languages;
 
-	public function set_options( $options, $code, $buttons, $loc_buttons )
+	public function set_options( $options, $code, $buttons, $loc_buttons, $checkout_lng )
 	{
 		$this->plugin_options = $options;
 		$this->currency_codes = $code;
 		$this->donate_buttons = $buttons;
 		$this->localized_buttons = $loc_buttons;
+		$this->checkout_languages = $checkout_lng;
 	}
 
 	public function render()
@@ -131,12 +133,34 @@ class Paypal_Donations_Settings
 		__('Disable PayPal Statistics', 'paypal-donations'),
 		'disable_stats',
 		$pd_options['disable_stats']);
+	echo '<br/>';
 
 	$this->checkbox(
 		__('Theme CSS Override: Center Button', 'paypal-donations'),
 		'center_button',
 		$pd_options['center_button']);
+	echo '<br/>';
+
+	$this->checkbox(
+		__('Set Checkout Language:', 'paypal-donations'),
+		'set_checkout_language',
+		isset($pd_options['set_checkout_language']) ? $pd_options['set_checkout_language'] : false);
 	?>
+
+	<?php
+	if (isset($pd_options['checkout_language'])) { $checkout_language = $pd_options['checkout_language']; } else { $checkout_language = ''; }
+	?>
+	<select name="checkout_language" id="checkout_language">
+		<option value="">None</option>
+		<?php
+	   foreach ( $this->checkout_languages as $key => $language ) {
+	        echo '<option value="'.$key.'"';
+			if ($checkout_language == $key) { echo ' selected="selected"'; }
+			echo '>'.$language.'</option>';
+		}?>
+	</select>
+	<br/>
+
 
     <p class="submit">
     <input type="submit" name="Submit" class="button-primary" value="<?php _e( 'Save Changes', 'paypal-donations' ) ?>" />
@@ -165,7 +189,7 @@ class Paypal_Donations_Settings
 		if ($checked)
 			echo ' checked';
 		echo ' />';
-		echo ' '.$label.'<br/>';
+		echo ' '.$label;
 	}
 
 }
