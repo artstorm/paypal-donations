@@ -27,49 +27,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 class Paypal_Donations
 {
+	// -------------------------------------------------------------------------
+	// Define constant variables and data arrays
+	// -------------------------------------------------------------------------
 	var $plugin_options = 'paypal_donations_options';
-	var $donate_buttons = array('small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
-						  		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
-						  		'cards' => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif');
-	var $currency_codes = array('AUD' => 'Australian Dollars (A $)',
-						   		'CAD' => 'Canadian Dollars (C $)',
-						   		'EUR' => 'Euros (&euro;)',
-						   		'GBP' => 'Pounds Sterling (&pound;)',
-						   		'JPY' => 'Yen (&yen;)',
-						   		'USD' => 'U.S. Dollars ($)',
-						   		'NZD' => 'New Zealand Dollar ($)',
-						   		'CHF' => 'Swiss Franc',
-						   		'HKD' => 'Hong Kong Dollar ($)',
-						   		'SGD' => 'Singapore Dollar ($)',
-						   		'SEK' => 'Swedish Krona',
-						   		'DKK' => 'Danish Krone',
-						   		'PLN' => 'Polish Zloty',
-						   		'NOK' => 'Norwegian Krone',
-						   		'HUF' => 'Hungarian Forint',
-						   		'CZK' => 'Czech Koruna',
-						   		'ILS' => 'Israeli Shekel',
-						   		'MXN' => 'Mexican Peso',
-						   		'BRL' => 'Brazilian Real',
-						   		'TWD' => 'Taiwan New Dollar',
-						   		'PHP' => 'Philippine Peso',
-						   		'TRY' => 'Turkish Lira',
-						   		'THB' => 'Thai Baht');
-	var $localized_buttons = array('en_AU' => 'Australia - Australian English',
-								   'de_DE/AT' => 'Austria - German',
-								   'nl_NL/BE' => 'Belgium - Dutch',
-								   'fr_XC' => 'Canada - French',
-								   'zh_XC' => 'China - Simplified Chinese',
-								   'fr_FR/FR' => 'France - French',
-								   'de_DE/DE' => 'Germany - German',
-								   'it_IT/IT' => 'Italy - Italian',
-								   'ja_JP/JP' => 'Japan - Japanese',
-								   'es_XC' => 'Mexico - Spanish',
-								   'nl_NL/NL' => 'Netherlands - Dutch',
-								   'pl_PL/PL' => 'Poland - Polish',
-								   'es_ES/ES' => 'Spain - Spanish',
-								   'de_DE/CH' => 'Switzerland - German',
-								   'fr_FR/CH' => 'Switzerland - French',
-								   'en_US' => 'United States - U.S. English');
+	var $donate_buttons = array(
+		'small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
+		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
+		'cards' => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif'
+	);
+	var $currency_codes = array(
+		'AUD' => 'Australian Dollars (A $)',
+		'CAD' => 'Canadian Dollars (C $)',
+		'EUR' => 'Euros (&euro;)',
+		'GBP' => 'Pounds Sterling (&pound;)',
+		'JPY' => 'Yen (&yen;)',
+		'USD' => 'U.S. Dollars ($)',
+		'NZD' => 'New Zealand Dollar ($)',
+		'CHF' => 'Swiss Franc',
+		'HKD' => 'Hong Kong Dollar ($)',
+		'SGD' => 'Singapore Dollar ($)',
+		'SEK' => 'Swedish Krona',
+		'DKK' => 'Danish Krone',
+		'PLN' => 'Polish Zloty',
+		'NOK' => 'Norwegian Krone',
+		'HUF' => 'Hungarian Forint',
+		'CZK' => 'Czech Koruna',
+		'ILS' => 'Israeli Shekel',
+		'MXN' => 'Mexican Peso',
+		'BRL' => 'Brazilian Real',
+		'TWD' => 'Taiwan New Dollar',
+		'PHP' => 'Philippine Peso',
+		'TRY' => 'Turkish Lira',
+		'THB' => 'Thai Baht'
+	);
+	var $localized_buttons = array(
+		'en_AU' => 'Australia - Australian English',
+		'de_DE/AT' => 'Austria - German',
+		'nl_NL/BE' => 'Belgium - Dutch',
+		'fr_XC' => 'Canada - French',
+		'zh_XC' => 'China - Simplified Chinese',
+		'fr_FR/FR' => 'France - French',
+		'de_DE/DE' => 'Germany - German',
+		'it_IT/IT' => 'Italy - Italian',
+		'ja_JP/JP' => 'Japan - Japanese',
+		'es_XC' => 'Mexico - Spanish',
+		'nl_NL/NL' => 'Netherlands - Dutch',
+		'pl_PL/PL' => 'Poland - Polish',
+		'es_ES/ES' => 'Spain - Spanish',
+		'de_DE/CH' => 'Switzerland - German',
+		'fr_FR/CH' => 'Switzerland - French',
+		'en_US' => 'United States - U.S. English'
+	);
+	public $checkout_languages = array(
+		'AU' => 'Australia',
+		'AT' => 'Austria',
+		'BR' => 'Brazil',
+		'CA' => 'Canada',
+		'CN' => 'China',
+		'FR' => 'France',
+		'DE' => 'Germany',
+		'IT' => 'Italy',
+		'NL' => 'Netherlands',
+		'ES' => 'Spain',
+		'SE' => 'Sweden',
+		'GB' => 'United Kingdom',
+		'US' => 'United States',
+	);
+
 
 	public function __construct() {
 		// Define the domain for translations
@@ -167,9 +192,11 @@ class Paypal_Donations
 
 		// More Settings
 		if (isset($pd_options['currency_code']))
-			$paypal_btn .=     '<input type="hidden" name="currency_code" value="' .$pd_options['currency_code']. '" />';
+			$paypal_btn .= '<input type="hidden" name="currency_code" value="' .$pd_options['currency_code']. '" />';
 		if (isset($pd_options['button_localized']))
 			{ $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
+		if (isset($pd_options['set_checkout_language']) and $pd_options['set_checkout_language'] == true)
+			$paypal_btn .= '<input type="hidden" name="lc" value="' .$pd_options['checkout_language']. '" />';
 
 		// Settings not implemented yet
 		//		$paypal_btn .=     '<input type="hidden" name="amount" value="20" />';
@@ -222,6 +249,8 @@ class Paypal_Donations
 			$pd_options['button_localized'] = trim( $_POST['button_localized'] );
 			$pd_options['disable_stats'] = isset($_POST['disable_stats']) ? true : false;
 			$pd_options['center_button'] = isset($_POST['center_button']) ? true : false;
+			$pd_options['set_checkout_language'] = isset($_POST['set_checkout_language']) ? true : false;
+			$pd_options['checkout_language'] = trim( $_POST['checkout_language'] );
 			update_option($this->plugin_options, $pd_options);
 			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
@@ -229,7 +258,7 @@ class Paypal_Donations
 
 		// Render the settings screen
 		$settings = new Paypal_Donations_Settings();
-		$settings->set_options( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons);
+		$settings->set_options( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
 		$settings->render();
 
 
