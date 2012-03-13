@@ -61,8 +61,8 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 
 = Version 1.6 - 13 Mar 2012 =
  * Added an option under extras to set a PayPal checkout language.
- * Added filter `paypal_donations_purpose_html`, to allow replacing the default
-   hidden form element for purpose with some other form input type.
+ * Added filter `paypal_donations_purpose_html`, to allow tweaking the default
+   hidden form input element for purpose.
  * Included Romanian translation by Marko Pozner.
 
 = Version 1.5 - 9 Jan 2012 =
