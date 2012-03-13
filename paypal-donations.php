@@ -448,13 +448,10 @@ class Paypal_Donations_Host_Environment
 	 */
 	function php_version_error() {
 		echo '<div class="error"><p><strong>';
-		printf( __(
-			'Error:<br/>
-			%1$s requires at least PHP version %2$s.
-			<br/>
-			Your installed PHP version: %3$s',
-			'post-snippets'),
-			$this->PLUGIN_NAME, $this->MIN_PHP_VERSION, PHP_VERSION);
+		printf(
+			'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
+			'Your installed PHP version: %2$s',
+			$this->MIN_PHP_VERSION, PHP_VERSION);
 		echo '</strong></p></div>';
 	}
 
@@ -463,10 +460,9 @@ class Paypal_Donations_Host_Environment
 	 */
 	function wp_version_error() {
 		echo '<div class="error"><p><strong>';
-		printf( __( 
-			'Error: %1$s requires WordPress Version %2$s or higher.',
-			'post-snippets'),
-			$this->PLUGIN_NAME, $this->MIN_WP_VERSION );
+		printf(
+			'Error: PayPal Donations requires WordPress version %s or greater.',
+			$this->MIN_WP_VERSION );
 		echo '</strong></p></div>';
 	}
 }
