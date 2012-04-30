@@ -4,6 +4,8 @@ Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
 Tested up to: 3.3.1
 Stable tag: 1.6
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Easy, simple setup to add a PayPal Donation button as a Widget or with a shortcode.
 
