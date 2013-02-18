@@ -140,6 +140,9 @@ class PayPalDonations
 
 
 		$this->initHooks();
+
+		add_action( 'widgets_init', 
+			create_function( '', 'register_widget( "PayPalDonations_Widget" );' ) );
 	}
 
 	/**
@@ -197,10 +200,6 @@ class PayPalDonations
 		add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
 
 		add_action( 'wp_head', array($this, 'addCss'), 999 );
-
-		global $wp_version;
-		if ( version_compare($wp_version, '2.8', '>=') )
-			add_action( 'widgets_init',  array(&$this,'loadWidget') );
 	}
 	
 	/**
@@ -215,14 +214,6 @@ class PayPalDonations
 			echo '.paypal-donations { text-align: center !important }'."\n";
 			echo '</style>'."\n";
 		}
-	}
-
-	/**
-	* Register the Widget
-	*
-	*/
-	function loadWidget() {
-		register_widget( 'PayPalDonations_Widget' );
 	}
 
 
