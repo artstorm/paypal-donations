@@ -9,7 +9,7 @@
  * @author  Johan Steen <artstorm at gmail dot com>
  * @since   Post Snippets 1.5
  */
-class PayPalDonations_Settings
+class PayPalDonations_Admin
 {
 	private $plugin_options;
 	private $currency_codes;

@@ -98,19 +98,19 @@
     <h3><?php _e( 'Extras', 'paypal-donations' ) ?></h3>
     <p>Optional extra settings to fine tune the setup in certain scenarios.</p>
     <?php
-    PayPalDonations_Settings::checkbox(
+    PayPalDonations_Admin::checkbox(
         __('Disable PayPal Statistics', 'paypal-donations'),
         'disable_stats',
         $pd_options['disable_stats']);
     echo '<br/>';
 
-    PayPalDonations_Settings::checkbox(
+    PayPalDonations_Admin::checkbox(
         __('Theme CSS Override: Center Button', 'paypal-donations'),
         'center_button',
         $pd_options['center_button']);
     echo '<br/>';
 
-    PayPalDonations_Settings::checkbox(
+    PayPalDonations_Admin::checkbox(
         __('Set Checkout Language:', 'paypal-donations'),
         'set_checkout_language',
         isset($pd_options['set_checkout_language']) ? $pd_options['set_checkout_language'] : false);
