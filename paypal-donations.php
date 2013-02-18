@@ -293,13 +293,6 @@ class PayPalDonations
 		$settings->setOptions( get_option(self::OPTION_DB_KEY),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
 		$settings->render();
 
-
-?>
-<?php
-	}
-
-
-
 	// -------------------------------------------------------------------------
 	// Environment Checks
 	// -------------------------------------------------------------------------
