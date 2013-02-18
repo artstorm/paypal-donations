@@ -1,11 +1,12 @@
 <?php
-
 /**
- * The Class for the Widget
+ * The Class for the Widget.
  *
+ * @package  PayPal Donations
+ * @author   Johan Steen <artstorm at gmail dot com>
  */
-class PayPalDonations_Widget extends WP_Widget {
-
+class PayPalDonations_Widget extends WP_Widget
+{
     /**
      * Register the Widget.
      */

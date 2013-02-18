@@ -33,7 +33,7 @@ spl_autoload_register( 'PayPalDonations::autoload' );
  * Init Singleton Class for PayPal Donations.
  *
  * @package PayPal Donations
- * @author  Johan Steen
+ * @author  Johan Steen <artstorm at gmail dot com>
  */
 class PayPalDonations
 {
@@ -41,8 +41,6 @@ class PayPalDonations
 	const MIN_WP_VERSION   = '2.8';
 
     private static $instance = false;
-
-
 
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
@@ -127,7 +125,7 @@ class PayPalDonations
 	 * Constructor
 	 * Initializes the plugin by setting localization, filters, and administration functions.
 	 */
-	function __construct()
+	private function __construct()
 	{
 		if (!$this->testHost())
 			return;
@@ -398,4 +396,5 @@ class PayPalDonations
 		echo '</strong></p></div>';
 	}
 }
+
 add_action( 'plugins_loaded', array( 'PayPalDonations', 'getInstance' ) );
