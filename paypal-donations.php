@@ -45,13 +45,13 @@ class PayPalDonations
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
 	// -------------------------------------------------------------------------
-	var $plugin_options = 'paypal_donations_options';
-	var $donate_buttons = array(
+	private $plugin_options = 'paypal_donations_options';
+	private $donate_buttons = array(
 		'small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
 		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
 		'cards' => 'https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif'
 	);
-	var $currency_codes = array(
+	private $currency_codes = array(
 		'AUD' => 'Australian Dollars (A $)',
 		'CAD' => 'Canadian Dollars (C $)',
 		'EUR' => 'Euros (&euro;)',
@@ -76,7 +76,7 @@ class PayPalDonations
 		'TRY' => 'Turkish Lira',
 		'THB' => 'Thai Baht'
 	);
-	var $localized_buttons = array(
+	private $localized_buttons = array(
 		'en_AU' => 'Australia - Australian English',
 		'de_DE/AT' => 'Austria - German',
 		'nl_NL/BE' => 'Belgium - Dutch',
@@ -94,7 +94,7 @@ class PayPalDonations
 		'fr_FR/CH' => 'Switzerland - French',
 		'en_US' => 'United States - U.S. English'
 	);
-	public $checkout_languages = array(
+	private $checkout_languages = array(
 		'AU' => 'Australia',
 		'AT' => 'Austria',
 		'BR' => 'Brazil',
