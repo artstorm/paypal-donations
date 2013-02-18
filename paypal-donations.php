@@ -198,7 +198,7 @@ class PayPalDonations
      * Adds inline CSS code to the head section of the html pages to center the
      * PayPal button.
      */
-    function addCss()
+    public function addCss()
     {
         $pd_options = get_option(self::OPTION_DB_KEY);
         if (isset($pd_options['center_button']) 
@@ -213,7 +213,7 @@ class PayPalDonations
     /**
      * Create and register the PayPal shortcode
      */
-    function paypalShortcode($atts)
+    public function paypalShortcode($atts)
     {
         extract(shortcode_atts(array(
             'purpose' => '',
@@ -230,7 +230,7 @@ class PayPalDonations
     /**
      * Generate the PayPal button HTML code
      */
-    function generateHtml($purpose = null, $reference = null, $amount = null, 
+    public function generateHtml($purpose = null, $reference = null, $amount = null, 
                           $return_page = null, $button_url = null)
     {
         $pd_options = get_option(self::OPTION_DB_KEY);
@@ -257,10 +257,9 @@ class PayPalDonations
     }
 
     /**
-    * The Admin Page and all it's functions
-    *
-    */
-    function wpAdmin()
+     * The Admin Page and all it's functions
+     */
+    public function wpAdmin()
     {
         if (function_exists('add_options_page'))
             add_options_page('PayPal Donations Options', 'PayPal Donations',
@@ -268,7 +267,7 @@ class PayPalDonations
             );
     }
 
-    function adminMessage($message)
+    public function adminMessage($message)
     {
         if ( $message ) {
             ?>
@@ -279,7 +278,7 @@ class PayPalDonations
         }
     }
 
-    function optionsPage()
+    public function optionsPage()
     {
         // Update Options
         if (isset($_POST['Submit'])) {
@@ -341,7 +340,7 @@ class PayPalDonations
     /**
      * Displays a warning when installed on an old PHP version.
      */
-    function phpVersionError()
+    public function phpVersionError()
     {
         echo '<div class="error"><p><strong>';
         printf(
@@ -354,7 +353,7 @@ class PayPalDonations
     /**
      * Displays a warning when installed in an old Wordpress version.
      */
-    function wpVersionError()
+    public function wpVersionError()
     {
         echo '<div class="error"><p><strong>';
         printf(

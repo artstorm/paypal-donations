@@ -52,7 +52,7 @@ class PayPalDonations_Admin
      * @param   string  $name       The unique name to identify the input
      * @param   boolean $checked    If the input is checked or not
      */
-    static function checkbox( $label, $name, $checked )
+    public static function checkbox( $label, $name, $checked )
     {
         printf( '<input type="checkbox" name="%s" value="true"', $name );
         if ($checked)
