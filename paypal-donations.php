@@ -29,6 +29,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /** Load all of the necessary class files for the plugin */
 spl_autoload_register( 'PayPalDonations::autoload' );
 
+/**
+ * Init class for PayPal Donations.
+ *
+ * @package PayPal Donations
+ * @author  Johan Steen
+ */
 class PayPalDonations
 {
 	// -------------------------------------------------------------------------
@@ -111,18 +117,14 @@ class PayPalDonations
 	 * PSR-0 compliant autoloader to load classes as needed.
 	 *
 	 * @since 1.7
-	 *
 	 * @param string $classname The name of the class
 	 * @return null Return early if the class name does not start with the correct prefix
 	 */
 	public static function autoload($className)
 	{
-
-			if ( 'PayPalDonations' !== mb_substr( $className, 0, 15 ) )
-				return;
-
+		if ( 'PayPalDonations' !== mb_substr( $className, 0, 15 ) )
+			return;
 	    $className = ltrim($className, '\\');
-
 	    $fileName  = '';
 	    $namespace = '';
 	    if ($lastNsPos = strrpos($className, '\\')) {
