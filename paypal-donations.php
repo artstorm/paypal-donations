@@ -135,8 +135,9 @@ class PayPalDonations
 
 		register_uninstall_hook( __FILE__, array(__CLASS__, 'uninstall') );
 
-
-		$this->initHooks();
+		add_action('admin_menu', array(&$this,'wpAdmin'));
+		add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
+		add_action( 'wp_head', array($this, 'addCss'), 999 );
 
 		add_action( 'widgets_init', 
 			create_function( '', 'register_widget( "PayPalDonations_Widget" );' ) );
@@ -187,18 +188,6 @@ class PayPalDonations
 		delete_option('widget_paypal_donations');
 	}
 
-	/**
-	* Initializes the hooks for the plugin
-	*
-	* @return	Nothing
-	*/
-	function initHooks() {
-		add_action('admin_menu', array(&$this,'wpAdmin'));
-		add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
-
-		add_action( 'wp_head', array($this, 'addCss'), 999 );
-	}
-	
 	/**
 	* Adds inline CSS code to the head section of the html pages to center the
 	* PayPal button.
