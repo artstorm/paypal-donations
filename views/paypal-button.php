@@ -1,6 +1,7 @@
+<!-- Begin PayPal Donations by http://johansteen.se/ -->
 <?php
         # Build the button
-        $paypal_btn  =  "\n<!-- Begin PayPal Donations by http://wpstorm.net/ -->\n";
+        $paypal_btn = '';
         $paypal_btn .=  '<form action="' . apply_filters( 'paypal_donations_url', 'https://www.paypal.com/cgi-bin/webscr') . '" method="post">';
         $paypal_btn .=  '<div class="paypal-donations">';
         $paypal_btn .=  '<input type="hidden" name="cmd" value="_donations" />';
