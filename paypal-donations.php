@@ -3,12 +3,13 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.6
 Author: Johan Steen
 Author URI: http://johansteen.se/
+Version: @DEV_HEAD
+License: GPLv2 or later
 Text Domain: paypal-donations 
 
-Copyright 2009-2012  Johan Steen  (email : artstorm [at] gmail [dot] com)
+Copyright 2009-2013  Johan Steen  (email : artstorm [at] gmail [dot] com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +26,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-class Paypal_Donations
+/** Load all of the necessary class files for the plugin */
+spl_autoload_register( 'PayPalDonations::autoload' );
+
+/**
+ * Init class for PayPal Donations.
+ *
+ * @package PayPal Donations
+ * @author  Johan Steen
+ */
+class PayPalDonations
 {
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
@@ -101,6 +111,30 @@ class Paypal_Donations
 		load_plugin_textdomain(	'paypal-donations', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
 		$this->init_hooks();
+	}
+
+	/**
+	 * PSR-0 compliant autoloader to load classes as needed.
+	 *
+	 * @since 1.7
+	 * @param string $classname The name of the class
+	 * @return null Return early if the class name does not start with the correct prefix
+	 */
+	public static function autoload($className)
+	{
+		if ( 'PayPalDonations' !== mb_substr( $className, 0, 15 ) )
+			return;
+	    $className = ltrim($className, '\\');
+	    $fileName  = '';
+	    $namespace = '';
+	    if ($lastNsPos = strrpos($className, '\\')) {
+	        $namespace = substr($className, 0, $lastNsPos);
+	        $className = substr($className, $lastNsPos + 1);
+	        $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+	    }
+	    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_'.$className) . '.php';
+
+	    require $fileName;
 	}
 
 	/**
@@ -257,7 +291,7 @@ class Paypal_Donations
 
 
 		// Render the settings screen
-		$settings = new Paypal_Donations_Settings();
+		$settings = new PayPalDonations_Settings();
 		$settings->set_options( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
 		$settings->render();
 
@@ -389,14 +423,15 @@ $paypal_donations_test_host = new Paypal_Donations_Host_Environment();
 if($paypal_donations_test_host->passed) {
 	// Load external classes
 	if (is_admin()) {
-		require plugin_dir_path(__FILE__).'classes/settings.php';
+		// require plugin_dir_path(__FILE__).'lib/settings.php';
+
 	}
 
 	add_action(
 		'plugins_loaded', 
 		create_function( 
 			'',
-			'global $paypal_donations; $paypal_donations = new Paypal_Donations();'
+			'global $paypal_donations; $paypal_donations = new PayPalDonations();'
 		)
 	);
 }
