@@ -37,15 +37,16 @@ spl_autoload_register( 'PayPalDonations::autoload' );
  */
 class PayPalDonations
 {
+    private static $instance = false;
+
 	const MIN_PHP_VERSION  = '5.2.4';
 	const MIN_WP_VERSION   = '2.8';
+	const OPTION_DB_KEY    = 'paypal_donations_options';
 
-    private static $instance = false;
 
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
 	// -------------------------------------------------------------------------
-	private $plugin_options = 'paypal_donations_options';
 	private $donate_buttons = array(
 		'small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
 		'large' => 'https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif',
@@ -194,7 +195,7 @@ class PayPalDonations
 	*/
 	function addCss()
 	{
-		$pd_options = get_option($this->plugin_options);
+		$pd_options = get_option(self::OPTION_DB_KEY);
 		if ( isset($pd_options['center_button']) and $pd_options['center_button'] == true ) {
 			echo '<style type="text/css">'."\n";
 			echo '.paypal-donations { text-align: center !important }'."\n";
@@ -227,7 +228,7 @@ class PayPalDonations
 	*
 	*/
 	function generateHtml($purpose = null, $reference = null, $amount = null, $return_page = null, $button_url = null) {
-		$pd_options = get_option($this->plugin_options);
+		$pd_options = get_option(self::OPTION_DB_KEY);
 
 		// Set overrides for purpose and reference if defined
 		$purpose = (!$purpose) ? $pd_options['purpose'] : $purpose;
@@ -283,13 +284,13 @@ class PayPalDonations
 			$pd_options['center_button'] = isset($_POST['center_button']) ? true : false;
 			$pd_options['set_checkout_language'] = isset($_POST['set_checkout_language']) ? true : false;
 			$pd_options['checkout_language'] = trim( $_POST['checkout_language'] );
-			update_option($this->plugin_options, $pd_options);
+			update_option(self::OPTION_DB_KEY, $pd_options);
 			$this->adminMessage( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
 
 		// Render the settings screen
 		$settings = new PayPalDonations_Admin();
-		$settings->setOptions( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
+		$settings->setOptions( get_option(self::OPTION_DB_KEY),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
 		$settings->render();
 
 
