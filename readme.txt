@@ -3,7 +3,7 @@ Contributors: artstorm
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.7
 Tested up to: 3.3.1
-Stable tag: 1.6
+Stable tag: @DEV_HEAD
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,8 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 1. Sidebar Widget Admin Options
 
 == Changelog ==
+
+= Version @DEV_HEAD - @BUILD_DATE = 
 
 = Version 1.6 - 13 Mar 2012 =
  * Added an option under extras to set a PayPal checkout language.

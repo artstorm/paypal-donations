@@ -3,12 +3,13 @@
 Plugin Name: PayPal Donations
 Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
-Version: 1.6
 Author: Johan Steen
 Author URI: http://johansteen.se/
+Version: @DEV_HEAD
+License: GPLv2 or later
 Text Domain: paypal-donations 
 
-Copyright 2009-2012  Johan Steen  (email : artstorm [at] gmail [dot] com)
+Copyright 2009-2013  Johan Steen  (email : artstorm [at] gmail [dot] com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
