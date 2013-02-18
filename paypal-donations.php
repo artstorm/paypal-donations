@@ -236,50 +236,17 @@ class PayPalDonations
 		$return_page = (!$return_page) ? $pd_options['return_page'] : $return_page;
 		$button_url = (!$button_url) ? $pd_options['button_url'] : $button_url;
 		
-		# Build the button
-		$paypal_btn  =	"\n<!-- Begin PayPal Donations by http://wpstorm.net/ -->\n";
-		$paypal_btn .=	'<form action="' . apply_filters( 'paypal_donations_url', 'https://www.paypal.com/cgi-bin/webscr') . '" method="post">';
-		$paypal_btn .=	'<div class="paypal-donations">';
-		$paypal_btn .=	'<input type="hidden" name="cmd" value="_donations" />';
-		$paypal_btn .=	'<input type="hidden" name="business" value="' .$pd_options['paypal_account']. '" />';
+		$data = array(
+			'pd_options' => $pd_options,
+			'return_page' => $return_page,
+			'purpose' => $purpose,
+			'reference' => $reference,
+			'amount' => $amount,
+			'button_url' => $button_url,
+			'donate_buttons' => $this->donate_buttons,
+		);
 
-		// Optional Settings
-		if ($pd_options['page_style'])
-			$paypal_btn .=	'<input type="hidden" name="page_style" value="' .$pd_options['page_style']. '" />';
-		if ($return_page)
-			$paypal_btn .=	'<input type="hidden" name="return" value="' .$return_page. '" />'; // Return Page
-		if ($purpose)
-			$paypal_btn .=	apply_filters('paypal_donations_purpose_html', '<input type="hidden" name="item_name" value="' .$purpose. '" />');	// Purpose
-		if ($reference)
-			$paypal_btn .=	'<input type="hidden" name="item_number" value="' .$reference. '" />';	// LightWave Plugin
-		if ($amount)
-			$paypal_btn .=	'<input type="hidden" name="amount" value="' . apply_filters( 'paypal_donations_amount', $amount ) . '" />';
-
-		// More Settings
-		if (isset($pd_options['currency_code']))
-			$paypal_btn .= '<input type="hidden" name="currency_code" value="' .$pd_options['currency_code']. '" />';
-		if (isset($pd_options['button_localized']))
-			{ $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
-		if (isset($pd_options['set_checkout_language']) and $pd_options['set_checkout_language'] == true)
-			$paypal_btn .= '<input type="hidden" name="lc" value="' .$pd_options['checkout_language']. '" />';
-
-		// Settings not implemented yet
-		//		$paypal_btn .=     '<input type="hidden" name="amount" value="20" />';
-
-		// Get the button URL
-		if ( $pd_options['button'] != "custom" && !$button_url)
-			$button_url = str_replace('en_US', $button_localized, $this->donate_buttons[$pd_options['button']]);
-		$paypal_btn .=	'<input type="image" src="' .$button_url. '" name="submit" alt="PayPal - The safer, easier way to pay online." />';
-
-		// PayPal stats tracking
-		if (!isset($pd_options['disable_stats']) or $pd_options['disable_stats'] != true)
-			$paypal_btn .=	'<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
-
-		$paypal_btn .=	'</div>';
-		$paypal_btn .=	'</form>';
-		$paypal_btn .=	"\n<!-- End PayPal Donations -->\n";
-		
-		return $paypal_btn;
+        return PayPalDonations_View::render(plugin_dir_path(__FILE__).'views/paypal-button.php', $data);
 	}
 
 	/**
