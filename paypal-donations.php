@@ -30,13 +30,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 spl_autoload_register( 'PayPalDonations::autoload' );
 
 /**
- * Init class for PayPal Donations.
+ * Init Singleton Class for PayPal Donations.
  *
  * @package PayPal Donations
  * @author  Johan Steen
  */
 class PayPalDonations
 {
+    private static $instance = false;
+
+	// Minimum versions required
+	var $MIN_PHP_VERSION	= '5.2.4';
+	var $MIN_WP_VERSION		= '2.8';
+	var $PLUGIN_NAME		= 'PayPal Donations';
+
+
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
 	// -------------------------------------------------------------------------
@@ -105,10 +113,31 @@ class PayPalDonations
 		'US' => 'United States',
 	);
 
+    /**
+     * Singleton class
+     */
+    public static function get_instance()
+    {
+        if ( ! self::$instance ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
 
-	public function __construct() {
-		// Define the domain for translations
-		load_plugin_textdomain(	'paypal-donations', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+	/**
+	 * Constructor
+	 * Initializes the plugin by setting localization, filters, and administration functions.
+	 */
+	function __construct()
+	{
+		if (!$this->testHost())
+			return;
+
+		// Load plugin text domain
+		add_action( 'init', array( $this, 'plugin_textdomain' ) );
+
+		register_uninstall_hook( __FILE__, array(__CLASS__, 'uninstall') );
+
 
 		$this->init_hooks();
 	}
@@ -135,6 +164,27 @@ class PayPalDonations
 	    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_'.$className) . '.php';
 
 	    require $fileName;
+	}
+
+	/**
+	 * Loads the plugin text domain for translation
+	 */
+	public function plugin_textdomain()
+	{
+		$domain = 'paypal-donations';
+		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+        load_textdomain( $domain, WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo' );
+        load_plugin_textdomain( $domain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+	}
+
+	/**
+	 * Fired when the plugin is uninstalled.
+	 *
+	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
+	 */
+	public function uninstall() {
+		delete_option('paypal_donations_options');
+		delete_option('widget_paypal_donations');
 	}
 
 	/**
@@ -172,8 +222,12 @@ class PayPalDonations
 	*
 	*/
 	function load_widget() {
-		register_widget( 'paypal_donations_Widget' );
+		register_widget( 'PayPalDonations_Widget' );
 	}
+
+
+	// -------------------------------
+
 
 	/**
 	* Create and register the PayPal shortcode
@@ -299,160 +353,12 @@ class PayPalDonations
 ?>
 <?php
 	}
-}
 
 
-/**
- * The Class for the Widget
- *
- */
-if (class_exists('WP_Widget')) :
-class paypal_donations_Widget extends WP_Widget {
-	/**
-	* Constructor
-	*
-	*/
-	function paypal_donations_Widget() {
-		// Widget settings.
-		$widget_ops = array ( 'classname' => 'widget_paypal_donations', 'description' => __('PayPal Donation Button', 'paypal-donations') );
 
-		// Widget control settings.
-		$control_ops = array( 'id_base' => 'paypal_donations' );
-
-		// Create the Widget
-		$this->WP_Widget( 'paypal_donations', 'PayPal Donations', $widget_ops );
-	}
-
-	/**
-	* Output the Widget
-	*
-	*/
-	function widget( $args, $instance ) {
-		extract( $args );
-		global $paypal_donations;
-
-		// Get the settings
-		$title = apply_filters('widget_title', $instance['title'] );
-		$text = $instance['text'];
-		$purpose = $instance['purpose'];
-		$reference = $instance['reference'];
-
-		echo $before_widget;
-		if ( $title )
-			echo $before_title . $title . $after_title;
-		if ( $text )
-			echo wpautop( $text );
-		echo $paypal_donations->generate_html( $purpose, $reference );
-		echo $after_widget;
-	}
-	
-	/**
-	  * Saves the widgets settings.
-	  *
-	  */
-	function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-
-	    $instance['title'] = strip_tags(stripslashes($new_instance['title']));
-	    $instance['text'] = $new_instance['text'];
-	    $instance['purpose'] = strip_tags(stripslashes($new_instance['purpose']));
-	    $instance['reference'] = strip_tags(stripslashes($new_instance['reference']));
-
-		return $instance;
-	}
-
-	/**
-	* The Form in the Widget Admin Screen
-	*
-	*/
-	function form( $instance ) {
-		// Default Widget Settings
-		$defaults = array( 'title' => __('Donate', 'paypal-donations'), 'text' => '', 'purpose' => '', 'reference' => '' );
-		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
-        
-        <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'paypal-donations'); ?> 
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($instance['title']); ?>" />
-            </label>
-        </p>
-
-        <p>
-            <label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Text:', 'paypal-donations'); ?> 
-            <textarea class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_attr($instance['text']); ?></textarea>
-            </label>
-        </p>
-
-        <p>
-            <label for="<?php echo $this->get_field_id('purpose'); ?>"><?php _e('Purpose:', 'paypal-donations'); ?> 
-            <input class="widefat" id="<?php echo $this->get_field_id('purpose'); ?>" name="<?php echo $this->get_field_name('purpose'); ?>" type="text" value="<?php echo esc_attr($instance['purpose']); ?>" />
-            </label>
-        </p>
-
-        <p>
-            <label for="<?php echo $this->get_field_id('reference'); ?>"><?php _e('Reference:', 'paypal-donations'); ?> 
-            <input class="widefat" id="<?php echo $this->get_field_id('reference'); ?>" name="<?php echo $this->get_field_name('reference'); ?>" type="text" value="<?php echo esc_attr($instance['reference']); ?>" />
-            </label>
-        </p>
-        <?php 
-	}
-}
-endif;
-
-/**
- * Uninstall
- * Clean up the WP DB by deleting the options created by the plugin.
- *
- */
-if ( function_exists('register_uninstall_hook') )
-	register_uninstall_hook(__FILE__, 'paypal_donations_deinstall');
- 
-function paypal_donations_deinstall() {
-	delete_option('paypal_donations_options');
-	delete_option('widget_paypal_donations');
-}
-
-
-// -----------------------------------------------------------------------------
-// Start the plugin
-// -----------------------------------------------------------------------------
-
-// Check the host environment
-$paypal_donations_test_host = new Paypal_Donations_Host_Environment();
-
-// If environment is up to date, start the plugin
-if($paypal_donations_test_host->passed) {
-	// Load external classes
-	if (is_admin()) {
-		// require plugin_dir_path(__FILE__).'lib/settings.php';
-
-	}
-
-	add_action(
-		'plugins_loaded', 
-		create_function( 
-			'',
-			'global $paypal_donations; $paypal_donations = new PayPalDonations();'
-		)
-	);
-}
-
-
-/**
- * PayPal Donations Host Environment.
- *
- * Checks that the host environment fulfils the requirements of Post Snippets.
- * This class is designed to work with PHP versions below 5, to make sure it's
- * always executed.
- *
- * @since	PayPal Donations 1.5
- */
-class Paypal_Donations_Host_Environment
-{
-	// Minimum versions required
-	var $MIN_PHP_VERSION	= '5';
-	var $MIN_WP_VERSION		= '2.7';
-	var $PLUGIN_NAME		= 'PayPal Donations';
-	var $passed				= true;
+	// -------------------------------------------------------------------------
+	// Environment Checks
+	// -------------------------------------------------------------------------
 
 	/**
 	 * Constructor.
@@ -461,21 +367,22 @@ class Paypal_Donations_Host_Environment
 	 * is added and $passed is set to fail, which can be checked before trying
 	 * to create the main class.
 	 */
-	function Paypal_Donations_Host_Environment()
+	private function testHost()
 	{
 		// Check if PHP is too old
 		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
 			// Display notice
 			add_action( 'admin_notices', array(&$this, 'php_version_error') );
-			$this->passed = false;
+			return false;
 		}
 
 		// Check if WordPress is too old
 		global $wp_version;
 		if ( version_compare($wp_version, $this->MIN_WP_VERSION, '<') ) {
 			add_action( 'admin_notices', array(&$this, 'wp_version_error') );
-			$this->passed = false;
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -501,23 +408,4 @@ class Paypal_Donations_Host_Environment
 		echo '</strong></p></div>';
 	}
 }
-
-
-
-// -----------------------------------------------------------------------------
-// Helper functions
-// -----------------------------------------------------------------------------
-
-/**
- * For backwards compability with earlier WordPress Versions
- *
- * @since PayPal Donations 1.4.8
- */
-
-# esc_attr isn't available in WordPress < 2.8.
-if (!function_exists('esc_attr')) :
-function esc_attr($arg) {
-	return attribute_escape($arg);
-}
-endif;
-?>
+add_action( 'plugins_loaded', array( 'PayPalDonations', 'get_instance' ) );
