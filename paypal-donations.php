@@ -37,12 +37,11 @@ spl_autoload_register( 'PayPalDonations::autoload' );
  */
 class PayPalDonations
 {
+	const MIN_PHP_VERSION  = '5.2.4';
+	const MIN_WP_VERSION   = '2.8';
+
     private static $instance = false;
 
-	// Minimum versions required
-	var $MIN_PHP_VERSION	= '5.2.4';
-	var $MIN_WP_VERSION		= '2.8';
-	var $PLUGIN_NAME		= 'PayPal Donations';
 
 
 	// -------------------------------------------------------------------------
@@ -361,7 +360,7 @@ class PayPalDonations
 	private function testHost()
 	{
 		// Check if PHP is too old
-		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
+		if (version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<')) {
 			// Display notice
 			add_action( 'admin_notices', array(&$this, 'phpVersionError') );
 			return false;
@@ -369,7 +368,7 @@ class PayPalDonations
 
 		// Check if WordPress is too old
 		global $wp_version;
-		if ( version_compare($wp_version, $this->MIN_WP_VERSION, '<') ) {
+		if ( version_compare($wp_version, self::MIN_WP_VERSION, '<') ) {
 			add_action( 'admin_notices', array(&$this, 'wpVersionError') );
 			return false;
 		}
@@ -384,7 +383,7 @@ class PayPalDonations
 		printf(
 			'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
 			'Your installed PHP version: %2$s',
-			$this->MIN_PHP_VERSION, PHP_VERSION);
+			self::MIN_PHP_VERSION, PHP_VERSION);
 		echo '</strong></p></div>';
 	}
 
@@ -395,7 +394,7 @@ class PayPalDonations
 		echo '<div class="error"><p><strong>';
 		printf(
 			'Error: PayPal Donations requires WordPress version %s or greater.',
-			$this->MIN_WP_VERSION );
+			self::MIN_WP_VERSION );
 		echo '</strong></p></div>';
 	}
 }
