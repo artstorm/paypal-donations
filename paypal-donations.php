@@ -25,7 +25,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-class Paypal_Donations
+/** Load all of the necessary class files for the plugin */
+spl_autoload_register( 'PayPalDonations::autoload' );
+
+class PayPalDonations
 {
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
@@ -101,6 +104,34 @@ class Paypal_Donations
 		load_plugin_textdomain(	'paypal-donations', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 
 		$this->init_hooks();
+	}
+
+	/**
+	 * PSR-0 compliant autoloader to load classes as needed.
+	 *
+	 * @since 1.7
+	 *
+	 * @param string $classname The name of the class
+	 * @return null Return early if the class name does not start with the correct prefix
+	 */
+	public static function autoload($className)
+	{
+
+			if ( 'PayPalDonations' !== mb_substr( $className, 0, 15 ) )
+				return;
+
+	    $className = ltrim($className, '\\');
+
+	    $fileName  = '';
+	    $namespace = '';
+	    if ($lastNsPos = strrpos($className, '\\')) {
+	        $namespace = substr($className, 0, $lastNsPos);
+	        $className = substr($className, $lastNsPos + 1);
+	        $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+	    }
+	    $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_'.$className) . '.php';
+
+	    require $fileName;
 	}
 
 	/**
@@ -257,7 +288,7 @@ class Paypal_Donations
 
 
 		// Render the settings screen
-		$settings = new Paypal_Donations_Settings();
+		$settings = new PayPalDonations_Settings();
 		$settings->set_options( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
 		$settings->render();
 
@@ -389,14 +420,15 @@ $paypal_donations_test_host = new Paypal_Donations_Host_Environment();
 if($paypal_donations_test_host->passed) {
 	// Load external classes
 	if (is_admin()) {
-		require plugin_dir_path(__FILE__).'classes/settings.php';
+		// require plugin_dir_path(__FILE__).'lib/settings.php';
+
 	}
 
 	add_action(
 		'plugins_loaded', 
 		create_function( 
 			'',
-			'global $paypal_donations; $paypal_donations = new Paypal_Donations();'
+			'global $paypal_donations; $paypal_donations = new PayPalDonations();'
 		)
 	);
 }
