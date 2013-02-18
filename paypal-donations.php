@@ -200,10 +200,8 @@ class PayPalDonations
      */
     public function addCss()
     {
-        $pd_options = get_option(self::OPTION_DB_KEY);
-        if (isset($pd_options['center_button']) 
-            and $pd_options['center_button'] == true)
-        {
+        $opts = get_option(self::OPTION_DB_KEY);
+        if (isset($opts['center_button']) and $opts['center_button'] == true) {
             echo '<style type="text/css">'."\n";
             echo '.paypal-donations { text-align: center !important }'."\n";
             echo '</style>'."\n";
@@ -269,7 +267,7 @@ class PayPalDonations
 
     public function adminMessage($message)
     {
-        if ( $message ) {
+        if ($message) {
             ?>
             <div class="updated"><p><strong>
                 <?php echo $message; ?>

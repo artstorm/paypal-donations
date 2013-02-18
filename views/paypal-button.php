@@ -43,4 +43,3 @@
         $paypal_btn .=  "\n<!-- End PayPal Donations -->\n";
 
         echo $paypal_btn;
-?>

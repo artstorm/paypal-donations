@@ -29,7 +29,7 @@ class PayPalDonations_Widget extends WP_Widget
      */
     public function widget($args, $instance)
     {
-        extract( $args );
+        extract($args);
         // global $paypal_donations;
         $paypal_donations = PayPalDonations::getInstance();
 
@@ -40,9 +40,9 @@ class PayPalDonations_Widget extends WP_Widget
         $reference = $instance['reference'];
 
         echo $before_widget;
-        if ( $title )
+        if ($title)
             echo $before_title . $title . $after_title;
-        if ( $text )
+        if ($text)
             echo wpautop( $text );
         echo $paypal_donations->generateHtml( $purpose, $reference );
         echo $after_widget;
