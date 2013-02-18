@@ -30,13 +30,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 spl_autoload_register( 'PayPalDonations::autoload' );
 
 /**
- * Init class for PayPal Donations.
+ * Init Singleton Class for PayPal Donations.
  *
  * @package PayPal Donations
  * @author  Johan Steen
  */
 class PayPalDonations
 {
+    private static $instance = false;
+
+	// Minimum versions required
+	var $MIN_PHP_VERSION	= '5';
+	var $MIN_WP_VERSION		= '2.7';
+	var $PLUGIN_NAME		= 'PayPal Donations';
+
+
 	// -------------------------------------------------------------------------
 	// Define constant variables and data arrays
 	// -------------------------------------------------------------------------
@@ -105,10 +113,28 @@ class PayPalDonations
 		'US' => 'United States',
 	);
 
+    /**
+     * Singleton class
+     */
+    public static function get_instance()
+    {
+        if ( ! self::$instance ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
 
-	public function __construct() {
-		// Define the domain for translations
-		load_plugin_textdomain(	'paypal-donations', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+	/**
+	 * Constructor
+	 * Initializes the plugin by setting localization, filters, and administration functions.
+	 */
+	function __construct()
+	{
+		if (!$this->testHost())
+			return;
+
+		// Load plugin text domain
+		add_action( 'init', array( $this, 'plugin_textdomain' ) );
 
 		$this->init_hooks();
 	}
@@ -136,6 +162,18 @@ class PayPalDonations
 
 	    require $fileName;
 	}
+
+	/**
+	 * Loads the plugin text domain for translation
+	 */
+	public function plugin_textdomain()
+	{
+		$domain = 'paypal-donations';
+		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+        load_textdomain( $domain, WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo' );
+        load_plugin_textdomain( $domain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+	}
+
 
 	/**
 	* Initializes the hooks for the plugin
@@ -174,6 +212,10 @@ class PayPalDonations
 	function load_widget() {
 		register_widget( 'paypal_donations_Widget' );
 	}
+
+
+	// -------------------------------
+
 
 	/**
 	* Create and register the PayPal shortcode
@@ -299,7 +341,68 @@ class PayPalDonations
 ?>
 <?php
 	}
+
+
+
+	// -------------------------------------------------------------------------
+	// Environment Checks
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Constructor.
+	 *
+	 * Checks PHP and WordPress versions. If any check failes, a system notice
+	 * is added and $passed is set to fail, which can be checked before trying
+	 * to create the main class.
+	 */
+	private function testHost()
+	{
+		// Check if PHP is too old
+		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
+			// Display notice
+			add_action( 'admin_notices', array(&$this, 'php_version_error') );
+			return false;
+		}
+
+		// Check if WordPress is too old
+		global $wp_version;
+		if ( version_compare($wp_version, $this->MIN_WP_VERSION, '<') ) {
+			add_action( 'admin_notices', array(&$this, 'wp_version_error') );
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Displays a warning when installed on an old PHP version.
+	 */
+	function php_version_error() {
+		echo '<div class="error"><p><strong>';
+		printf(
+			'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
+			'Your installed PHP version: %2$s',
+			$this->MIN_PHP_VERSION, PHP_VERSION);
+		echo '</strong></p></div>';
+	}
+
+	/**
+	 * Displays a warning when installed in an old Wordpress version.
+	 */
+	function wp_version_error() {
+		echo '<div class="error"><p><strong>';
+		printf(
+			'Error: PayPal Donations requires WordPress version %s or greater.',
+			$this->MIN_WP_VERSION );
+		echo '</strong></p></div>';
+	}
 }
+add_action( 'plugins_loaded', array( 'PayPalDonations', 'get_instance' ) );
+
+
+
+
+
+// ----------------------------------
 
 
 /**
@@ -413,98 +516,6 @@ function paypal_donations_deinstall() {
 
 
 // -----------------------------------------------------------------------------
-// Start the plugin
-// -----------------------------------------------------------------------------
-
-// Check the host environment
-$paypal_donations_test_host = new Paypal_Donations_Host_Environment();
-
-// If environment is up to date, start the plugin
-if($paypal_donations_test_host->passed) {
-	// Load external classes
-	if (is_admin()) {
-		// require plugin_dir_path(__FILE__).'lib/settings.php';
-
-	}
-
-	add_action(
-		'plugins_loaded', 
-		create_function( 
-			'',
-			'global $paypal_donations; $paypal_donations = new PayPalDonations();'
-		)
-	);
-}
-
-
-/**
- * PayPal Donations Host Environment.
- *
- * Checks that the host environment fulfils the requirements of Post Snippets.
- * This class is designed to work with PHP versions below 5, to make sure it's
- * always executed.
- *
- * @since	PayPal Donations 1.5
- */
-class Paypal_Donations_Host_Environment
-{
-	// Minimum versions required
-	var $MIN_PHP_VERSION	= '5';
-	var $MIN_WP_VERSION		= '2.7';
-	var $PLUGIN_NAME		= 'PayPal Donations';
-	var $passed				= true;
-
-	/**
-	 * Constructor.
-	 *
-	 * Checks PHP and WordPress versions. If any check failes, a system notice
-	 * is added and $passed is set to fail, which can be checked before trying
-	 * to create the main class.
-	 */
-	function Paypal_Donations_Host_Environment()
-	{
-		// Check if PHP is too old
-		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
-			// Display notice
-			add_action( 'admin_notices', array(&$this, 'php_version_error') );
-			$this->passed = false;
-		}
-
-		// Check if WordPress is too old
-		global $wp_version;
-		if ( version_compare($wp_version, $this->MIN_WP_VERSION, '<') ) {
-			add_action( 'admin_notices', array(&$this, 'wp_version_error') );
-			$this->passed = false;
-		}
-	}
-
-	/**
-	 * Displays a warning when installed on an old PHP version.
-	 */
-	function php_version_error() {
-		echo '<div class="error"><p><strong>';
-		printf(
-			'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
-			'Your installed PHP version: %2$s',
-			$this->MIN_PHP_VERSION, PHP_VERSION);
-		echo '</strong></p></div>';
-	}
-
-	/**
-	 * Displays a warning when installed in an old Wordpress version.
-	 */
-	function wp_version_error() {
-		echo '<div class="error"><p><strong>';
-		printf(
-			'Error: PayPal Donations requires WordPress version %s or greater.',
-			$this->MIN_WP_VERSION );
-		echo '</strong></p></div>';
-	}
-}
-
-
-
-// -----------------------------------------------------------------------------
 // Helper functions
 // -----------------------------------------------------------------------------
 
@@ -520,4 +531,4 @@ function esc_attr($arg) {
 	return attribute_escape($arg);
 }
 endif;
-?>
+

@@ -61,7 +61,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 
 == Changelog ==
 
-= Version @DEV_HEAD - @BUILD_DATE = 
+= Version @DEV_HEAD - @BUILD_DATE =
 
 = Version 1.6 - 13 Mar 2012 =
  * Added an option under extras to set a PayPal checkout language.
