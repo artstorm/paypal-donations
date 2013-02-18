@@ -1,8 +1,8 @@
 === PayPal Donations ===
 Contributors: artstorm
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
-Requires at least: 2.7
-Tested up to: 3.3.1
+Requires at least: 2.8
+Tested up to: 3.5.1
 Stable tag: @DEV_HEAD
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@ Adds a PayPal donation shortcode and sidebar Widget to WordPress. The options me
 
 = Widget =
 
-In the Appearance -> Widgets in WordPress 2.8 or newer you'll find the PayPal Donations widget. After adding it to your sidebar you can enter a title for the Widget, some descriptive text that will appear above the button and specify an optional purpose and reference for the donation button to override the default settings.
+In the Appearance -> Widgets you'll find the PayPal Donations widget. After adding it to your sidebar you can enter a title for the Widget, some descriptive text that will appear above the button and specify an optional purpose and reference for the donation button to override the default settings.
 
 = Shortcode =
 
@@ -62,6 +62,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 == Changelog ==
 
 = Version @DEV_HEAD - @BUILD_DATE =
+ * Bumped minimum required WordPress version to WordPress 2.8.
 
 = Version 1.6 - 13 Mar 2012 =
  * Added an option under extras to set a PayPal checkout language.
