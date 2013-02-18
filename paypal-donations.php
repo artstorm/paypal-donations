@@ -136,6 +136,9 @@ class PayPalDonations
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'plugin_textdomain' ) );
 
+		register_uninstall_hook( __FILE__, array(__CLASS__, 'uninstall') );
+
+
 		$this->init_hooks();
 	}
 
@@ -174,6 +177,15 @@ class PayPalDonations
         load_plugin_textdomain( $domain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
 	}
 
+	/**
+	 * Fired when the plugin is uninstalled.
+	 *
+	 * @param	boolean	$network_wide	True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
+	 */
+	public function uninstall() {
+		delete_option('paypal_donations_options');
+		delete_option('widget_paypal_donations');
+	}
 
 	/**
 	* Initializes the hooks for the plugin
@@ -397,21 +409,3 @@ class PayPalDonations
 	}
 }
 add_action( 'plugins_loaded', array( 'PayPalDonations', 'get_instance' ) );
-
-
-
-
-/**
- * Uninstall
- * Clean up the WP DB by deleting the options created by the plugin.
- *
- */
-if ( function_exists('register_uninstall_hook') )
-	register_uninstall_hook(__FILE__, 'paypal_donations_deinstall');
- 
-function paypal_donations_deinstall() {
-	delete_option('paypal_donations_options');
-	delete_option('widget_paypal_donations');
-}
-
-
