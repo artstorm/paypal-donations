@@ -60,5 +60,4 @@ class PayPalDonations_Admin
         echo ' />';
         echo ' '.$label;
     }
-
 }

@@ -188,7 +188,8 @@ class PayPalDonations
     /**
      * Fired when the plugin is uninstalled.
      */
-    public function uninstall() {
+    public function uninstall()
+    {
         delete_option('paypal_donations_options');
         delete_option('widget_paypal_donations');
     }
@@ -212,7 +213,8 @@ class PayPalDonations
     /**
      * Create and register the PayPal shortcode
      */
-    function paypalShortcode($atts) {
+    function paypalShortcode($atts)
+    {
         extract(shortcode_atts(array(
             'purpose' => '',
             'reference' => '',
@@ -258,14 +260,16 @@ class PayPalDonations
     * The Admin Page and all it's functions
     *
     */
-    function wpAdmin()  {
+    function wpAdmin()
+    {
         if (function_exists('add_options_page'))
             add_options_page('PayPal Donations Options', 'PayPal Donations',
              'administrator', basename(__FILE__), array(&$this, 'optionsPage')
             );
     }
 
-    function adminMessage($message) {
+    function adminMessage($message)
+    {
         if ( $message ) {
             ?>
             <div class="updated"><p><strong>
@@ -275,7 +279,8 @@ class PayPalDonations
         }
     }
 
-    function optionsPage() {
+    function optionsPage()
+    {
         // Update Options
         if (isset($_POST['Submit'])) {
             $pd_options['paypal_account'] = trim( $_POST['paypal_account'] );
@@ -303,6 +308,7 @@ class PayPalDonations
          $this->checkout_languages);
         $settings->render();
     }
+
     // -------------------------------------------------------------------------
     // Environment Checks
     // -------------------------------------------------------------------------
@@ -335,7 +341,8 @@ class PayPalDonations
     /**
      * Displays a warning when installed on an old PHP version.
      */
-    function phpVersionError() {
+    function phpVersionError()
+    {
         echo '<div class="error"><p><strong>';
         printf(
             'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
@@ -347,7 +354,8 @@ class PayPalDonations
     /**
      * Displays a warning when installed in an old Wordpress version.
      */
-    function wpVersionError() {
+    function wpVersionError()
+    {
         echo '<div class="error"><p><strong>';
         printf(
             'Error: PayPal Donations requires WordPress version %s or greater.',
