@@ -228,9 +228,13 @@ class PayPalDonations
     /**
      * Generate the PayPal button HTML code
      */
-    public function generateHtml($purpose = null, $reference = null, $amount = null, 
-                          $return_page = null, $button_url = null)
-    {
+    public function generateHtml(
+        $purpose = null,
+        $reference = null,
+        $amount = null,
+        $return_page = null,
+        $button_url = null
+    ) {
         $pd_options = get_option(self::OPTION_DB_KEY);
 
         // Set overrides for purpose and reference if defined

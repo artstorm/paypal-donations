@@ -17,9 +17,13 @@ class PayPalDonations_Admin
     private $localized_buttons;
     private $checkout_languages;
 
-    public function setOptions( $options, $code, $buttons, $loc_buttons,
-                                $checkout_lng )
-    {
+    public function setOptions(
+        $options,
+        $code,
+        $buttons,
+        $loc_buttons,
+        $checkout_lng
+    ) {
         $this->plugin_options = $options;
         $this->currency_codes = $code;
         $this->donate_buttons = $buttons;
@@ -52,7 +56,7 @@ class PayPalDonations_Admin
      * @param   string  $name       The unique name to identify the input
      * @param   boolean $checked    If the input is checked or not
      */
-    public static function checkbox( $label, $name, $checked )
+    public static function checkbox($label, $name, $checked)
     {
         printf( '<input type="checkbox" name="%s" value="true"', $name );
         if ($checked)
