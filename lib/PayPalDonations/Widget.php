@@ -77,31 +77,25 @@ class PayPalDonations_Widget extends WP_Widget
     public function form( $instance ) {
         // Default Widget Settings
         $defaults = array( 'title' => __('Donate', 'paypal-donations'), 'text' => '', 'purpose' => '', 'reference' => '' );
-        $instance = wp_parse_args( (array) $instance, $defaults ); ?>
-        
-        <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'paypal-donations'); ?> 
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($instance['title']); ?>" />
-            </label>
-        </p>
+        $instance = wp_parse_args( (array) $instance, $defaults );
 
-        <p>
-            <label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Text:', 'paypal-donations'); ?> 
-            <textarea class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_attr($instance['text']); ?></textarea>
-            </label>
-        </p>
+        $data = array(
+            'instance' => $instance,
+            'title_id' => $this->get_field_id('title'),
+            'title_name' => $this->get_field_name('title'),
+            'text_id' => $this->get_field_id('text'),
+            'text_name' => $this->get_field_name('text'),
+            'purpose_id' => $this->get_field_id('purpose'),
+            'purpose_name' => $this->get_field_name('purpose'),
+            'reference_id' => $this->get_field_id('reference'),
+            'reference_name' => $this->get_field_name('reference'),
+        );
 
-        <p>
-            <label for="<?php echo $this->get_field_id('purpose'); ?>"><?php _e('Purpose:', 'paypal-donations'); ?> 
-            <input class="widefat" id="<?php echo $this->get_field_id('purpose'); ?>" name="<?php echo $this->get_field_name('purpose'); ?>" type="text" value="<?php echo esc_attr($instance['purpose']); ?>" />
-            </label>
-        </p>
+        var_dump($instance);
 
-        <p>
-            <label for="<?php echo $this->get_field_id('reference'); ?>"><?php _e('Reference:', 'paypal-donations'); ?> 
-            <input class="widefat" id="<?php echo $this->get_field_id('reference'); ?>" name="<?php echo $this->get_field_name('reference'); ?>" type="text" value="<?php echo esc_attr($instance['reference']); ?>" />
-            </label>
-        </p>
+        echo PayPalDonations_View::render(plugin_dir_path(__FILE__).'../../views/widget-form.php', $data);
+
+         ?>
         <?php 
     }
 }
