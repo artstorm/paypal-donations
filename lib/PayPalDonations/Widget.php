@@ -5,26 +5,27 @@
  *
  */
 class PayPalDonations_Widget extends WP_Widget {
+
     /**
-    * Constructor
-    *
-    */
-    function PayPalDonations_Widget() {
-        // Widget settings.
-        $widget_ops = array ( 'classname' => 'widget_paypal_donations', 'description' => __('PayPal Donation Button', 'paypal-donations') );
-
-        // Widget control settings.
-        $control_ops = array( 'id_base' => 'paypal_donations' );
-
-        // Create the Widget
-        $this->WP_Widget( 'paypal_donations', 'PayPal Donations', $widget_ops );
+     * Register the Widget.
+     */
+    public function __construct() {
+        $widget_ops = array(
+            'classname' => 'widget_paypal_donations',
+            'description' => __('PayPal Donation Button', 'paypal-donations')
+        );
+        parent::__construct('paypal_donations', 'PayPal Donations', $widget_ops);
     }
 
     /**
-    * Output the Widget
-    *
-    */
-    function widget( $args, $instance ) {
+     * Front-end display of widget.
+     *
+     * @see WP_Widget::widget()
+     *
+     * @param array $args     Widget arguments.
+     * @param array $instance Saved values from database.
+     */
+    public function widget( $args, $instance ) {
         extract( $args );
         // global $paypal_donations;
         $paypal_donations = PayPalDonations::getInstance();
@@ -45,10 +46,16 @@ class PayPalDonations_Widget extends WP_Widget {
     }
     
     /**
-      * Saves the widgets settings.
-      *
-      */
-    function update( $new_instance, $old_instance ) {
+     * Sanitize widget form values as they are saved.
+     *
+     * @see WP_Widget::update()
+     *
+     * @param array $new_instance Values just sent to be saved.
+     * @param array $old_instance Previously saved values from database.
+     *
+     * @return array Updated safe values to be saved.
+     */
+    public function update( $new_instance, $old_instance ) {
         $instance = $old_instance;
 
         $instance['title'] = strip_tags(stripslashes($new_instance['title']));
@@ -60,10 +67,13 @@ class PayPalDonations_Widget extends WP_Widget {
     }
 
     /**
-    * The Form in the Widget Admin Screen
-    *
-    */
-    function form( $instance ) {
+     * Back-end widget form.
+     *
+     * @see WP_Widget::form()
+     *
+     * @param array $instance Previously saved values from database.
+     */
+    public function form( $instance ) {
         // Default Widget Settings
         $defaults = array( 'title' => __('Donate', 'paypal-donations'), 'text' => '', 'purpose' => '', 'reference' => '' );
         $instance = wp_parse_args( (array) $instance, $defaults ); ?>
