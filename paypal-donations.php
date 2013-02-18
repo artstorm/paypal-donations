@@ -129,8 +129,9 @@ class PayPalDonations
      */
     private function __construct()
     {
-        if (!$this->testHost())
+        if (!$this->testHost()) {
             return;
+        }
 
         // Load plugin text domain
         add_action('init', array($this, 'pluginTextdomain'));
@@ -155,8 +156,9 @@ class PayPalDonations
      */
     public static function autoload($className)
     {
-        if ('PayPalDonations' !== mb_substr($className, 0, 15))
+        if ('PayPalDonations' !== mb_substr($className, 0, 15)) {
             return;
+        }
         $className = ltrim($className, '\\');
         $fileName  = '';
         $namespace = '';
@@ -180,9 +182,14 @@ class PayPalDonations
         $domain = 'paypal-donations';
         $locale = apply_filters('plugin_locale', get_locale(), $domain);
         load_textdomain(
-            $domain, WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo');
+            $domain,
+            WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo'
+        );
         load_plugin_textdomain(
-            $domain, false, dirname(plugin_basename(__FILE__)).'/lang/');
+            $domain,
+            false,
+            dirname(plugin_basename(__FILE__)).'/lang/'
+        );
     }
 
     /**
@@ -222,7 +229,12 @@ class PayPalDonations
         ), $atts));
 
         return $this->generateHtml(
-            $purpose, $reference, $amount, $return_page, $button_url);
+            $purpose,
+            $reference,
+            $amount,
+            $return_page,
+            $button_url
+        );
     }
     
     /**
@@ -255,7 +267,9 @@ class PayPalDonations
         );
 
         return PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'views/paypal-button.php', $data);
+            plugin_dir_path(__FILE__).'views/paypal-button.php',
+            $data
+        );
     }
 
     /**
@@ -264,8 +278,12 @@ class PayPalDonations
     public function wpAdmin()
     {
         if (function_exists('add_options_page'))
-            add_options_page('PayPal Donations Options', 'PayPal Donations',
-             'administrator', basename(__FILE__), array(&$this, 'optionsPage')
+            add_options_page(
+                'PayPal Donations Options',
+                'PayPal Donations',
+                'administrator',
+                basename(__FILE__),
+                array(&$this, 'optionsPage')
             );
     }
 
@@ -304,9 +322,13 @@ class PayPalDonations
 
         // Render the settings screen
         $settings = new PayPalDonations_Admin();
-        $settings->setOptions( get_option(self::OPTION_DB_KEY),
-         $this->currency_codes, $this->donate_buttons, $this->localized_buttons,
-         $this->checkout_languages);
+        $settings->setOptions(
+            get_option(self::OPTION_DB_KEY),
+            $this->currency_codes,
+            $this->donate_buttons,
+            $this->localized_buttons,
+            $this->checkout_languages
+        );
         $settings->render();
     }
 
@@ -332,7 +354,7 @@ class PayPalDonations
 
         // Check if WordPress is too old
         global $wp_version;
-        if ( version_compare($wp_version, self::MIN_WP_VERSION, '<') ) {
+        if (version_compare($wp_version, self::MIN_WP_VERSION, '<')) {
             add_action( 'admin_notices', array(&$this, 'wpVersionError') );
             return false;
         }
@@ -365,4 +387,4 @@ class PayPalDonations
     }
 }
 
-add_action( 'plugins_loaded', array( 'PayPalDonations', 'getInstance' ) );
+add_action('plugins_loaded', array('PayPalDonations', 'getInstance'));

@@ -59,8 +59,9 @@ class PayPalDonations_Admin
     public static function checkbox($label, $name, $checked)
     {
         printf( '<input type="checkbox" name="%s" value="true"', $name );
-        if ($checked)
+        if ($checked) {
             echo ' checked';
+        }
         echo ' />';
         echo ' '.$label;
     }

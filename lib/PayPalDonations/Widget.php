@@ -40,10 +40,12 @@ class PayPalDonations_Widget extends WP_Widget
         $reference = $instance['reference'];
 
         echo $before_widget;
-        if ($title)
+        if ($title) {
             echo $before_title . $title . $after_title;
-        if ($text)
+        }
+        if ($text) {
             echo wpautop( $text );
+        }
         echo $paypal_donations->generateHtml( $purpose, $reference );
         echo $after_widget;
     }
@@ -99,6 +101,8 @@ class PayPalDonations_Widget extends WP_Widget
             'reference_name' => $this->get_field_name('reference'),
         );
         echo PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'../../views/widget-form.php', $data);
+            plugin_dir_path(__FILE__).'../../views/widget-form.php',
+            $data
+        );
     }
 }
