@@ -17,7 +17,8 @@ class PayPalDonations_Admin
     private $localized_buttons;
     private $checkout_languages;
 
-    public function setOptions( $options, $code, $buttons, $loc_buttons, $checkout_lng )
+    public function setOptions( $options, $code, $buttons, $loc_buttons,
+                                $checkout_lng )
     {
         $this->plugin_options = $options;
         $this->currency_codes = $code;
@@ -35,7 +36,8 @@ class PayPalDonations_Admin
             'localized_buttons' => $this->localized_buttons,
             'checkout_languages' => $this->checkout_languages,
         );
-        echo PayPalDonations_View::render(plugin_dir_path(__FILE__).'../../views/admin.php', $data);
+        echo PayPalDonations_View::render(
+            plugin_dir_path(__FILE__).'../../views/admin.php', $data);
     }
 
     // -------------------------------------------------------------------------

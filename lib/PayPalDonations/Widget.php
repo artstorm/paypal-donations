@@ -76,7 +76,11 @@ class PayPalDonations_Widget extends WP_Widget
      */
     public function form( $instance ) {
         // Default Widget Settings
-        $defaults = array( 'title' => __('Donate', 'paypal-donations'), 'text' => '', 'purpose' => '', 'reference' => '' );
+        $defaults = array(
+            'title' => __('Donate', 'paypal-donations'), 
+            'text' => '', 'purpose' => '', 
+            'reference' => ''
+        );
         $instance = wp_parse_args( (array) $instance, $defaults );
 
         $data = array(
@@ -90,6 +94,7 @@ class PayPalDonations_Widget extends WP_Widget
             'reference_id' => $this->get_field_id('reference'),
             'reference_name' => $this->get_field_name('reference'),
         );
-        echo PayPalDonations_View::render(plugin_dir_path(__FILE__).'../../views/widget-form.php', $data);
+        echo PayPalDonations_View::render(
+            plugin_dir_path(__FILE__).'../../views/widget-form.php', $data);
     }
 }
