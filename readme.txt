@@ -62,6 +62,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 == Changelog ==
 
 = Version @DEV_HEAD - @BUILD_DATE =
+ * Refactored code to comply with the PSR-0 standard.
  * Bumped miniumu PHP version to 5.2.4.
  * Bumped minimum required WordPress version to WordPress 2.8.
 
@@ -76,7 +77,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
  * Added an option to center the button by overriding the theme CSS.
 
 = Version 1.4.9.6 - 23 Oct 2011 =
- * Included Malay – Bahasa Melayu translation by Amir Shariff.
+ * Included Malay â€“ Bahasa Melayu translation by Amir Shariff.
 
 = Version 1.4.9.5 - 3 Sep 2011 =
  * Added filter 'paypal_donations_url', to hook into the URL used, to be able to
@@ -87,7 +88,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
  * Changed the plugin class name from paypal_donations to Paypal_Donations.
 
 = Version 1.4.9.4 - 22 May 2011 =
- * Included Norwegian translations by Tore Johnny Bråtveit.
+ * Included Norwegian translations by Tore Johnny BrÃ¥tveit.
 
 = Version 1.4.9.3 - 18 Apr 2011 =
  * Added Turkish Lira (TRY) to the list of currencies.
@@ -98,7 +99,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
    Baht (THB)
 
 = Version 1.4.9.1 - 08 Jan 2011 =
- * Included Turkish translation by Ersan Özdil.
+ * Included Turkish translation by Ersan Ã–zdil.
 
 = Version 1.4.9 - 08 Jul 2010 =
  * Included Dutch translation by WP webshop.
