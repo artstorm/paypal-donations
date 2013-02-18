@@ -401,11 +401,6 @@ add_action( 'plugins_loaded', array( 'PayPalDonations', 'get_instance' ) );
 
 
 
-
-// ----------------------------------
-
-
-
 /**
  * Uninstall
  * Clean up the WP DB by deleting the options created by the plugin.
@@ -419,21 +414,4 @@ function paypal_donations_deinstall() {
 	delete_option('widget_paypal_donations');
 }
 
-
-// -----------------------------------------------------------------------------
-// Helper functions
-// -----------------------------------------------------------------------------
-
-/**
- * For backwards compability with earlier WordPress Versions
- *
- * @since PayPal Donations 1.4.8
- */
-
-# esc_attr isn't available in WordPress < 2.8.
-if (!function_exists('esc_attr')) :
-function esc_attr($arg) {
-	return attribute_escape($arg);
-}
-endif;
 
