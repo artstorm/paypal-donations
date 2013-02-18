@@ -331,7 +331,6 @@ class PayPalDonations
 			$this->adminMessage( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
 
-
 		// Render the settings screen
 		$settings = new PayPalDonations_Admin();
 		$settings->setOptions( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);

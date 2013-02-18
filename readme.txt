@@ -62,8 +62,8 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 == Changelog ==
 
 = Version @DEV_HEAD - @BUILD_DATE =
- * Refactored code to comply with the PSR-0 standard.
- * Bumped miniumu PHP version to 5.2.4.
+ * Refactored code to comply with the PSR-1 standard.
+ * Bumped miniumum PHP version to 5.2.4.
  * Bumped minimum required WordPress version to WordPress 2.8.
 
 = Version 1.6 - 13 Mar 2012 =
