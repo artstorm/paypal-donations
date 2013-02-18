@@ -17,7 +17,7 @@ class PayPalDonations_Settings
 	private $localized_buttons;
 	private $checkout_languages;
 
-	public function set_options( $options, $code, $buttons, $loc_buttons, $checkout_lng )
+	public function setOptions( $options, $code, $buttons, $loc_buttons, $checkout_lng )
 	{
 		$this->plugin_options = $options;
 		$this->currency_codes = $code;

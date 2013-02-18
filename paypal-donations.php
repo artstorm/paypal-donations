@@ -116,7 +116,7 @@ class PayPalDonations
     /**
      * Singleton class
      */
-    public static function get_instance()
+    public static function getInstance()
     {
         if ( ! self::$instance ) {
             self::$instance = new self();
@@ -134,12 +134,12 @@ class PayPalDonations
 			return;
 
 		// Load plugin text domain
-		add_action( 'init', array( $this, 'plugin_textdomain' ) );
+		add_action( 'init', array( $this, 'pluginTextdomain' ) );
 
 		register_uninstall_hook( __FILE__, array(__CLASS__, 'uninstall') );
 
 
-		$this->init_hooks();
+		$this->initHooks();
 	}
 
 	/**
@@ -169,7 +169,7 @@ class PayPalDonations
 	/**
 	 * Loads the plugin text domain for translation
 	 */
-	public function plugin_textdomain()
+	public function pluginTextdomain()
 	{
 		$domain = 'paypal-donations';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
@@ -192,22 +192,22 @@ class PayPalDonations
 	*
 	* @return	Nothing
 	*/
-	function init_hooks() {
-		add_action('admin_menu', array(&$this,'wp_admin'));
-		add_shortcode('paypal-donation', array(&$this,'paypal_shortcode'));
+	function initHooks() {
+		add_action('admin_menu', array(&$this,'wpAdmin'));
+		add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
 
-		add_action( 'wp_head', array($this, 'add_css'), 999 );
+		add_action( 'wp_head', array($this, 'addCss'), 999 );
 
 		global $wp_version;
 		if ( version_compare($wp_version, '2.8', '>=') )
-			add_action( 'widgets_init',  array(&$this,'load_widget') );
+			add_action( 'widgets_init',  array(&$this,'loadWidget') );
 	}
 	
 	/**
 	* Adds inline CSS code to the head section of the html pages to center the
 	* PayPal button.
 	*/
-	function add_css()
+	function addCss()
 	{
 		$pd_options = get_option($this->plugin_options);
 		if ( isset($pd_options['center_button']) and $pd_options['center_button'] == true ) {
@@ -221,7 +221,7 @@ class PayPalDonations
 	* Register the Widget
 	*
 	*/
-	function load_widget() {
+	function loadWidget() {
 		register_widget( 'PayPalDonations_Widget' );
 	}
 
@@ -233,7 +233,7 @@ class PayPalDonations
 	* Create and register the PayPal shortcode
 	*
 	*/
-	function paypal_shortcode($atts) {
+	function paypalShortcode($atts) {
 		extract(shortcode_atts(array(
 			'purpose' => '',
 			'reference' => '',
@@ -242,14 +242,14 @@ class PayPalDonations
 			'button_url' => '',
 		), $atts));
 
-		return $this->generate_html($purpose, $reference, $amount, $return_page, $button_url);
+		return $this->generateHtml($purpose, $reference, $amount, $return_page, $button_url);
 	}
 	
 	/**
 	* Generate the PayPal button HTML code
 	*
 	*/
-	function generate_html($purpose = null, $reference = null, $amount = null, $return_page = null, $button_url = null) {
+	function generateHtml($purpose = null, $reference = null, $amount = null, $return_page = null, $button_url = null) {
 		$pd_options = get_option($this->plugin_options);
 
 		// Set overrides for purpose and reference if defined
@@ -309,12 +309,12 @@ class PayPalDonations
 	* The Admin Page and all it's functions
 	*
 	*/
-	function wp_admin()	{
+	function wpAdmin()	{
 		if (function_exists('add_options_page'))
-			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', basename(__FILE__), array(&$this, 'options_page') );
+			add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', basename(__FILE__), array(&$this, 'optionsPage') );
 	}
 
-	function admin_message($message) {
+	function adminMessage($message) {
 		if ( $message ) {
 			?>
 			<div class="updated"><p><strong><?php echo $message; ?></strong></p></div>
@@ -322,7 +322,7 @@ class PayPalDonations
 		}
 	}
 
-	function options_page() {
+	function optionsPage() {
 		// Update Options
 		if (isset($_POST['Submit'])) {
 			$pd_options['paypal_account'] = trim( $_POST['paypal_account'] );
@@ -340,13 +340,13 @@ class PayPalDonations
 			$pd_options['set_checkout_language'] = isset($_POST['set_checkout_language']) ? true : false;
 			$pd_options['checkout_language'] = trim( $_POST['checkout_language'] );
 			update_option($this->plugin_options, $pd_options);
-			$this->admin_message( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
+			$this->adminMessage( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
 		}
 
 
 		// Render the settings screen
 		$settings = new PayPalDonations_Settings();
-		$settings->set_options( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
+		$settings->setOptions( get_option($this->plugin_options),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
 		$settings->render();
 
 
@@ -372,14 +372,14 @@ class PayPalDonations
 		// Check if PHP is too old
 		if (version_compare(PHP_VERSION, $this->MIN_PHP_VERSION, '<')) {
 			// Display notice
-			add_action( 'admin_notices', array(&$this, 'php_version_error') );
+			add_action( 'admin_notices', array(&$this, 'phpVersionError') );
 			return false;
 		}
 
 		// Check if WordPress is too old
 		global $wp_version;
 		if ( version_compare($wp_version, $this->MIN_WP_VERSION, '<') ) {
-			add_action( 'admin_notices', array(&$this, 'wp_version_error') );
+			add_action( 'admin_notices', array(&$this, 'wpVersionError') );
 			return false;
 		}
 		return true;
@@ -388,7 +388,7 @@ class PayPalDonations
 	/**
 	 * Displays a warning when installed on an old PHP version.
 	 */
-	function php_version_error() {
+	function phpVersionError() {
 		echo '<div class="error"><p><strong>';
 		printf(
 			'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
@@ -400,7 +400,7 @@ class PayPalDonations
 	/**
 	 * Displays a warning when installed in an old Wordpress version.
 	 */
-	function wp_version_error() {
+	function wpVersionError() {
 		echo '<div class="error"><p><strong>';
 		printf(
 			'Error: PayPal Donations requires WordPress version %s or greater.',
@@ -408,4 +408,4 @@ class PayPalDonations
 		echo '</strong></p></div>';
 	}
 }
-add_action( 'plugins_loaded', array( 'PayPalDonations', 'get_instance' ) );
+add_action( 'plugins_loaded', array( 'PayPalDonations', 'getInstance' ) );

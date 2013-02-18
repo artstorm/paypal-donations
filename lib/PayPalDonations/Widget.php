@@ -26,7 +26,8 @@ class PayPalDonations_Widget extends WP_Widget {
     */
     function widget( $args, $instance ) {
         extract( $args );
-        global $paypal_donations;
+        // global $paypal_donations;
+        $paypal_donations = PayPalDonations::getInstance();
 
         // Get the settings
         $title = apply_filters('widget_title', $instance['title'] );
@@ -39,7 +40,7 @@ class PayPalDonations_Widget extends WP_Widget {
             echo $before_title . $title . $after_title;
         if ( $text )
             echo wpautop( $text );
-        echo $paypal_donations->generate_html( $purpose, $reference );
+        echo $paypal_donations->generateHtml( $purpose, $reference );
         echo $after_widget;
     }
     
