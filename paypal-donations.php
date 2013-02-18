@@ -40,7 +40,7 @@ class PayPalDonations
     private static $instance = false;
 
 	// Minimum versions required
-	var $MIN_PHP_VERSION	= '5';
+	var $MIN_PHP_VERSION	= '5.2.4';
 	var $MIN_WP_VERSION		= '2.8';
 	var $PLUGIN_NAME		= 'PayPal Donations';
 
