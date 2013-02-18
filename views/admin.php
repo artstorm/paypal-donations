@@ -59,20 +59,20 @@
     <td>
     <fieldset><legend class="hidden">PayPal Button</legend>
 <?php
-    $custom = TRUE;
+    $custom = true;
     if (isset($pd_options['button_localized'])) { $button_localized = $pd_options['button_localized']; } else { $button_localized = 'en_US'; }
     if (isset($pd_options['button'])) { $current_button = $pd_options['button']; } else { $current_button = 'large'; }
     foreach ( $donate_buttons as $key => $button ) {
         echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . esc_attr($key) . "'";
         if ( $current_button === $key ) { // checked() uses "==" rather than "==="
             echo " checked='checked'";
-            $custom = FALSE;
+            $custom = false;
         }
         echo " /> <img src='" . str_replace('en_US', $button_localized, $button) . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
     }
 
     echo '  <label><input type="radio" name="button" value="custom"';
-    checked( $custom, TRUE );
+    checked( $custom, true );
     echo '/> ' . __('Custom Button:', 'paypal-donations') . ' </label>';
 ?>
     <input type="text" name="button_url" value="<?php echo $pd_options['button_url']; ?>" class="regular-text" /><br/>
@@ -135,5 +135,3 @@
     <input type="submit" name="Submit" class="button-primary" value="<?php _e( 'Save Changes', 'paypal-donations' ) ?>" />
     </p>
 </div>
-
-

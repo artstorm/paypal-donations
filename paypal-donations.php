@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /** Load all of the necessary class files for the plugin */
-spl_autoload_register( 'PayPalDonations::autoload' );
+spl_autoload_register('PayPalDonations::autoload');
 
 /**
  * Init Singleton Class for PayPal Donations.
@@ -116,7 +116,7 @@ class PayPalDonations
      */
     public static function getInstance()
     {
-        if ( ! self::$instance ) {
+        if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -124,46 +124,52 @@ class PayPalDonations
 
     /**
      * Constructor
-     * Initializes the plugin by setting localization, filters, and administration functions.
+     * Initializes the plugin by setting localization, filters, and
+     * administration functions.
      */
     private function __construct()
     {
-        if (!$this->testHost())
+        if (!$this->testHost()) {
             return;
+        }
 
         // Load plugin text domain
-        add_action( 'init', array( $this, 'pluginTextdomain' ) );
+        add_action('init', array($this, 'pluginTextdomain'));
 
-        register_uninstall_hook( __FILE__, array(__CLASS__, 'uninstall') );
+        register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
 
         add_action('admin_menu', array(&$this,'wpAdmin'));
         add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
-        add_action( 'wp_head', array($this, 'addCss'), 999 );
+        add_action('wp_head', array($this, 'addCss'), 999);
 
-        add_action( 'widgets_init', 
-            create_function( '', 'register_widget( "PayPalDonations_Widget" );' ) );
+        add_action('widgets_init', 
+            create_function('', 'register_widget("PayPalDonations_Widget");'));
     }
 
     /**
      * PSR-0 compliant autoloader to load classes as needed.
      *
      * @since 1.7
-     * @param string $classname The name of the class
-     * @return null Return early if the class name does not start with the correct prefix
+     * @param  string  $classname  The name of the class
+     * @return null    Return early if the class name does not start with the
+     *                 correct prefix
      */
     public static function autoload($className)
     {
-        if ( 'PayPalDonations' !== mb_substr( $className, 0, 15 ) )
+        if ('PayPalDonations' !== mb_substr($className, 0, 15)) {
             return;
+        }
         $className = ltrim($className, '\\');
         $fileName  = '';
         $namespace = '';
         if ($lastNsPos = strrpos($className, '\\')) {
             $namespace = substr($className, 0, $lastNsPos);
             $className = substr($className, $lastNsPos + 1);
-            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
+            $fileName .= DIRECTORY_SEPARATOR;
         }
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_'.$className) . '.php';
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_'.$className);
+        $fileName .='.php';
 
         require $fileName;
     }
@@ -174,44 +180,46 @@ class PayPalDonations
     public function pluginTextdomain()
     {
         $domain = 'paypal-donations';
-        $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-        load_textdomain( $domain, WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo' );
-        load_plugin_textdomain( $domain, FALSE, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+        $locale = apply_filters('plugin_locale', get_locale(), $domain);
+        load_textdomain(
+            $domain,
+            WP_LANG_DIR.'/'.$domain.'/'.$domain.'-'.$locale.'.mo'
+        );
+        load_plugin_textdomain(
+            $domain,
+            false,
+            dirname(plugin_basename(__FILE__)).'/lang/'
+        );
     }
 
     /**
      * Fired when the plugin is uninstalled.
-     *
-     * @param   boolean $network_wide   True if WPMU superadmin uses "Network Activate" action, false if WPMU is disabled or plugin is activated on an individual blog 
      */
-    public function uninstall() {
+    public function uninstall()
+    {
         delete_option('paypal_donations_options');
         delete_option('widget_paypal_donations');
     }
 
     /**
-    * Adds inline CSS code to the head section of the html pages to center the
-    * PayPal button.
-    */
-    function addCss()
+     * Adds inline CSS code to the head section of the html pages to center the
+     * PayPal button.
+     */
+    public function addCss()
     {
-        $pd_options = get_option(self::OPTION_DB_KEY);
-        if ( isset($pd_options['center_button']) and $pd_options['center_button'] == true ) {
+        $opts = get_option(self::OPTION_DB_KEY);
+        if (isset($opts['center_button']) and $opts['center_button'] == true) {
             echo '<style type="text/css">'."\n";
             echo '.paypal-donations { text-align: center !important }'."\n";
             echo '</style>'."\n";
         }
     }
 
-
-    // -------------------------------
-
-
     /**
-    * Create and register the PayPal shortcode
-    *
-    */
-    function paypalShortcode($atts) {
+     * Create and register the PayPal shortcode
+     */
+    public function paypalShortcode($atts)
+    {
         extract(shortcode_atts(array(
             'purpose' => '',
             'reference' => '',
@@ -220,14 +228,25 @@ class PayPalDonations
             'button_url' => '',
         ), $atts));
 
-        return $this->generateHtml($purpose, $reference, $amount, $return_page, $button_url);
+        return $this->generateHtml(
+            $purpose,
+            $reference,
+            $amount,
+            $return_page,
+            $button_url
+        );
     }
     
     /**
-    * Generate the PayPal button HTML code
-    *
-    */
-    function generateHtml($purpose = null, $reference = null, $amount = null, $return_page = null, $button_url = null) {
+     * Generate the PayPal button HTML code
+     */
+    public function generateHtml(
+        $purpose = null,
+        $reference = null,
+        $amount = null,
+        $return_page = null,
+        $button_url = null
+    ) {
         $pd_options = get_option(self::OPTION_DB_KEY);
 
         // Set overrides for purpose and reference if defined
@@ -247,27 +266,40 @@ class PayPalDonations
             'donate_buttons' => $this->donate_buttons,
         );
 
-        return PayPalDonations_View::render(plugin_dir_path(__FILE__).'views/paypal-button.php', $data);
+        return PayPalDonations_View::render(
+            plugin_dir_path(__FILE__).'views/paypal-button.php',
+            $data
+        );
     }
 
     /**
-    * The Admin Page and all it's functions
-    *
-    */
-    function wpAdmin()  {
+     * The Admin Page and all it's functions
+     */
+    public function wpAdmin()
+    {
         if (function_exists('add_options_page'))
-            add_options_page( 'PayPal Donations Options', 'PayPal Donations', 'administrator', basename(__FILE__), array(&$this, 'optionsPage') );
+            add_options_page(
+                'PayPal Donations Options',
+                'PayPal Donations',
+                'administrator',
+                basename(__FILE__),
+                array(&$this, 'optionsPage')
+            );
     }
 
-    function adminMessage($message) {
-        if ( $message ) {
+    public function adminMessage($message)
+    {
+        if ($message) {
             ?>
-            <div class="updated"><p><strong><?php echo $message; ?></strong></p></div>
+            <div class="updated"><p><strong>
+                <?php echo $message; ?>
+            </strong></p></div>
             <?php   
         }
     }
 
-    function optionsPage() {
+    public function optionsPage()
+    {
         // Update Options
         if (isset($_POST['Submit'])) {
             $pd_options['paypal_account'] = trim( $_POST['paypal_account'] );
@@ -290,9 +322,16 @@ class PayPalDonations
 
         // Render the settings screen
         $settings = new PayPalDonations_Admin();
-        $settings->setOptions( get_option(self::OPTION_DB_KEY),  $this->currency_codes, $this->donate_buttons, $this->localized_buttons, $this->checkout_languages);
+        $settings->setOptions(
+            get_option(self::OPTION_DB_KEY),
+            $this->currency_codes,
+            $this->donate_buttons,
+            $this->localized_buttons,
+            $this->checkout_languages
+        );
         $settings->render();
     }
+
     // -------------------------------------------------------------------------
     // Environment Checks
     // -------------------------------------------------------------------------
@@ -315,7 +354,7 @@ class PayPalDonations
 
         // Check if WordPress is too old
         global $wp_version;
-        if ( version_compare($wp_version, self::MIN_WP_VERSION, '<') ) {
+        if (version_compare($wp_version, self::MIN_WP_VERSION, '<')) {
             add_action( 'admin_notices', array(&$this, 'wpVersionError') );
             return false;
         }
@@ -325,7 +364,8 @@ class PayPalDonations
     /**
      * Displays a warning when installed on an old PHP version.
      */
-    function phpVersionError() {
+    public function phpVersionError()
+    {
         echo '<div class="error"><p><strong>';
         printf(
             'Error: PayPal Donations requires PHP version %1$s or greater.<br/>'.
@@ -337,7 +377,8 @@ class PayPalDonations
     /**
      * Displays a warning when installed in an old Wordpress version.
      */
-    function wpVersionError() {
+    public function wpVersionError()
+    {
         echo '<div class="error"><p><strong>';
         printf(
             'Error: PayPal Donations requires WordPress version %s or greater.',
@@ -346,4 +387,4 @@ class PayPalDonations
     }
 }
 
-add_action( 'plugins_loaded', array( 'PayPalDonations', 'getInstance' ) );
+add_action('plugins_loaded', array('PayPalDonations', 'getInstance'));

@@ -17,10 +17,10 @@ class PayPalDonations_View
     public static function render($filePath, $data = null)
     {
         // Check for data
-        ( $data ) ? extract( $data ) : null;
+        ($data) ? extract($data) : null;
  
         ob_start();
-        include ( $filePath );
+        include ($filePath);
         $template = ob_get_contents();
         ob_end_clean();
 
