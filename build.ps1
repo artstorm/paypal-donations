@@ -38,4 +38,5 @@ function build_plugin
     Write-Host "Plugin successfully built! - $DATE"
 }
 
+$VERSION = Read-Host 'New version number'
 build_plugin
