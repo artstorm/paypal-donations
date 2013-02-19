@@ -7,6 +7,7 @@ WordPress Repository: http://wordpress.org/extend/plugins/paypal-donations/
 Support Forum:        http://wordpress.org/support/plugin/paypal-donations
 Issues:               https://github.com/artstorm/paypal-donations/issues
 
+
 Contribute
 ==========
-I’m very interested in your contributions... What else deserves to be in this plugin? How can it be improved? Developers, feel free to fork the repository, make any updates and then send me a pull request. Non-developers, submit a request in the issue tracker.
+I'm very interested in your contributions... What else deserves to be in this plugin? How can it be improved? Developers, feel free to fork the repository, make any updates and then send me a pull request. Non-developers, submit a request in the issue tracker.
