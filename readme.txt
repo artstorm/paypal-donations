@@ -67,7 +67,7 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 = Version @DEV_HEAD - @BUILD_DATE =
  *
 
-= Version 1.7 - 19 feb 2013 =
+= Version 1.7 - 19 Feb 2013 =
  * Moved the development to [GitHub](https://github.com/artstorm/paypal-donations). 
  * Refactored code to comply with the PSR-2 standard.
  * Bumped miniumum PHP version to 5.2.4.

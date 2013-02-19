@@ -49,4 +49,4 @@ function build_plugin
 }
 
 $VERSION = Read-Host 'New version number'
-build_plugin
+# build_plugin
