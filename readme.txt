@@ -86,7 +86,7 @@ Contributions are appreciated and encouraged.
 = Version 1.7 - 19 Feb 2013 =
  * Moved the development to [GitHub](https://github.com/artstorm/paypal-donations). 
  * Refactored code to comply with the PSR-2 standard.
- * Bumped miniumum PHP version to 5.2.4.
+ * Bumped minimum PHP version to 5.2.4.
  * Bumped minimum required WordPress version to WordPress 2.8.
 
 = Version 1.6 - 13 Mar 2012 =
