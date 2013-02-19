@@ -33,7 +33,7 @@ function build_plugin
             | Set-Content $file'.tmp' 
 
         # Set UNIX line endings and UTF-8 encoding.
-        Get-ChildItem $file | ForEach-Object {
+        Get-ChildItem $file'.tmp' | ForEach-Object {
           # get the contents and replace line breaks by U+000A
           $contents = [IO.File]::ReadAllText($_) -replace "`r`n?", "`n"
           # create UTF-8 encoding without signature
@@ -42,6 +42,7 @@ function build_plugin
           [IO.File]::WriteAllText($_, $contents, $utf8)
         }
 
+        cp $file'.tmp' $file
         Remove-Item $file'.tmp'
     }
     Write-Host "Plugin successfully built! - $DATE"
