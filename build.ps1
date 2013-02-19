@@ -6,8 +6,14 @@
 
 
 # ------------------------------------------------------------------------------
-# Variables
+# Variables and Setup
 # ------------------------------------------------------------------------------
+
+# Make the script culture independent (ie, don't give me Swedish month names!)
+$currentThread = [System.Threading.Thread]::CurrentThread
+$culture = [System.Globalization.CultureInfo]::InvariantCulture
+$currentThread.CurrentCulture = $culture
+$currentThread.CurrentUICulture = $culture
 
 # Generic
 $VERSION = '1.0'
@@ -49,4 +55,4 @@ function build_plugin
 }
 
 $VERSION = Read-Host 'New version number'
-# build_plugin
+build_plugin
