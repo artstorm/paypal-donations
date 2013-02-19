@@ -1,11 +1,11 @@
 <!-- Begin PayPal Donations by http://johansteen.se/ -->
+<form action="<?php echo apply_filters( 'paypal_donations_url', 'https://www.paypal.com/cgi-bin/webscr'); ?>" method="post">
+    <div class="paypal-donations">
+        <input type="hidden" name="cmd" value="_donations" />
+        <input type="hidden" name="business" value="<?php echo $pd_options['paypal_account']; ?>" />
 <?php
         # Build the button
         $paypal_btn = '';
-        $paypal_btn .=  '<form action="' . apply_filters( 'paypal_donations_url', 'https://www.paypal.com/cgi-bin/webscr') . '" method="post">';
-        $paypal_btn .=  '<div class="paypal-donations">';
-        $paypal_btn .=  '<input type="hidden" name="cmd" value="_donations" />';
-        $paypal_btn .=  '<input type="hidden" name="business" value="' .$pd_options['paypal_account']. '" />';
 
         // Optional Settings
         if ($pd_options['page_style'])
@@ -38,9 +38,8 @@
         // PayPal stats tracking
         if (!isset($pd_options['disable_stats']) or $pd_options['disable_stats'] != true)
             $paypal_btn .=  '<img alt="" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />';
-
-        $paypal_btn .=  '</div>';
-        $paypal_btn .=  '</form>';
-        $paypal_btn .=  "\n<!-- End PayPal Donations -->\n";
-
         echo $paypal_btn;
+?>
+    </div>
+</form>
+<!-- End PayPal Donations -->
