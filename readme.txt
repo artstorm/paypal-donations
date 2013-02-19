@@ -1,9 +1,9 @@
-﻿=== PayPal Donations ===
+=== PayPal Donations ===
 Contributors: artstorm
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
-Requires at least: 2.7
-Tested up to: 3.3.1
-Stable tag: 1.6
+Requires at least: 2.8
+Tested up to: 3.5.1
+Stable tag: 1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Adds a PayPal donation shortcode and sidebar Widget to WordPress. The options me
 
 = Widget =
 
-In the Appearance -> Widgets in WordPress 2.8 or newer you'll find the PayPal Donations widget. After adding it to your sidebar you can enter a title for the Widget, some descriptive text that will appear above the button and specify an optional purpose and reference for the donation button to override the default settings.
+In the Appearance -> Widgets you'll find the PayPal Donations widget. After adding it to your sidebar you can enter a title for the Widget, some descriptive text that will appear above the button and specify an optional purpose and reference for the donation button to override the default settings.
 
 = Shortcode =
 
@@ -35,6 +35,9 @@ For complete usage instructions see: [PayPal Donations](http://wpstorm.net/wordp
 
 See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changelog/) for what's new. Available [Translations](http://wpstorm.net/wordpress-plugins/paypal-donations/#translations).
 
+= Contribute =
+
+The plugin is available on [GitHub](https://github.com/artstorm/paypal-donations), so developers feel free to fork the repository, make any updates and then send me a pull request.
 
 == Installation ==
 
@@ -60,6 +63,12 @@ Please visit [PayPal Donations' Comments](http://wpstorm.net/wordpress-plugins/p
 1. Sidebar Widget Admin Options
 
 == Changelog ==
+
+= Version 1.7 - 19 feb 2013 =
+ * Moved the development to [GitHub](https://github.com/artstorm/paypal-donations). 
+ * Refactored code to comply with the PSR-2 standard.
+ * Bumped miniumum PHP version to 5.2.4.
+ * Bumped minimum required WordPress version to WordPress 2.8.
 
 = Version 1.6 - 13 Mar 2012 =
  * Added an option under extras to set a PayPal checkout language.
