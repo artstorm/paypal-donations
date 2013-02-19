@@ -32,10 +32,21 @@ function build_plugin
             | %{$_ -replace "@DEV_HEAD", $VERSION} `
             | Set-Content $file'.tmp' 
 
+        # Set UNIX line endings and UTF-8 encoding.
+        Get-ChildItem $file'.tmp' | ForEach-Object {
+          # get the contents and replace line breaks by U+000A
+          $contents = [IO.File]::ReadAllText($_) -replace "`r`n?", "`n"
+          # create UTF-8 encoding without signature
+          $utf8 = New-Object System.Text.UTF8Encoding $false
+          # write the text back
+          [IO.File]::WriteAllText($_, $contents, $utf8)
+        }
+
         cp $file'.tmp' $file
         Remove-Item $file'.tmp'
     }
     Write-Host "Plugin successfully built! - $DATE"
 }
 
+$VERSION = Read-Host 'New version number'
 build_plugin
