@@ -6,6 +6,12 @@
     $pd_options = $plugin_options;
     ?>
 
+
+    <h2 class="nav-tab-wrapper">
+        <a href="#" class="nav-tab nav-tab-active">General</a>
+        <a href="#" class="nav-tab">Advanced</a>
+    </h2>
+
     <table class="form-table">
     <tr valign="top">
     <th scope="row"><label for="paypal_account"><?php _e( 'PayPal Account', 'paypal-donations' ) ?></label></th>
