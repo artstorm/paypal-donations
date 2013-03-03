@@ -123,7 +123,7 @@ class PayPalDonations
     }
 
     /**
-     * Constructor
+     * Constructor.
      * Initializes the plugin by setting localization, filters, and
      * administration functions.
      */
@@ -133,8 +133,7 @@ class PayPalDonations
             return;
         }
 
-        // Load plugin text domain
-        add_action('init', array($this, 'pluginTextdomain'));
+        add_action('init', array($this, 'textDomain'));
 
         register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
 
@@ -149,7 +148,8 @@ class PayPalDonations
     /**
      * PSR-0 compliant autoloader to load classes as needed.
      *
-     * @since 1.7
+     * @since  1.7
+     *
      * @param  string  $classname  The name of the class
      * @return null    Return early if the class name does not start with the
      *                 correct prefix
@@ -177,7 +177,7 @@ class PayPalDonations
     /**
      * Loads the plugin text domain for translation
      */
-    public function pluginTextdomain()
+    public function textDomain()
     {
         $domain = 'paypal-donations';
         $locale = apply_filters('plugin_locale', get_locale(), $domain);
@@ -337,11 +337,7 @@ class PayPalDonations
     // -------------------------------------------------------------------------
 
     /**
-     * Constructor.
-     *
-     * Checks PHP and WordPress versions. If any check failes, a system notice
-     * is added and $passed is set to fail, which can be checked before trying
-     * to create the main class.
+     * Checks PHP and WordPress versions.
      */
     private function testHost()
     {
