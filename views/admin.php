@@ -5,8 +5,8 @@
 
     <?php settings_errors(); ?>
     <form method="post" action="options.php">
-        <?php settings_fields('paypal-donations-options'); ?>
-        <?php do_settings_sections('paypal-donations-options'); ?>
+        <?php settings_fields(PayPalDonations::OPTION_DB_KEY); ?>
+        <?php do_settings_sections(PayPalDonations_Admin::PAGE_SLUG); ?>
 
         <?php submit_button(); ?>
     </form>
@@ -28,7 +28,7 @@
 
     <table class="form-table">
     <tr valign="top">
-    <th scope="row"><label for="paypal_account"><?php _e( 'PayPal Account', 'paypal-donations' ) ?></label></th>
+    <th scope="row"><label for="RMpaypal_account"><?php _e( 'PayPal Account', 'paypal-donations' ) ?></label></th>
     <td><input name="paypal_account" type="text" id="paypal_account" value="<?php echo $pd_options['paypal_account']; ?>" class="regular-text" /><span class="setting-description"><br/><?php _e( 'Your PayPal email address or your PayPal secure merchant account ID.', 'paypal-donations' ) ?></span></td>
     </tr>
     <tr valign="top">

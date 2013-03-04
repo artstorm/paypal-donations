@@ -17,6 +17,8 @@ class PayPalDonations_Admin
     private $localized_buttons;
     private $checkout_languages;
 
+    const PAGE_SLUG = 'paypal-donations-options';
+
     public function __construct()
     {
         add_action('admin_menu', array($this, 'menu'));
@@ -32,7 +34,7 @@ class PayPalDonations_Admin
             'PayPal Donations Options',
             'PayPal Donations',
             'administrator',
-            'paypal-donations-options',
+            self::PAGE_SLUG,
             array($this, 'renderpage')
         );
     }    
@@ -46,10 +48,24 @@ class PayPalDonations_Admin
             'account_setup_section',
             __('Account Setup', 'paypal-donations'),
             array($this, 'accountSetupCallback'),
-            'paypal-donations-options'
+            self::PAGE_SLUG
+        );
+        add_settings_field(
+            'paypal_account',
+            __('PayPal Account', 'paypal-donations'),
+            array($this, 'paypalAccountCallback'),
+            self::PAGE_SLUG,
+            'account_setup_section',
+            array(
+                'label_for' => 'paypal_account',
+                'description' => __(
+                    'Your PayPal Email or Secure Merchant Account ID.',
+                    'paypal-donations'
+                    ),
+            )
         );
 
-        register_setting('paypal-donations-options', '');
+        // register_setting(self::PAGE_SLUG, PayPalDonations::OPTION_DB_KEY);
     }
 
     // -------------------------------------------------------------------------
@@ -64,9 +80,23 @@ class PayPalDonations_Admin
         printf('<p>%s</p>', 'Required fields.');
     }
 
+    // -------------------------------------------------------------------------
+    // Fields Callbacks
+    // -------------------------------------------------------------------------
 
+    /**
+     * PayPal Account.
+     */
+    public function paypalAccountCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='paypal_account' ";
+        echo "name='{$optionKey}[paypal_account]'' ";
+        echo "value='{$options['paypal_account']}' />";
 
-
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
 
 
 
@@ -135,6 +165,7 @@ class PayPalDonations_Admin
 
         $data = array();
         $data = array(
+            'pageSlug' => self::PAGE_SLUG,
             'plugin_options' => $this->plugin_options,
             'currency_codes' => $this->currency_codes,
             'donate_buttons' => $this->donate_buttons,
