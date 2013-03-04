@@ -55,11 +55,14 @@ class PayPalDonations_Admin
             self::PAGE_SLUG,
             array($this, 'renderpage')
         );
-    }    
-
+    }
+     
     public function renderpage()
     {
-        $data = array();
+        $data = array(
+            'pageSlug'    => PayPalDonations_Admin::PAGE_SLUG,
+            'optionDBKey' => PayPalDonations::OPTION_DB_KEY,
+        );
         echo PayPalDonations_View::render(
             plugin_dir_path(__FILE__).'../../views/admin.php', $data);
     }

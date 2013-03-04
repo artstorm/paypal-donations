@@ -8,10 +8,11 @@
         <a href="#" class="nav-tab">Advanced</a>
     </h2>
 
-    <?php // settings_errors(); ?>
     <form method="post" action="options.php">
-        <?php settings_fields(PayPalDonations::OPTION_DB_KEY); ?>
-        <?php do_settings_sections(PayPalDonations_Admin::PAGE_SLUG); ?>
+        <?php
+            settings_fields($optionDBKey);
+            do_settings_sections($pageSlug);
 
-        <?php submit_button(); ?>
+            submit_button();
+        ?>
     </form>
