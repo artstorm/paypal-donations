@@ -26,6 +26,24 @@ class PayPalDonations_Admin
     }
 
     /**
+     * To be deprecated soon!
+     */
+    public function setOptions(
+        $options,
+        $code,
+        $buttons,
+        $loc_buttons,
+        $checkout_lng
+    ) {
+        $this->plugin_options = $options;
+        $this->currency_codes = $code;
+        $this->donate_buttons = $buttons;
+        $this->localized_buttons = $loc_buttons;
+        $this->checkout_languages = $checkout_lng;
+    }
+
+
+    /**
      * Register the Menu.
      */
     public function menu()
@@ -38,6 +56,13 @@ class PayPalDonations_Admin
             array($this, 'renderpage')
         );
     }    
+
+    public function renderpage()
+    {
+        $data = array();
+        echo PayPalDonations_View::render(
+            plugin_dir_path(__FILE__).'../../views/admin.php', $data);
+    }
 
     /**
      * Register the settings.
@@ -61,32 +86,238 @@ class PayPalDonations_Admin
                 'description' => __(
                     'Your PayPal Email or Secure Merchant Account ID.',
                     'paypal-donations'
-                    ),
+                ),
+            )
+        );
+        add_settings_field(
+            'currency_code',
+            __('Currency', 'paypal-donations'),
+            array($this, 'currencyCallback'),
+            self::PAGE_SLUG,
+            'account_setup_section',
+            array(
+                'label_for' => 'currency_code',
+                'description' => __(
+                    'The currency to use for the donations.',
+                    'paypal-donations'
+                ),
             )
         );
 
-        // register_setting(self::PAGE_SLUG, PayPalDonations::OPTION_DB_KEY);
+        add_settings_section(
+            'optional_section',
+            __('Optional Settings', 'paypal-donations'),
+            '',
+            self::PAGE_SLUG
+        );
+        add_settings_field(
+            'page_style',
+            __('Page Style', 'paypal-donations'),
+            array($this, 'pageStyleCallback'),
+            self::PAGE_SLUG,
+            'optional_section',
+            array(
+                'label_for' => 'page_style',
+                'description' => __(
+                    'The name of a custom payment page style that exist in your
+                     PayPal account profile.',
+                    'paypal-donations'
+                ),
+            )
+        );
+        add_settings_field(
+            'return_page',
+            __('Return Page', 'paypal-donations'),
+            array($this, 'returnPageCallback'),
+            self::PAGE_SLUG,
+            'optional_section',
+            array(
+                'label_for' => 'return_page',
+                'description' => __(
+                    'URL to which the donator comes to after completing the
+                     donation; for example, a URL on your site that displays a
+                     "Thank you for your donation".',
+                    'paypal-donations'
+                ),
+            )
+        );
+
+        add_settings_section(
+            'default_section',
+            __('Defaults', 'paypal-donations'),
+            '',
+            self::PAGE_SLUG
+        );
+        add_settings_field(
+            'amount',
+            __('Amount', 'paypal-donations'),
+            array($this, 'amountCallback'),
+            self::PAGE_SLUG,
+            'default_section',
+            array(
+                'label_for' => 'amount',
+                'description' => __(
+                    'The default amount for a donation (Optional).',
+                    'paypal-donations'
+                ),
+            )
+        );
+        add_settings_field(
+            'purpose',
+            __('Purpose', 'paypal-donations'),
+            array($this, 'purposeCallback'),
+            self::PAGE_SLUG,
+            'default_section',
+            array(
+                'label_for' => 'purpose',
+                'description' => __(
+                    'The default purpose of a donation (Optional).',
+                    'paypal-donations'
+                ),
+            )
+        );
+        add_settings_field(
+            'reference',
+            __('Reference', 'paypal-donations'),
+            array($this, 'referenceCallback'),
+            self::PAGE_SLUG,
+            'default_section',
+            array(
+                'label_for' => 'reference',
+                'description' => __(
+                    'Default reference for the donation (Optional).',
+                    'paypal-donations'
+                ),
+            )
+        );
+
+        add_settings_section(
+            'donate_button_section',
+            __('Donation Button', 'paypal-donations'),
+            '',
+            self::PAGE_SLUG
+        );
+        add_settings_field(
+            'button',
+            __('Select Button', 'paypal-donations'),
+            array($this, 'buttonCallback'),
+            self::PAGE_SLUG,
+            'donate_button_section',
+            array(
+                'label_for' => 'button',
+                'description' => ''
+            )
+        );
+        add_settings_field(
+            'button_url',
+            __('Custom Button', 'paypal-donations'),
+            array($this, 'buttonUrlCallback'),
+            self::PAGE_SLUG,
+            'donate_button_section',
+            array(
+                'label_for' => 'button_url',
+                'description' => __(
+                    'Enter a URL to a custom donation button.',
+                    'paypal-donations'
+                ),
+            )
+        );
+        add_settings_field(
+            'button_localized',
+            __('Country and Language', 'paypal-donations'),
+            array($this, 'localizeButtonCallback'),
+            self::PAGE_SLUG,
+            'donate_button_section',
+            array(
+                'label_for' => 'button_localized',
+                'description' => __(
+                    'Localize the language and the country for the button.',
+                    'paypal-donations'
+                ),
+            )
+        );
+
+        add_settings_section(
+            'extras_section',
+            __('Extras', 'paypal-donations'),
+            array($this, 'extrasCallback'),
+            self::PAGE_SLUG
+        );
+        add_settings_field(
+            'disable_stats',
+            __('Disable PayPal Statistics', 'paypal-donations'),
+            array($this, 'disableStatsCallback'),
+            self::PAGE_SLUG,
+            'extras_section',
+            array(
+                'label_for' => 'disable_stats',
+                'description' => ''
+            )
+        );
+        add_settings_field(
+            'center_button',
+            __('Theme CSS Override: Center Button', 'paypal-donations'),
+            array($this, 'centerButtonCallback'),
+            self::PAGE_SLUG,
+            'extras_section',
+            array(
+                'label_for' => 'center_button',
+                'description' => ''
+            )
+        );
+        add_settings_field(
+            'set_checkout_language',
+            __('Enable Checkout Language', 'paypal-donations'),
+            array($this, 'setCheckoutLangugageCallback'),
+            self::PAGE_SLUG,
+            'extras_section',
+            array(
+                'label_for' => 'set_checkout_language',
+                'description' => '',
+            )
+        );
+        add_settings_field(
+            'checkout_language',
+            __('Checkout Language', 'paypal-donations'),
+            array($this, 'checkoutLangugageCallback'),
+            self::PAGE_SLUG,
+            'extras_section',
+            array(
+                'label_for' => 'checkout_language',
+                'description' => '',
+            )
+        );
+
+        register_setting(
+            PayPalDonations::OPTION_DB_KEY,
+            PayPalDonations::OPTION_DB_KEY
+        );
     }
 
     // -------------------------------------------------------------------------
     // Section Callbacks
     // -------------------------------------------------------------------------
 
-    /**
-     * Description for the account setup section.
-     */
     public function accountSetupCallback()
     {
-        printf('<p>%s</p>', 'Required fields.');
+        printf('<p>%s</p>', __('Required fields.', 'paypal-donations'));
+    }
+
+    public function extrasCallback()
+    {
+        printf(
+            '<p>%s</p>',
+             __('Optional extra settings to fine tune the setup in certain
+                scenarios.',
+                'paypal-donations'
+            )
+        );
     }
 
     // -------------------------------------------------------------------------
     // Fields Callbacks
     // -------------------------------------------------------------------------
 
-    /**
-     * PayPal Account.
-     */
     public function paypalAccountCallback($args)
     {
         $optionKey = PayPalDonations::OPTION_DB_KEY;
@@ -98,113 +329,220 @@ class PayPalDonations_Admin
         echo "<p class='description'>{$args['description']}</p>";  
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    public function optionsPage()
+    public function currencyCallback($args)
     {
-        // Update Options
-        if (isset($_POST['Submit'])) {
-            $pd_options['paypal_account'] = trim( $_POST['paypal_account'] );
-            $pd_options['page_style'] = trim( $_POST['page_style'] );
-            $pd_options['return_page'] = trim( $_POST['return_page'] );
-            $pd_options['purpose'] = trim( $_POST['purpose'] );
-            $pd_options['reference'] = trim( $_POST['reference'] );
-            $pd_options['button'] = trim( $_POST['button'] );
-            $pd_options['button_url'] = trim( $_POST['button_url'] );
-            $pd_options['currency_code'] = trim( $_POST['currency_code'] );
-            $pd_options['amount'] = trim( $_POST['amount'] );
-            $pd_options['button_localized'] = trim( $_POST['button_localized'] );
-            $pd_options['disable_stats'] = isset($_POST['disable_stats']) ? true : false;
-            $pd_options['center_button'] = isset($_POST['center_button']) ? true : false;
-            $pd_options['set_checkout_language'] = isset($_POST['set_checkout_language']) ? true : false;
-            $pd_options['checkout_language'] = trim( $_POST['checkout_language'] );
-            update_option(self::OPTION_DB_KEY, $pd_options);
-            $this->adminMessage( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<select id='currency_code' name='{$optionKey}[currency_code]'>";
+        if (isset($options['currency_code'])) {
+            $current_currency = $options['currency_code'];
+        } else {
+            $current_currency = 'USD';
+        }
+        foreach ($this->currency_codes as $key => $code) {
+            echo '<option value="'.$key.'"';
+            if ($current_currency == $key) {
+                echo ' selected="selected"';
+            }
+            echo '>'.$code.'</option>';
+        }
+        echo "</select>";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function pageStyleCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='page_style' ";
+        echo "name='{$optionKey}[page_style]'' ";
+        echo "value='{$options['page_style']}' />";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function returnPageCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='return_page' ";
+        echo "name='{$optionKey}[return_page]'' ";
+        echo "value='{$options['return_page']}' />";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function amountCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='amount' ";
+        echo "name='{$optionKey}[amount]'' ";
+        echo "value='{$options['amount']}' />";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function purposeCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='purpose' ";
+        echo "name='{$optionKey}[purpose]'' ";
+        echo "value='{$options['purpose']}' />";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function referenceCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='reference' ";
+        echo "name='{$optionKey}[reference]'' ";
+        echo "value='{$options['reference']}' />";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function buttonCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+
+        $custom = true;
+        if (isset($options['button_localized'])) {
+            $button_localized = $options['button_localized'];
+        } else {
+            $button_localized = 'en_US';
+        }
+        if (isset($options['button'])) {
+            $current_button = $options['button']; 
+        } else {
+            $current_button = 'large';
         }
 
-        // Render the settings screen
-        // $settings = new PayPalDonations_Admin();
-        // $settings->setOptions(
-        //     get_option(self::OPTION_DB_KEY),
-        //     $this->currency_codes,
-        //     $this->donate_buttons,
-        //     $this->localized_buttons,
-        //     $this->checkout_languages
-        // );
-        // $settings->render();
-    }
-
-    public function adminMessage($message)
-    {
-        if ($message) {
-            ?>
-            <div class="updated"><p><strong>
-                <?php echo $message; ?>
-            </strong></p></div>
-            <?php   
+        foreach ( $this->donate_buttons as $key => $button ) {
+            echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . esc_attr($key) . "'";
+            if ( $current_button === $key ) { // checked() uses "==" rather than "==="
+                echo " checked='checked'";
+                $custom = false;
+            }
+            echo " /> <img src='" . str_replace('en_US', $button_localized, $button) . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
         }
+        echo '  <label><input type="radio" name="button" value="custom"';
+        checked( $custom, true );
+        echo '/> '.__('Custom Button', 'paypal-donations');
+
     }
 
-
-
-
-
-
-
-    public function renderpage()
+    public function buttonUrlCallback($args)
     {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<input type='text' id='button_url' ";
+        echo "name='{$optionKey}[button_url]'' ";
+        echo "value='{$options['button_url']}' />";
 
-        $data = array();
-        $data = array(
-            'pageSlug' => self::PAGE_SLUG,
-            'plugin_options' => $this->plugin_options,
-            'currency_codes' => $this->currency_codes,
-            'donate_buttons' => $this->donate_buttons,
-            'localized_buttons' => $this->localized_buttons,
-            'checkout_languages' => $this->checkout_languages,
-        );
-        echo PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'../../views/admin.php', $data);
-
-
+        echo "<p class='description'>{$args['description']}</p>";  
     }
 
-
-
-    public function setOptions(
-        $options,
-        $code,
-        $buttons,
-        $loc_buttons,
-        $checkout_lng
-    ) {
-        $this->plugin_options = $options;
-        $this->currency_codes = $code;
-        $this->donate_buttons = $buttons;
-        $this->localized_buttons = $loc_buttons;
-        $this->checkout_languages = $checkout_lng;
-    }
-
-    public function render()
+    public function localizeButtonCallback($args)
     {
-        $data = array(
-            'plugin_options' => $this->plugin_options,
-            'currency_codes' => $this->currency_codes,
-            'donate_buttons' => $this->donate_buttons,
-            'localized_buttons' => $this->localized_buttons,
-            'checkout_languages' => $this->checkout_languages,
-        );
-        echo PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'../../views/admin.php', $data);
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        echo "<select id='button_localized' name='{$optionKey}[button_localized]'>";
+        if (isset($options['button_localized'])) {
+            $button_localized = $options['button_localized'];
+        } else {
+            $button_localized = 'en_US';
+        }
+        foreach ($this->localized_buttons as $key => $code) {
+            echo '<option value="'.$key.'"';
+            if ($button_localized == $key) {
+                echo ' selected="selected"';
+            }
+            echo '>'.$code.'</option>';
+        }
+        echo "</select>";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function disableStatsCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        $checked = isset($options['disable_stats']) ? 
+            $options['disable_stats'] :
+            false;
+        echo "<input type='checkbox' id='disable_stats' ";
+        echo "name='{$optionKey}[disable_stats]' value='1' ";
+        if ($checked) {
+            echo 'checked ';
+        }
+        echo " />";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function centerButtonCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        $checked = isset($options['center_button']) ? 
+            $options['center_button'] :
+            false;
+        echo "<input type='checkbox' id='center_button' ";
+        echo "name='{$optionKey}[center_button]' value='1' ";
+        if ($checked) {
+            echo 'checked ';
+        }
+        echo "/>";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function setCheckoutLangugageCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        $checked = isset($options['set_checkout_language']) ? 
+            $options['set_checkout_language'] :
+            false;
+
+        echo "<input type='checkbox' id='set_checkout_language' ";
+        echo "name='{$optionKey}[set_checkout_language]' value='1' ";
+        if ($checked) {
+            echo 'checked ';
+        }
+        echo " />";
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function checkoutLangugageCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+
+        echo "<select id='checkout_language' name='{$optionKey}[checkout_language]'>";
+        echo "<option value=''>None</option>";
+        if (isset($options['checkout_language'])) {
+            $checkout_language = $options['checkout_language'];
+        } else {
+            $checkout_language = 'en_US';
+        }
+        foreach ($this->checkout_languages as $key => $code) {
+            echo '<option value="'.$key.'"';
+            if ($checkout_language == $key) {
+                echo ' selected="selected"';
+            }
+            echo '>'.$code.'</option>';
+        }
+        echo "</select>";
+
+        echo "<p class='description'>{$args['description']}</p>";  
     }
 
     // -------------------------------------------------------------------------
