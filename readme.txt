@@ -81,10 +81,11 @@ Contributions are appreciated and encouraged.
 == Changelog ==
 
 = Version @DEV_HEAD - @BUILD_DATE =
- *
+ * Updated administration to use WordPress Settings API.
 
 = Version 1.7 - 19 Feb 2013 =
- * Moved the development to [GitHub](https://github.com/artstorm/paypal-donations). 
+ * Moved the development to 
+   [GitHub](https://github.com/artstorm/paypal-donations). 
  * Refactored code to comply with the PSR-2 standard.
  * Bumped minimum PHP version to 5.2.4.
  * Bumped minimum required WordPress version to WordPress 2.8.
