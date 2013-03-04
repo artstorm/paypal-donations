@@ -37,15 +37,14 @@ spl_autoload_register('PayPalDonations::autoload');
  */
 class PayPalDonations
 {
-    private static $instance = false;
-
     const MIN_PHP_VERSION  = '5.2.4';
     const MIN_WP_VERSION   = '2.8';
     const OPTION_DB_KEY    = 'paypal_donations_options';
 
+    private static $instance = false;
 
     // -------------------------------------------------------------------------
-    // Define constant variables and data arrays
+    // Define constant data arrays
     // -------------------------------------------------------------------------
     private $donate_buttons = array(
         'small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
@@ -134,10 +133,17 @@ class PayPalDonations
         }
 
         add_action('init', array($this, 'textDomain'));
-
         register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
 
-        add_action('admin_menu', array(&$this,'wpAdmin'));
+        $admin = new PayPalDonations_Admin();
+        $admin->setOptions(
+            get_option(self::OPTION_DB_KEY),
+            $this->currency_codes,
+            $this->donate_buttons,
+            $this->localized_buttons,
+            $this->checkout_languages
+        );
+
         add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
         add_action('wp_head', array($this, 'addCss'), 999);
 
@@ -270,66 +276,6 @@ class PayPalDonations
             plugin_dir_path(__FILE__).'views/paypal-button.php',
             $data
         );
-    }
-
-    /**
-     * The Admin Page and all it's functions
-     */
-    public function wpAdmin()
-    {
-        if (function_exists('add_options_page'))
-            add_options_page(
-                'PayPal Donations Options',
-                'PayPal Donations',
-                'administrator',
-                basename(__FILE__),
-                array(&$this, 'optionsPage')
-            );
-    }
-
-    public function adminMessage($message)
-    {
-        if ($message) {
-            ?>
-            <div class="updated"><p><strong>
-                <?php echo $message; ?>
-            </strong></p></div>
-            <?php   
-        }
-    }
-
-    public function optionsPage()
-    {
-        // Update Options
-        if (isset($_POST['Submit'])) {
-            $pd_options['paypal_account'] = trim( $_POST['paypal_account'] );
-            $pd_options['page_style'] = trim( $_POST['page_style'] );
-            $pd_options['return_page'] = trim( $_POST['return_page'] );
-            $pd_options['purpose'] = trim( $_POST['purpose'] );
-            $pd_options['reference'] = trim( $_POST['reference'] );
-            $pd_options['button'] = trim( $_POST['button'] );
-            $pd_options['button_url'] = trim( $_POST['button_url'] );
-            $pd_options['currency_code'] = trim( $_POST['currency_code'] );
-            $pd_options['amount'] = trim( $_POST['amount'] );
-            $pd_options['button_localized'] = trim( $_POST['button_localized'] );
-            $pd_options['disable_stats'] = isset($_POST['disable_stats']) ? true : false;
-            $pd_options['center_button'] = isset($_POST['center_button']) ? true : false;
-            $pd_options['set_checkout_language'] = isset($_POST['set_checkout_language']) ? true : false;
-            $pd_options['checkout_language'] = trim( $_POST['checkout_language'] );
-            update_option(self::OPTION_DB_KEY, $pd_options);
-            $this->adminMessage( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
-        }
-
-        // Render the settings screen
-        $settings = new PayPalDonations_Admin();
-        $settings->setOptions(
-            get_option(self::OPTION_DB_KEY),
-            $this->currency_codes,
-            $this->donate_buttons,
-            $this->localized_buttons,
-            $this->checkout_languages
-        );
-        $settings->render();
     }
 
     // -------------------------------------------------------------------------
