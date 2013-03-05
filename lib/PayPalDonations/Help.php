@@ -3,6 +3,10 @@
 NOT IMPLEMENTED YET!
 WILL BE A HELP CLASS FOR v1.9
 
+https://cms.paypal.com/uk/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_html_Appx_websitestandard_htmlvariables
+UNder: HTML Variables for Displaying PayPal Checkout Pages
+
+
 
 ADVANCED
 RETURN METHOD
