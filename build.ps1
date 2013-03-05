@@ -123,11 +123,18 @@ function header
 
 function checklist
 {
-    Write-Host "Checklist"  -foregroundcolor "Red"
+    Write-Host "CHECKLIST"  -foregroundcolor "Red"
     Write-Host "Before tagging the new release"
     Write-Host "* Update .pot file." -foregroundcolor "White"
     Write-Host "* Update changelog." -foregroundcolor "White"
     Write-Host "* Run unit tests." -foregroundcolor "White"
+    Write-Host $('-' * 80)
+}
+
+function arguments
+{
+    Write-Host "ARGUMENTS"  -foregroundcolor "White"
+    Write-Host "bump     Bumps the version number of the plugin."
     Write-Host $('-' * 80)
 }
 
@@ -152,5 +159,6 @@ switch ($args[0])
 
     default {
         header
+        arguments
     }
 }
