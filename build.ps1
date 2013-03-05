@@ -81,6 +81,17 @@ function header
     Write-Host $('-' * 80)
 }
 
+function checklist
+{
+    Write-Host "Checklist"  -foregroundcolor "Red"
+    Write-Host $('-' * 80)
+    Write-Host "Before tagging the new release"
+    Write-Host "* Update .pot file." -foregroundcolor "White"
+    Write-Host "* Update changelog." -foregroundcolor "White"
+    Write-Host "* Run unit tests." -foregroundcolor "White"
+    Write-Host $('-' * 80)
+}
+
 
 # ------------------------------------------------------------------------------
 # Handle Arguments
@@ -89,7 +100,8 @@ function header
 switch ($args[0])
 {
     "bump" {
-        build_css
+        $newVersion = Read-Host 'New version number'
+        checklist
         break
     }
 
