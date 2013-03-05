@@ -1,8 +1,8 @@
 # PowerShell Build Script for PayPal Donations
 #
 # @author       Johan Steen
-# @date         18 Feb 2013
-# @version      1.0
+# @date         5 Mar 2013
+# @version      1.1
 
 
 # ------------------------------------------------------------------------------
@@ -11,14 +11,15 @@
 
 # Make the script culture independent (ie, don't give me Swedish month names!)
 $currentThread = [System.Threading.Thread]::CurrentThread
-$culture = [System.Globalization.CultureInfo]::InvariantCulture
-$currentThread.CurrentCulture = $culture
+$culture       = [System.Globalization.CultureInfo]::InvariantCulture
+$currentThread.CurrentCulture   = $culture
 $currentThread.CurrentUICulture = $culture
 
 # Generic
-$VERSION = '1.0'
-$DATE    = get-date -format "d MMM yyyy"
-$FILES   = @('paypal-donations.php', 'readme.txt')
+$VERSION     = '1.0'
+$DATE        = get-date -format "d MMM yyyy"
+$FILES       = @('paypal-donations.php', 'readme.txt')
+$PLUGIN_FILE = 'paypal-donations.php'
 
 # ------------------------------------------------------------------------------
 # Build
@@ -54,5 +55,26 @@ function build_plugin
     Write-Host "Plugin successfully built! - $DATE"
 }
 
-$VERSION = Read-Host 'New version number'
-build_plugin
+function findVersionNumber
+{
+  # The file comes in as an array (one line per key)
+  $plugin = cat $PLUGIN_FILE
+  # Convert it to string, with new lines added
+  $plugin = [string]::Join("`n", ($plugin))
+
+  # Search the plugin for the current version number
+  $regex = [regex]"(?<=Version:)[^`n]*"
+  $version =  $regex.Match($plugin).Value
+
+  # Trim away white space, and convert from string to decimal
+  $version = [decimal] $version.trim()
+
+  return $version
+}
+
+findVersionNumber
+
+# $VERSION = Read-Host 'New version number'
+# build_plugin
+
+
