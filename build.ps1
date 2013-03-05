@@ -72,9 +72,28 @@ function findVersionNumber
   return $version
 }
 
-findVersionNumber
+function header
+{
+    Write-Host $('-' * 80)
+    Write-Host 'PayPal Donations'
+    Write-Host 'Version: ' -NoNewLine
+    findVersionNumber
+    Write-Host $('-' * 80)
+}
 
-# $VERSION = Read-Host 'New version number'
-# build_plugin
 
+# ------------------------------------------------------------------------------
+# Handle Arguments
+# ------------------------------------------------------------------------------
 
+switch ($args[0])
+{
+    "bump" {
+        build_css
+        break
+    }
+
+    default {
+        header
+    }
+}
