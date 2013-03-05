@@ -287,6 +287,20 @@ class PayPalDonations_Admin
                 'description' => '',
             )
         );
+        add_settings_field(
+            'return_method',
+            __('Return Method', 'paypal-donations'),
+            array($this, 'returnMethodCallback'),
+            self::PAGE_SLUG,
+            'extras_section',
+            array(
+                'label_for' => 'return_method',
+                'description' => __(
+                    'Takes effect only if the return page is set.',
+                    'post-snippets'
+                ),
+            )
+        );
 
         register_setting(
             PayPalDonations::OPTION_DB_KEY,
@@ -536,6 +550,34 @@ class PayPalDonations_Admin
         foreach ($this->checkout_languages as $key => $code) {
             echo '<option value="'.$key.'"';
             if ($checkout_language == $key) {
+                echo ' selected="selected"';
+            }
+            echo '>'.$code.'</option>';
+        }
+        echo "</select>";
+
+        echo "<p class='description'>{$args['description']}</p>";  
+    }
+
+    public function returnMethodCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        $methods = array(
+            __('GET method (default)', 'post-snippets'),
+            __('GET method, no variables', 'post-snippets'),
+            __('POST method', 'post-snippets')
+        );
+
+        echo "<select id='return_method' name='{$optionKey}[return_method]'>";
+        if (isset($options['return_method'])) {
+            $return_method = $options['return_method'];
+        } else {
+            $return_method = '0';
+        }
+        foreach ($methods as $key => $code) {
+            echo '<option value="'.$key.'"';
+            if ($return_method == $key) {
                 echo ' selected="selected"';
             }
             echo '>'.$code.'</option>';
