@@ -12,6 +12,8 @@
             $paypal_btn .=  '<input type="hidden" name="page_style" value="' .$pd_options['page_style']. '" />';
         if ($return_page)
             $paypal_btn .=  '<input type="hidden" name="return" value="' .$return_page. '" />'; // Return Page
+        if ($return_method)
+            $paypal_btn .=  '<input type="hidden" name="rm" value="' .$return_method. '" />'; // Return Method
         if ($purpose)
             $paypal_btn .=  apply_filters('paypal_donations_purpose_html', '<input type="hidden" name="item_name" value="' .$purpose. '" />');  // Purpose
         if ($reference)
