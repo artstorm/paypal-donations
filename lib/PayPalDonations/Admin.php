@@ -424,14 +424,14 @@ class PayPalDonations_Admin
         }
 
         foreach ( $this->donate_buttons as $key => $button ) {
-            echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='button' value='" . esc_attr($key) . "'";
+            echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='{$optionKey}[button]' value='" . esc_attr($key) . "'";
             if ( $current_button === $key ) { // checked() uses "==" rather than "==="
                 echo " checked='checked'";
                 $custom = false;
             }
             echo " /> <img src='" . str_replace('en_US', $button_localized, $button) . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
         }
-        echo '  <label><input type="radio" name="button" value="custom"';
+        echo '  <label><input type="radio" name="{$optionKey}[button]" value="custom"';
         checked( $custom, true );
         echo '/> '.__('Custom Button', 'paypal-donations');
 
