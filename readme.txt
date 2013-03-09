@@ -3,7 +3,7 @@ Contributors: artstorm
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 2.8
 Tested up to: 3.5.1
-Stable tag: 1.7
+Stable tag: 1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
