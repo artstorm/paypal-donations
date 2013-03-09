@@ -270,6 +270,13 @@ class PayPalDonations_Admin
         );
 
         add_settings_section(
+            'tab_splitter',
+            '',
+            array($this, 'tabsCallback'),
+            self::PAGE_SLUG
+        );
+
+        add_settings_section(
             'extras_section',
             __('Extras', 'paypal-donations'),
             array($this, 'extrasCallback'),
@@ -347,6 +354,11 @@ class PayPalDonations_Admin
     public function accountSetupCallback()
     {
         printf('<p>%s</p>', __('Required fields.', 'paypal-donations'));
+    }
+
+    public function tabsCallback()
+    {
+        echo "</div><div id='paypal-donations-tab-content-2'>";
     }
 
     public function extrasCallback()
@@ -513,7 +525,7 @@ class PayPalDonations_Admin
         }
         echo "</select>";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function disableStatsCallback($args)

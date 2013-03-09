@@ -13,9 +13,9 @@
     <form method="post" action="options.php">
         <?php settings_fields($optionDBKey); ?>
         <div id="paypal-donations-tabs-content">
-        <div id="paypal-donations-tab-content-1">here is some content for tab 1</div>
-        <div id="paypal-donations-tab-content-2">here is some content for tab 2</div>
+            <div id="paypal-donations-tab-content-1">
+                <?php do_settings_sections($pageSlug); ?>
+            </div>
         </div>
-        <?php do_settings_sections($pageSlug); ?>
         <?php submit_button(); ?>
     </form>
