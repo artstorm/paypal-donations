@@ -35,9 +35,14 @@ For complete usage instructions see: [PayPal Donations](http://wpstorm.net/wordp
 
 See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changelog/) for what's new. Available [Translations](http://wpstorm.net/wordpress-plugins/paypal-donations/#translations).
 
-= Contribute =
+= Related Links =
 
-The plugin is available on [GitHub](https://github.com/artstorm/paypal-donations), so developers feel free to fork the repository, make any updates and then send me a pull request.
+* [Documentation](http://wpstorm.net/wordpress-plugins/paypal-donations/ 
+  "Complete usage instructions")
+* [Support Forum](http://wordpress.org/tags/paypal-donations?forum_id=10 
+  "Use this for support and feature requests")
+* [GitHub](https://github.com/artstorm/paypal-donations 
+  "Develop and contribute your code or report bugs")
 
 == Installation ==
 
