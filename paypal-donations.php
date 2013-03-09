@@ -40,6 +40,7 @@ class PayPalDonations
     const MIN_PHP_VERSION  = '5.2.4';
     const MIN_WP_VERSION   = '2.8';
     const OPTION_DB_KEY    = 'paypal_donations_options';
+    const FILE             = __FILE__;
 
     private static $instance = false;
 
