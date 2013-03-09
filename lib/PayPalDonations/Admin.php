@@ -23,6 +23,7 @@ class PayPalDonations_Admin
     {
         add_action('admin_menu', array($this, 'menu'));
         add_action('admin_init', array($this, 'init'));
+        add_action('admin_enqueue_scripts', array($this, 'scripts'));
     }
 
     /**
@@ -65,6 +66,34 @@ class PayPalDonations_Admin
         );
         echo PayPalDonations_View::render(
             plugin_dir_path(__FILE__).'../../views/admin.php', $data);
+    }
+
+    /**
+     * Load CSS and JS on the settings page.
+     */
+    public function scripts($hook)
+    {
+        if ($hook != 'settings_page_paypal-donations-options') {
+            return;
+        }
+        $plugin = get_plugin_data(PayPalDonations::FILE, false, false);
+        $version = $plugin['Version'];
+
+        wp_register_style(
+            'paypal-donations',
+            plugins_url('assets/tabs.css', PayPalDonations::FILE),
+            array(),
+            $version
+        );
+        wp_enqueue_style('paypal-donations');
+
+        wp_enqueue_script(
+            'paypal-donations',
+            plugins_url('assets/tabs.js', PayPalDonations::FILE),
+            array('jquery'),
+            $version,
+            false
+        );
     }
 
     /**
