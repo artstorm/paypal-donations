@@ -85,8 +85,13 @@ Contributions are appreciated and encouraged.
 
 == Changelog ==
 
-= Version @DEV_HEAD - @BUILD_DATE =
+= Version 1.8 - 9 Mar 2013 =
+ * Added tabbed navigation in the plugin admin settings, and moved Extras into
+   the advanced tab.
+ * Updated the admin input fields in size to follow WordPress standard layout.
+ * Implemented return method, as an advanced option.
  * Updated administration to use WordPress Settings API.
+ * Updated Swedish translation.
 
 = Version 1.7 - 19 Feb 2013 =
  * Moved the development to 
