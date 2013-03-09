@@ -4,14 +4,18 @@
     <h2>PayPal Donations</h2>
 
     <h2 class="nav-tab-wrapper">
-        <a href="#" class="nav-tab nav-tab-active">General</a>
-        <a href="#" class="nav-tab">Advanced</a>
+        <ul id="paypal-donations-tabs">
+            <li id="paypal-donations-tab_1" class="nav-tab nav-tab-active"><?php _e('General', 'paypal-donations'); ?></li>
+            <li id="paypal-donations-tab_2" class="nav-tab"><?php _e('Advanced', 'paypal-donations'); ?></li>
+        </ul>
     </h2>
 
-    <?php // settings_errors(); ?>
     <form method="post" action="options.php">
-        <?php settings_fields(PayPalDonations::OPTION_DB_KEY); ?>
-        <?php do_settings_sections(PayPalDonations_Admin::PAGE_SLUG); ?>
-
+        <?php settings_fields($optionDBKey); ?>
+        <div id="paypal-donations-tabs-content">
+        <div id="paypal-donations-tab-content-1">here is some content for tab 1</div>
+        <div id="paypal-donations-tab-content-2">here is some content for tab 2</div>
+        </div>
+        <?php do_settings_sections($pageSlug); ?>
         <?php submit_button(); ?>
     </form>

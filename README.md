@@ -13,7 +13,7 @@ set for each button. A few other customization options are available as well.
 Contribute
 ----------
 
-I'm very interested in your contributions. What else deserves to be in this
-plugin? How can it be improved? Developers, feel free to fork the repository,
-make any updates and then send me a pull request. Non-developers, submit a
-request in the issue tracker.
+I do appreciate contributions. What else deserves to be in this plugin? How can
+it be improved? Developers, feel free to fork the repository, make any updates
+and then send me a pull request. Non-developers, submit a request in the issue 
+tracker.
