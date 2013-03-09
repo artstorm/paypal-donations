@@ -20,6 +20,8 @@
             $paypal_btn .=  '<input type="hidden" name="amount" value="' . apply_filters( 'paypal_donations_amount', $amount ) . '" />';
 
         // More Settings
+        if (isset($pd_options['return_method']))
+            $paypal_btn .= '<input type="hidden" name="rm" value="' .$pd_options['return_method']. '" />';
         if (isset($pd_options['currency_code']))
             $paypal_btn .= '<input type="hidden" name="currency_code" value="' .$pd_options['currency_code']. '" />';
         if (isset($pd_options['button_localized']))

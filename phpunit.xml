@@ -2,11 +2,11 @@
 <phpunit 
 	colors="true" 
 	stopOnFailure="false" 
-	bootstrap="tests/bootstrap.php">
+	bootstrap="utest/bootstrap.php">
     backupGlobals="false"
 	<testsuites>
 		<testsuite name="complete">
-            <directory>tests</directory>
+            <directory>utest</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

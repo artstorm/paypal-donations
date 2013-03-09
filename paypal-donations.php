@@ -5,7 +5,7 @@ Plugin URI: http://wpstorm.net/wordpress-plugins/paypal-donations/
 Description: Easy and simple setup and insertion of PayPal donate buttons with a shortcode or through a sidebar Widget. Donation purpose can be set for each button. A few other customization options are available as well.
 Author: Johan Steen
 Author URI: http://johansteen.se/
-Version: 1.7
+Version: 1.8
 License: GPLv2 or later
 Text Domain: paypal-donations 
 
@@ -37,15 +37,15 @@ spl_autoload_register('PayPalDonations::autoload');
  */
 class PayPalDonations
 {
-    private static $instance = false;
-
     const MIN_PHP_VERSION  = '5.2.4';
     const MIN_WP_VERSION   = '2.8';
     const OPTION_DB_KEY    = 'paypal_donations_options';
+    const FILE             = __FILE__;
 
+    private static $instance = false;
 
     // -------------------------------------------------------------------------
-    // Define constant variables and data arrays
+    // Define constant data arrays
     // -------------------------------------------------------------------------
     private $donate_buttons = array(
         'small' => 'https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif',
@@ -123,7 +123,7 @@ class PayPalDonations
     }
 
     /**
-     * Constructor
+     * Constructor.
      * Initializes the plugin by setting localization, filters, and
      * administration functions.
      */
@@ -133,12 +133,18 @@ class PayPalDonations
             return;
         }
 
-        // Load plugin text domain
-        add_action('init', array($this, 'pluginTextdomain'));
-
+        add_action('init', array($this, 'textDomain'));
         register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
 
-        add_action('admin_menu', array(&$this,'wpAdmin'));
+        $admin = new PayPalDonations_Admin();
+        $admin->setOptions(
+            get_option(self::OPTION_DB_KEY),
+            $this->currency_codes,
+            $this->donate_buttons,
+            $this->localized_buttons,
+            $this->checkout_languages
+        );
+
         add_shortcode('paypal-donation', array(&$this,'paypalShortcode'));
         add_action('wp_head', array($this, 'addCss'), 999);
 
@@ -149,7 +155,8 @@ class PayPalDonations
     /**
      * PSR-0 compliant autoloader to load classes as needed.
      *
-     * @since 1.7
+     * @since  1.7
+     *
      * @param  string  $classname  The name of the class
      * @return null    Return early if the class name does not start with the
      *                 correct prefix
@@ -177,7 +184,7 @@ class PayPalDonations
     /**
      * Loads the plugin text domain for translation
      */
-    public function pluginTextdomain()
+    public function textDomain()
     {
         $domain = 'paypal-donations';
         $locale = apply_filters('plugin_locale', get_locale(), $domain);
@@ -272,76 +279,12 @@ class PayPalDonations
         );
     }
 
-    /**
-     * The Admin Page and all it's functions
-     */
-    public function wpAdmin()
-    {
-        if (function_exists('add_options_page'))
-            add_options_page(
-                'PayPal Donations Options',
-                'PayPal Donations',
-                'administrator',
-                basename(__FILE__),
-                array(&$this, 'optionsPage')
-            );
-    }
-
-    public function adminMessage($message)
-    {
-        if ($message) {
-            ?>
-            <div class="updated"><p><strong>
-                <?php echo $message; ?>
-            </strong></p></div>
-            <?php   
-        }
-    }
-
-    public function optionsPage()
-    {
-        // Update Options
-        if (isset($_POST['Submit'])) {
-            $pd_options['paypal_account'] = trim( $_POST['paypal_account'] );
-            $pd_options['page_style'] = trim( $_POST['page_style'] );
-            $pd_options['return_page'] = trim( $_POST['return_page'] );
-            $pd_options['purpose'] = trim( $_POST['purpose'] );
-            $pd_options['reference'] = trim( $_POST['reference'] );
-            $pd_options['button'] = trim( $_POST['button'] );
-            $pd_options['button_url'] = trim( $_POST['button_url'] );
-            $pd_options['currency_code'] = trim( $_POST['currency_code'] );
-            $pd_options['amount'] = trim( $_POST['amount'] );
-            $pd_options['button_localized'] = trim( $_POST['button_localized'] );
-            $pd_options['disable_stats'] = isset($_POST['disable_stats']) ? true : false;
-            $pd_options['center_button'] = isset($_POST['center_button']) ? true : false;
-            $pd_options['set_checkout_language'] = isset($_POST['set_checkout_language']) ? true : false;
-            $pd_options['checkout_language'] = trim( $_POST['checkout_language'] );
-            update_option(self::OPTION_DB_KEY, $pd_options);
-            $this->adminMessage( __( 'The PayPal Donations settings have been updated.', 'paypal-donations' ) );
-        }
-
-        // Render the settings screen
-        $settings = new PayPalDonations_Admin();
-        $settings->setOptions(
-            get_option(self::OPTION_DB_KEY),
-            $this->currency_codes,
-            $this->donate_buttons,
-            $this->localized_buttons,
-            $this->checkout_languages
-        );
-        $settings->render();
-    }
-
     // -------------------------------------------------------------------------
     // Environment Checks
     // -------------------------------------------------------------------------
 
     /**
-     * Constructor.
-     *
-     * Checks PHP and WordPress versions. If any check failes, a system notice
-     * is added and $passed is set to fail, which can be checked before trying
-     * to create the main class.
+     * Checks PHP and WordPress versions.
      */
     private function testHost()
     {
