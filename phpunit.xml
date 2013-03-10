@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit 
-	colors="true" 
-	stopOnFailure="false" 
-	bootstrap="utest/bootstrap.php">
+    colors="true" 
+    stopOnFailure="false" 
+    bootstrap="utest/bootstrap.php">
     backupGlobals="false"
-	<testsuites>
-		<testsuite name="complete">
+    <testsuites>
+        <testsuite name="complete">
             <directory>utest</directory>
-		</testsuite>
-	</testsuites>
+        </testsuite>
+    </testsuites>
 </phpunit>
