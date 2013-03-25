@@ -100,9 +100,6 @@ class PayPalDonations_Widget extends WP_Widget
             'reference_id' => $this->get_field_id('reference'),
             'reference_name' => $this->get_field_name('reference'),
         );
-        echo PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'../../views/widget-form.php',
-            $data
-        );
+        echo PayPalDonations_View::render('widget-form', $data);
     }
 }

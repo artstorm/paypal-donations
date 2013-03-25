@@ -64,8 +64,7 @@ class PayPalDonations_Admin
             'pageSlug'    => PayPalDonations_Admin::PAGE_SLUG,
             'optionDBKey' => PayPalDonations::OPTION_DB_KEY,
         );
-        echo PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'../../views/admin.php', $data);
+        echo PayPalDonations_View::render('admin', $data);
     }
 
     /**

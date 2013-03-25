@@ -273,10 +273,7 @@ class PayPalDonations
             'donate_buttons' => $this->donate_buttons,
         );
 
-        return PayPalDonations_View::render(
-            plugin_dir_path(__FILE__).'views/paypal-button.php',
-            $data
-        );
+        return PayPalDonations_View::render('paypal-button', $data);
     }
 
     // -------------------------------------------------------------------------
