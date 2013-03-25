@@ -164,7 +164,7 @@ class PayPalDonations
      */
     public static function autoload($className)
     {
-        if ('PayPalDonations' !== mb_substr($className, 0, 15)) {
+        if (__CLASS__ !== mb_substr($className, 0, strlen(__CLASS__))) {
             return;
         }
         $className = ltrim($className, '\\');
