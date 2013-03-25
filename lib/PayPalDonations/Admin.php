@@ -102,13 +102,13 @@ class PayPalDonations_Admin
     {
         add_settings_section(
             'account_setup_section',
-            __('Account Setup', 'paypal-donations'),
+            __('Account Setup', PayPalDonations::TEXT_DOMAIN),
             array($this, 'accountSetupCallback'),
             self::PAGE_SLUG
         );
         add_settings_field(
             'paypal_account',
-            __('PayPal Account', 'paypal-donations'),
+            __('PayPal Account', PayPalDonations::TEXT_DOMAIN),
             array($this, 'paypalAccountCallback'),
             self::PAGE_SLUG,
             'account_setup_section',
@@ -116,13 +116,13 @@ class PayPalDonations_Admin
                 'label_for' => 'paypal_account',
                 'description' => __(
                     'Your PayPal Email or Secure Merchant Account ID.',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
         add_settings_field(
             'currency_code',
-            __('Currency', 'paypal-donations'),
+            __('Currency', PayPalDonations::TEXT_DOMAIN),
             array($this, 'currencyCallback'),
             self::PAGE_SLUG,
             'account_setup_section',
@@ -130,20 +130,20 @@ class PayPalDonations_Admin
                 'label_for' => 'currency_code',
                 'description' => __(
                     'The currency to use for the donations.',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
 
         add_settings_section(
             'optional_section',
-            __('Optional Settings', 'paypal-donations'),
+            __('Optional Settings', PayPalDonations::TEXT_DOMAIN),
             '',
             self::PAGE_SLUG
         );
         add_settings_field(
             'page_style',
-            __('Page Style', 'paypal-donations'),
+            __('Page Style', PayPalDonations::TEXT_DOMAIN),
             array($this, 'pageStyleCallback'),
             self::PAGE_SLUG,
             'optional_section',
@@ -152,13 +152,13 @@ class PayPalDonations_Admin
                 'description' => __(
                     'The name of a custom payment page style that exist in your
                      PayPal account profile.',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
         add_settings_field(
             'return_page',
-            __('Return Page', 'paypal-donations'),
+            __('Return Page', PayPalDonations::TEXT_DOMAIN),
             array($this, 'returnPageCallback'),
             self::PAGE_SLUG,
             'optional_section',
@@ -168,20 +168,20 @@ class PayPalDonations_Admin
                     'URL to which the donator comes to after completing the
                      donation; for example, a URL on your site that displays a
                      "Thank you for your donation".',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
 
         add_settings_section(
             'default_section',
-            __('Defaults', 'paypal-donations'),
+            __('Defaults', PayPalDonations::TEXT_DOMAIN),
             '',
             self::PAGE_SLUG
         );
         add_settings_field(
             'amount',
-            __('Amount', 'paypal-donations'),
+            __('Amount', PayPalDonations::TEXT_DOMAIN),
             array($this, 'amountCallback'),
             self::PAGE_SLUG,
             'default_section',
@@ -189,13 +189,13 @@ class PayPalDonations_Admin
                 'label_for' => 'amount',
                 'description' => __(
                     'The default amount for a donation (Optional).',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
         add_settings_field(
             'purpose',
-            __('Purpose', 'paypal-donations'),
+            __('Purpose', PayPalDonations::TEXT_DOMAIN),
             array($this, 'purposeCallback'),
             self::PAGE_SLUG,
             'default_section',
@@ -203,13 +203,13 @@ class PayPalDonations_Admin
                 'label_for' => 'purpose',
                 'description' => __(
                     'The default purpose of a donation (Optional).',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
         add_settings_field(
             'reference',
-            __('Reference', 'paypal-donations'),
+            __('Reference', PayPalDonations::TEXT_DOMAIN),
             array($this, 'referenceCallback'),
             self::PAGE_SLUG,
             'default_section',
@@ -217,20 +217,20 @@ class PayPalDonations_Admin
                 'label_for' => 'reference',
                 'description' => __(
                     'Default reference for the donation (Optional).',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
 
         add_settings_section(
             'donate_button_section',
-            __('Donation Button', 'paypal-donations'),
+            __('Donation Button', PayPalDonations::TEXT_DOMAIN),
             '',
             self::PAGE_SLUG
         );
         add_settings_field(
             'button',
-            __('Select Button', 'paypal-donations'),
+            __('Select Button', PayPalDonations::TEXT_DOMAIN),
             array($this, 'buttonCallback'),
             self::PAGE_SLUG,
             'donate_button_section',
@@ -241,7 +241,7 @@ class PayPalDonations_Admin
         );
         add_settings_field(
             'button_url',
-            __('Custom Button', 'paypal-donations'),
+            __('Custom Button', PayPalDonations::TEXT_DOMAIN),
             array($this, 'buttonUrlCallback'),
             self::PAGE_SLUG,
             'donate_button_section',
@@ -249,13 +249,13 @@ class PayPalDonations_Admin
                 'label_for' => 'button_url',
                 'description' => __(
                     'Enter a URL to a custom donation button.',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
         add_settings_field(
             'button_localized',
-            __('Country and Language', 'paypal-donations'),
+            __('Country and Language', PayPalDonations::TEXT_DOMAIN),
             array($this, 'localizeButtonCallback'),
             self::PAGE_SLUG,
             'donate_button_section',
@@ -263,7 +263,7 @@ class PayPalDonations_Admin
                 'label_for' => 'button_localized',
                 'description' => __(
                     'Localize the language and the country for the button.',
-                    'paypal-donations'
+                    PayPalDonations::TEXT_DOMAIN
                 ),
             )
         );
@@ -277,13 +277,13 @@ class PayPalDonations_Admin
 
         add_settings_section(
             'extras_section',
-            __('Extras', 'paypal-donations'),
+            __('Extras', PayPalDonations::TEXT_DOMAIN),
             array($this, 'extrasCallback'),
             self::PAGE_SLUG
         );
         add_settings_field(
             'disable_stats',
-            __('Disable PayPal Statistics', 'paypal-donations'),
+            __('Disable PayPal Statistics', PayPalDonations::TEXT_DOMAIN),
             array($this, 'disableStatsCallback'),
             self::PAGE_SLUG,
             'extras_section',
@@ -294,7 +294,10 @@ class PayPalDonations_Admin
         );
         add_settings_field(
             'center_button',
-            __('Theme CSS Override: Center Button', 'paypal-donations'),
+            __(
+                'Theme CSS Override: Center Button',
+                PayPalDonations::TEXT_DOMAIN
+            ),
             array($this, 'centerButtonCallback'),
             self::PAGE_SLUG,
             'extras_section',
@@ -305,7 +308,7 @@ class PayPalDonations_Admin
         );
         add_settings_field(
             'set_checkout_language',
-            __('Enable Checkout Language', 'paypal-donations'),
+            __('Enable Checkout Language', PayPalDonations::TEXT_DOMAIN),
             array($this, 'setCheckoutLangugageCallback'),
             self::PAGE_SLUG,
             'extras_section',
@@ -316,7 +319,7 @@ class PayPalDonations_Admin
         );
         add_settings_field(
             'checkout_language',
-            __('Checkout Language', 'paypal-donations'),
+            __('Checkout Language', PayPalDonations::TEXT_DOMAIN),
             array($this, 'checkoutLangugageCallback'),
             self::PAGE_SLUG,
             'extras_section',
@@ -327,7 +330,7 @@ class PayPalDonations_Admin
         );
         add_settings_field(
             'return_method',
-            __('Return Method', 'paypal-donations'),
+            __('Return Method', PayPalDonations::TEXT_DOMAIN),
             array($this, 'returnMethodCallback'),
             self::PAGE_SLUG,
             'extras_section',
@@ -352,7 +355,10 @@ class PayPalDonations_Admin
 
     public function accountSetupCallback()
     {
-        printf('<p>%s</p>', __('Required fields.', 'paypal-donations'));
+        printf(
+            '<p>%s</p>',
+            __('Required fields.', PayPalDonations::TEXT_DOMAIN)
+        );
     }
 
     public function tabsCallback()
@@ -366,7 +372,7 @@ class PayPalDonations_Admin
             '<p>%s</p>',
              __('Optional extra settings to fine tune the setup in certain
                 scenarios.',
-                'paypal-donations'
+                PayPalDonations::TEXT_DOMAIN
             )
         );
     }
@@ -490,7 +496,7 @@ class PayPalDonations_Admin
         }
         echo '  <label><input type="radio" name="{$optionKey}[button]" value="custom"';
         checked( $custom, true );
-        echo '/> '.__('Custom Button', 'paypal-donations');
+        echo '/> '.__('Custom Button', PayPalDonations::TEXT_DOMAIN);
 
     }
 

@@ -40,6 +40,7 @@ class PayPalDonations
     const MIN_PHP_VERSION  = '5.2.4';
     const MIN_WP_VERSION   = '2.8';
     const OPTION_DB_KEY    = 'paypal_donations_options';
+    const TEXT_DOMAIN      = 'paypal-donations';
     const FILE             = __FILE__;
 
     private static $instance = false;
@@ -186,7 +187,7 @@ class PayPalDonations
      */
     public function textDomain()
     {
-        $domain = 'paypal-donations';
+        $domain = PayPalDonations::TEXT_DOMAIN;
         $locale = apply_filters('plugin_locale', get_locale(), $domain);
         load_textdomain(
             $domain,

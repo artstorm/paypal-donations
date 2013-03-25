@@ -14,7 +14,10 @@ class PayPalDonations_Widget extends WP_Widget
     {
         $widget_ops = array(
             'classname' => 'widget_paypal_donations',
-            'description' => __('PayPal Donation Button', 'paypal-donations')
+            'description' => __(
+                'PayPal Donation Button',
+                PayPalDonations::TEXT_DOMAIN
+            )
         );
         parent::__construct('paypal_donations', 'PayPal Donations', $widget_ops);
     }
@@ -83,8 +86,9 @@ class PayPalDonations_Widget extends WP_Widget
     {
         // Default Widget Settings
         $defaults = array(
-            'title' => __('Donate', 'paypal-donations'), 
-            'text' => '', 'purpose' => '', 
+            'title'     => __('Donate', PayPalDonations::TEXT_DOMAIN), 
+            'text'      => '', 
+            'purpose'   => '', 
             'reference' => ''
         );
         $instance = wp_parse_args( (array) $instance, $defaults );
