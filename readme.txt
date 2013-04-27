@@ -82,6 +82,11 @@ Contributions are appreciated and encouraged.
 
 == Changelog ==
 
+= Version 1.8.1 - 27 Apr 2013 =
+ * Various minor code improvements.
+ * Bumps required WordPress version to v3.0.
+ * Updated Romanian Translation by Denis Ciumbargi.
+
 = Version 1.8 - 9 Mar 2013 =
  * Added tabbed navigation in the plugin admin settings, and moved Extras into
    the advanced tab.
