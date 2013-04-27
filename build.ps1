@@ -127,7 +127,7 @@ function svn
     Write-Host "Version to build: $version"
     # Checkout SVN repo
     Write-Host "Checking out tags folder..."
-    svn.exe co --depth empty $SVN_TAG_REPO build/tags
+    svn.exe co --depth empty $SVN_REPO"tags/" build/tags
 
     # Create new tag
     Write-Host "Building new tag..."
@@ -140,7 +140,6 @@ function svn
     cp assets/  -Destination build/tags/$version/assets/  -Recurse
     cp lang/    -Destination build/tags/$version/lang/    -Recurse
     cp lib/     -Destination build/tags/$version/lib/     -Recurse
-    cp tinymce/ -Destination build/tags/$version/tinymce/ -Recurse
     cp views/   -Destination build/tags/$version/views/   -Recurse
 
     # # Add and commit
