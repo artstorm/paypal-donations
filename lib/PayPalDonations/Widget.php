@@ -37,7 +37,7 @@ class PayPalDonations_Widget extends WP_Widget
         $paypal_donations = PayPalDonations::getInstance();
 
         // Get the settings
-        $title = apply_filters('widget_title', $instance['title'] );
+        $title = apply_filters('widget_title', $instance['title']);
         $text = $instance['text'];
         $purpose = $instance['purpose'];
         $reference = $instance['reference'];
@@ -47,9 +47,9 @@ class PayPalDonations_Widget extends WP_Widget
             echo $before_title . $title . $after_title;
         }
         if ($text) {
-            echo wpautop( $text );
+            echo wpautop($text);
         }
-        echo $paypal_donations->generateHtml( $purpose, $reference );
+        echo $paypal_donations->generateHtml($purpose, $reference);
         echo $after_widget;
     }
     
@@ -86,12 +86,12 @@ class PayPalDonations_Widget extends WP_Widget
     {
         // Default Widget Settings
         $defaults = array(
-            'title'     => __('Donate', PayPalDonations::TEXT_DOMAIN), 
-            'text'      => '', 
-            'purpose'   => '', 
+            'title'     => __('Donate', PayPalDonations::TEXT_DOMAIN),
+            'text'      => '',
+            'purpose'   => '',
             'reference' => ''
         );
-        $instance = wp_parse_args( (array) $instance, $defaults );
+        $instance = wp_parse_args((array) $instance, $defaults);
 
         $data = array(
             'instance' => $instance,
