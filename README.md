@@ -10,10 +10,11 @@ set for each button. A few other customization options are available as well.
 * Issues:               https://github.com/artstorm/paypal-donations/issues
 
 
-Contribute
-----------
+## Contributing to this project
 
-I do appreciate contributions. What else deserves to be in this plugin? How can
-it be improved? Developers, feel free to fork the repository, make any updates
-and then send me a pull request. Non-developers, submit a request in the issue 
-tracker.
+Anyone and everyone is welcome to contribute. Please take a moment to
+review the [guidelines for contributing](CONTRIBUTING.md).
+
+* [Bug reports](CONTRIBUTING.md#bugs)
+* [Feature requests](CONTRIBUTING.md#features)
+* [Pull requests](CONTRIBUTING.md#pull-requests)
