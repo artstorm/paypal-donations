@@ -370,8 +370,8 @@ class PayPalDonations_Admin
     {
         printf(
             '<p>%s</p>',
-             __('Optional extra settings to fine tune the setup in certain
-                scenarios.',
+            __(
+                'Optional extra settings to fine tune the setup in certain scenarios.',
                 PayPalDonations::TEXT_DOMAIN
             )
         );
@@ -389,7 +389,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[paypal_account]'' ";
         echo "value='{$options['paypal_account']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function currencyCallback($args)
@@ -411,7 +411,7 @@ class PayPalDonations_Admin
         }
         echo "</select>";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function pageStyleCallback($args)
@@ -422,7 +422,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[page_style]'' ";
         echo "value='{$options['page_style']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function returnPageCallback($args)
@@ -433,7 +433,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[return_page]'' ";
         echo "value='{$options['return_page']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function amountCallback($args)
@@ -444,7 +444,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[amount]'' ";
         echo "value='{$options['amount']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function purposeCallback($args)
@@ -455,7 +455,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[purpose]'' ";
         echo "value='{$options['purpose']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function referenceCallback($args)
@@ -466,7 +466,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[reference]'' ";
         echo "value='{$options['reference']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function buttonCallback($args)
@@ -481,21 +481,21 @@ class PayPalDonations_Admin
             $button_localized = 'en_US';
         }
         if (isset($options['button'])) {
-            $current_button = $options['button']; 
+            $current_button = $options['button'];
         } else {
             $current_button = 'large';
         }
 
-        foreach ( $this->donate_buttons as $key => $button ) {
+        foreach ($this->donate_buttons as $key => $button) {
             echo "\t<label title='" . esc_attr($key) . "'><input style='padding: 10px 0 10px 0;' type='radio' name='{$optionKey}[button]' value='" . esc_attr($key) . "'";
-            if ( $current_button === $key ) { // checked() uses "==" rather than "==="
+            if ($current_button === $key) { // checked() uses "==" rather than "==="
                 echo " checked='checked'";
                 $custom = false;
             }
             echo " /> <img src='" . str_replace('en_US', $button_localized, $button) . "' alt='" . $key  . "' style='vertical-align: middle;' /></label><br /><br />\n";
         }
         echo '  <label><input type="radio" name="{$optionKey}[button]" value="custom"';
-        checked( $custom, true );
+        checked($custom, true);
         echo '/> '.__('Custom Button', PayPalDonations::TEXT_DOMAIN);
 
     }
@@ -508,7 +508,7 @@ class PayPalDonations_Admin
         echo "name='{$optionKey}[button_url]'' ";
         echo "value='{$options['button_url']}' />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function localizeButtonCallback($args)
@@ -537,7 +537,7 @@ class PayPalDonations_Admin
     {
         $optionKey = PayPalDonations::OPTION_DB_KEY;
         $options = get_option($optionKey);
-        $checked = isset($options['disable_stats']) ? 
+        $checked = isset($options['disable_stats']) ?
             $options['disable_stats'] :
             false;
         echo "<input type='checkbox' id='disable_stats' ";
@@ -547,14 +547,14 @@ class PayPalDonations_Admin
         }
         echo " />";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function centerButtonCallback($args)
     {
         $optionKey = PayPalDonations::OPTION_DB_KEY;
         $options = get_option($optionKey);
-        $checked = isset($options['center_button']) ? 
+        $checked = isset($options['center_button']) ?
             $options['center_button'] :
             false;
         echo "<input type='checkbox' id='center_button' ";
@@ -564,14 +564,14 @@ class PayPalDonations_Admin
         }
         echo "/>";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function setCheckoutLangugageCallback($args)
     {
         $optionKey = PayPalDonations::OPTION_DB_KEY;
         $options = get_option($optionKey);
-        $checked = isset($options['set_checkout_language']) ? 
+        $checked = isset($options['set_checkout_language']) ?
             $options['set_checkout_language'] :
             false;
 
@@ -581,7 +581,7 @@ class PayPalDonations_Admin
             echo 'checked ';
         }
         echo " />";
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function checkoutLangugageCallback($args)
@@ -605,7 +605,7 @@ class PayPalDonations_Admin
         }
         echo "</select>";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function returnMethodCallback($args)
@@ -633,7 +633,7 @@ class PayPalDonations_Admin
         }
         echo "</select>";
 
-        echo "<p class='description'>{$args['description']}</p>";  
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     // -------------------------------------------------------------------------
@@ -650,7 +650,7 @@ class PayPalDonations_Admin
      */
     public static function checkbox($label, $name, $checked)
     {
-        printf( '<input type="checkbox" name="%s" value="true"', $name );
+        printf('<input type="checkbox" name="%s" value="true"', $name);
         if ($checked) {
             echo ' checked';
         }
