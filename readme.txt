@@ -4,7 +4,7 @@ Donate link: http://johansteen.se/donate/
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.8
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,11 @@ Contributions are appreciated and encouraged.
 
 
 == Changelog ==
+
+= Version 1.8.1 - 27 Apr 2013 =
+ * Various minor code improvements.
+ * Bumps required WordPress version to v3.0.
+ * Updated Romanian Translation by Denis Ciumbargi.
 
 = Version 1.8 - 9 Mar 2013 =
  * Added tabbed navigation in the plugin admin settings, and moved Extras into

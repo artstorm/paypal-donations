@@ -54,7 +54,7 @@ function bump($newVersion)
 
     bumpMessage "pot file: Updating..."
     xgettext -o  $POT_FILE -L php --keyword=_e --keyword=__  `
-    *.php views/*.php lib/PostSnippets/*.php
+    *.php views/*.php lib/PayPalDonations/*.php
 
     git add .
     git commit -m "Updates pot file."
