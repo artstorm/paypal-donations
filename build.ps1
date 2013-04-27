@@ -152,7 +152,7 @@ function svn
 
     # Tag it
     Write-Host "Tagging the new version"
-    svn.exe cp -m "Tagged version $version" $SVN_REPO"trunk/" $SVN_REPO"tags/$version"
+    svn.exe cp -m "Tagged version $version" $SVN_REPO"trunk/" $SVN_REPO"tags/"$version"/"
 
     if (!$LastExitCode -eq 0) {
         Write-Host "Error! Could not create the new tag. Exiting." -foregroundcolor "Red"
