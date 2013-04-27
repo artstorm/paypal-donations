@@ -189,7 +189,7 @@ class PayPalDonations
      */
     public function textDomain()
     {
-        $domain = PayPalDonations::TEXT_DOMAIN;
+        $domain = self::TEXT_DOMAIN;
         $locale = apply_filters('plugin_locale', get_locale(), $domain);
         load_textdomain(
             $domain,
