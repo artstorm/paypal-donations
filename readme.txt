@@ -38,9 +38,9 @@ See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changel
 
 = Related Links =
 
-* [Documentation](http://wpstorm.net/wordpress-plugins/paypal-donations/ 
-  "Complete usage instructions")
-* [Support Forum](http://wordpress.org/tags/paypal-donations?forum_id=10 
+* [Documentation](http://johansteen.se/code/paypal-donations/ 
+  "Usage instructions")
+* [Support Forum](http://wordpress.org/support/plugin/paypal-donations 
   "Use this for support and feature requests")
 * [GitHub](https://github.com/artstorm/paypal-donations 
   "Develop and contribute your code or report bugs")
@@ -61,22 +61,20 @@ See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changel
 
 == Frequently Asked Questions ==
 
+= Where can I get support? =
+
+Please visit the [Support Forum](http://wordpress.org/support/plugin/paypal-donations "Use this for support and feature requests") 
+for questions, answers, support and feature requests.
+
 = Where can I send bug reports? =
 
 Please visit the GitHub repository for [PayPal Donations](https://github.com/artstorm/paypal-donations)
 and open an [issue](https://github.com/artstorm/paypal-donations/issues).
-Please create an issue that conforms with [necolas's guidelines](https://github.com/necolas/issue-guidelines).
-
-= Where can I get support? =
-
-Please visit the [Support Forum](http://wordpress.org/tags/paypal-donations?forum_id=10 "Use this for support and feature requests") 
-for questions, answers, support and feature requests.
 
 = How can I contribute to the plugin? =
 
 If you want to contribute improved code or new features for the plugin. Please
 open a pull request at the [PayPal Donations GitHub repository](https://github.com/artstorm/paypal-donations).
-Please open a pull request that conforms with [necolas's guidelines](https://github.com/necolas/issue-guidelines).
 Contributions are appreciated and encouraged.
 
 == Screenshots ==
