@@ -1,60 +1,31 @@
-# PowerShell Build Script for PayPal Donations
+# Build Script for WordPress Plugins
 #
-# @author       Johan Steen
-# @date         5 Mar 2013
-# @version      1.1
-
+# @author       Johan Steen <artstorm at gmail dot com>
+# @uri          http://johansteen.se/
+# @date         4 Apr 2013
 
 # ------------------------------------------------------------------------------
 # Variables and Setup
 # ------------------------------------------------------------------------------
 
 # Make the script culture independent (ie, don't give me Swedish month names!)
-$currentThread = [System.Threading.Thread]::CurrentThread
-$culture       = [System.Globalization.CultureInfo]::InvariantCulture
-$currentThread.CurrentCulture   = $culture
-$currentThread.CurrentUICulture = $culture
+$ct                  = [System.Threading.Thread]::CurrentThread
+$ic                  = [System.Globalization.CultureInfo]::InvariantCulture
+$ct.CurrentCulture   = $ic
+$ct.CurrentUICulture = $ic
 
 # Generic
-$VERSION     = '1.0'
-$DATE        = get-date -format "d MMM yyyy"
-$FILES       = @('paypal-donations.php', 'readme.txt')
-$PLUGIN_FILE = 'paypal-donations.php'
+$PLUGIN_NAME  = 'PayPal Donations'
+$DATE         = get-date -format "d MMM yyyy"
+$FILES        = @('paypal-donations.php', 'readme.txt')
+$PLUGIN_FILE  = 'paypal-donations.php'
+$POT_FILE     = 'lang/paypal-donations.pot'
+$SVN_REPO     = 'http://plugins.svn.wordpress.org/paypal-donations/'
 
 # ------------------------------------------------------------------------------
-# Build
-# Replaces Version and Date in the plugin. 
+# Bump
+# Prepares strings for a new release. 
 # ------------------------------------------------------------------------------
-function build_plugin
-{
-    Write-Host '--------------------------------------------'
-    Write-Host 'Building plugin...'
-    # cd $LESS_FOLDER
-
-    # Replace Date and Version
-    foreach ($file in $FILES)
-    {
-        cat $file `
-            | %{$_ -replace "@BUILD_DATE", $DATE} `
-            | %{$_ -replace "@DEV_HEAD", $VERSION} `
-            | Set-Content $file'.tmp' 
-
-        # Set UNIX line endings and UTF-8 encoding.
-        Get-ChildItem $file'.tmp' | ForEach-Object {
-          # get the contents and replace line breaks by U+000A
-          $contents = [IO.File]::ReadAllText($_) -replace "`r`n?", "`n"
-          # create UTF-8 encoding without signature
-          $utf8 = New-Object System.Text.UTF8Encoding $false
-          # write the text back
-          [IO.File]::WriteAllText($_, $contents, $utf8)
-        }
-
-        cp $file'.tmp' $file
-        Remove-Item $file'.tmp'
-    }
-    Write-Host "Plugin successfully built! - $DATE"
-}
-
 function bump($newVersion)
 {
     $oldVersion = findVersionNumber
@@ -65,22 +36,54 @@ function bump($newVersion)
     # Let's have some dots printed out. Makes it old skool
     for ($ctr = 0; $ctr -lt 3; $ctr++) {
         Write-Host "." -noNewLine
-        sleep(1)
+        sleep -Milliseconds 500
     }
+    Write-Host "."
 
+    findReplaceFile $PLUGIN_FILE "Version: $oldVersion" "Version: $newVersion"
+    bumpMessage $PLUGIN_FILE": bumped Version $oldVersion to $newVersion"
+    findReplaceFile 'readme.txt' "Stable tag: $oldVersion" "Stable tag: $newVersion"
+    bumpMessage "readme.txt: bumped Stable Tag $oldVersion to $newVersion"
+    # For now, I keep the master branch readme pointing to develop...
+    # So I don't forget to change it back after a release. Revise if I come up
+    # with a better method to handle this during a release.
+    # findReplaceFile 'README.md' "\?branch=develop" "?branch=master"
+    # bumpMessage "README.md: Changed Travis CI badge from develop to master branch"
+    git add .
+    git commit -m "Bumps version number."
 
-    cat $PLUGIN_FILE `
-        | %{$_ -replace "Version: $oldVersion", "Version: $newVersion"} `
-        | Set-Content "$($PLUGIN_FILE).tmp"
+    bumpMessage "pot file: Updating..."
+    xgettext -o  $POT_FILE -L php --keyword=_e --keyword=__  `
+    *.php views/*.php lib/PayPalDonations/*.php
 
-    correctEncoding("$($PLUGIN_FILE).tmp")
-
-    # Copy and clean up
-    cp "$($PLUGIN_FILE).tmp" $PLUGIN_FILE
-    Remove-Item "$($PLUGIN_FILE).tmp"
+    git add .
+    git commit -m "Updates pot file."
 
     Write-Host "Done!"
     Write-Host $('-' * 80)
+
+    Write-Host "Changes since v$oldVersion"
+    git log $oldVersion`..HEAD --oneline
+    Write-Host $('-' * 80)
+}
+
+function findReplaceFile($file, $old, $new)
+{
+    cat $file `
+        | %{$_ -replace $old, $new} `
+        | Set-Content "$($file).tmp"
+
+    correctEncoding("$($file).tmp")
+
+    # Copy and clean up
+    cp "$($file).tmp" $file
+    Remove-Item "$($file).tmp"
+}
+
+function bumpMessage($message)
+{
+    Write-Host "- $message" -foregroundcolor "DarkGray"
+    sleep -Milliseconds 250
 }
 
 function correctEncoding($file)
@@ -107,16 +110,99 @@ function findVersionNumber
     $regex = [regex]"(?<=Version:)[^`n]*"
     $version =  $regex.Match($plugin).Value
 
-    # Trim away white space, and convert from string to decimal
-    $version = [decimal] $version.trim()
+    # Trim away white space
+    $version = $version.trim()
 
     return $version
 }
 
+# ------------------------------------------------------------------------------
+# SVN
+# Push a new release to the WordPress Repository
+# ------------------------------------------------------------------------------
+function svn
+{
+    $version = findVersionNumber
+
+    Write-Host "Version to build: $version"
+    # Checkout SVN repo
+    Write-Host "Checking out tags folder..."
+    svn.exe co --depth empty $SVN_REPO"tags/" build/tags
+
+    # Create new tag
+    Write-Host "Building new tag..."
+    mkdir build/tags/$version
+
+    # Copy files
+    cp $PLUGIN_FILE build/tags/$version/
+    cp readme.txt build/tags/$version/
+
+    cp assets/  -Destination build/tags/$version/assets/  -Recurse
+    cp lang/    -Destination build/tags/$version/lang/    -Recurse
+    cp lib/     -Destination build/tags/$version/lib/     -Recurse
+    cp views/   -Destination build/tags/$version/views/   -Recurse
+
+    # # Add and commit
+    svn.exe add build/tags/$version
+    cd build/tags
+    svn.exe ci -m "Tagged version $version"
+
+    if (!$LastExitCode -eq 0) {
+        Write-Host "Error! Could not commit the new tag. Exiting." -foregroundcolor "Red"
+        Exit
+    }
+
+    # Cleanup
+    cd ../..
+    Remove-Item build -Recurse -Force
+
+    # Git tag the new version, and push master to the repo.
+    git tag -a $version -m "Tagged version $version"
+    git push origin master --tags
+
+    Write-Host "All done!"
+}
+
+# ------------------------------------------------------------------------------
+# Assets
+# Update the assets in the WordPress Repository
+# ------------------------------------------------------------------------------
+function assets
+{
+    Write-Host "Checking out assets folder..."
+    svn.exe co $SVN_REPO"assets/" build
+    if (!$LastExitCode -eq 0) {
+        Write-Host "Error! Could not checkout the assets. Exiting." -foregroundcolor "Red"
+        Exit
+    }
+
+    Write-Host "Updating screenshots..."
+    Remove-Item build/*.*
+    Copy-Item repo/screenshot-*.* build/
+    Copy-Item repo/banner-*.png build/
+
+    Write-Host "Commiting the assets folder..."
+    svn.exe add --force build/*.jpg
+    svn.exe add --force build/*.png
+    cd build
+    svn.exe ci -m "Updates repository assets."
+    if (!$LastExitCode -eq 0) {
+        Write-Host "Error! Could not commit the assets. Exiting." -foregroundcolor "Red"
+        Exit
+    }
+
+    cd ..
+    Remove-Item build -Recurse -Force
+    Write-Host "All done!"
+}
+
+# ------------------------------------------------------------------------------
+# Console Output
+# ------------------------------------------------------------------------------
 function header
 {
     Write-Host $('-' * 80)
-    Write-Host 'PAYPAL DONATIONS' -foregroundcolor "White"
+    Write-Host $PLUGIN_NAME -foregroundcolor "White"
     Write-Host "Version: $(findVersionNumber)"
     Write-Host $('-' * 80)
 }
@@ -125,7 +211,6 @@ function checklist
 {
     Write-Host "CHECKLIST"  -foregroundcolor "Red"
     Write-Host "Before tagging the new release"
-    Write-Host "* Update .pot file." -foregroundcolor "White"
     Write-Host "* Update changelog." -foregroundcolor "White"
     Write-Host "* Run unit tests." -foregroundcolor "White"
     Write-Host $('-' * 80)
@@ -135,9 +220,35 @@ function arguments
 {
     Write-Host "ARGUMENTS"  -foregroundcolor "White"
     Write-Host "bump     Bumps the version number of the plugin."
+    Write-Host "svn      Push a new release to the WordPress repository."
+    Write-Host "assets   Updates the assets in the WordPress repository."
     Write-Host $('-' * 80)
 }
 
+# ------------------------------------------------------------------------------
+# Check Environment
+# ------------------------------------------------------------------------------
+
+<##
+ # Checks if a function or cmdlet exists.
+ # If the command does not exist, display an error message and exit.
+ #
+ # @param  $cmdName  function or cmdlet to check.
+ # @param  $solMess  Solution message to display.
+ # @return void
+ #>
+function commandExists($cmdName, $solMess)
+{
+    if (!(Get-Command $cmdName -errorAction SilentlyContinue))
+    {
+        "Error: $cmdName does not exists!"
+        "Solution: $errMess"
+        Exit
+    } 
+}
+
+## Start checking the environment
+commandExists 'Get-GitStatus' 'Get posh-git for PowerShell.'
 
 # ------------------------------------------------------------------------------
 # Handle Arguments
@@ -147,14 +258,47 @@ switch ($args[0])
 {
     "bump" {
         header
+
+        # Check branch
+        $gitStatus = Get-GitStatus('.')
+        if (!$gitStatus.Branch.StartsWith('release'))
+        {
+            Write-Host "Only bump in release branches..." -foregroundcolor "Red"
+            Exit
+        }
+
+        # Set new version number
         $newVersion = Read-Host 'New version number'
         if ($newVersion -eq '') {
             Write-Host "Exited..." -foregroundcolor "Red"
             break
         }
+
+        # And do the bumps
         bump($newVersion)
+
+        # Let's display some reminders
         checklist
         break
+    }
+
+    "svn" {
+        header
+
+        # Check branch
+        $gitStatus = Get-GitStatus('.')
+        if (!$gitStatus.Branch.StartsWith('master')) {
+            Write-Host "Only publish releases from the master branch..." `
+                -foregroundcolor "Red"
+            Exit
+        }
+        svn
+    }
+
+
+    "assets" {
+        header
+        assets
     }
 
     default {
