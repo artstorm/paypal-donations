@@ -2,7 +2,7 @@
 Contributors: artstorm
 Donate link: http://johansteen.se/donate/
 Tags: paypal, donation, shortcode, widget, donate, button, sidebar
-Requires at least: 2.8
+Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: 1.8
 License: GPLv2 or later

@@ -38,7 +38,7 @@ spl_autoload_register('PayPalDonations::autoload');
 class PayPalDonations
 {
     const MIN_PHP_VERSION  = '5.2.4';
-    const MIN_WP_VERSION   = '2.8';
+    const MIN_WP_VERSION   = '3.0';
     const OPTION_DB_KEY    = 'paypal_donations_options';
     const TEXT_DOMAIN      = 'paypal-donations';
     const FILE             = __FILE__;
