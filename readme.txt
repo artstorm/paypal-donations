@@ -24,17 +24,11 @@ Insert the button in your pages or posts with this shortcode
 
 `[paypal-donation]`
 
-Which is the simplest option, and uses all default and optional settings. If you want to make a specific button for a specific purpose you can add these options:
+Which is the simplest option, and uses all default and optional settings. If you want to make a specific button for a specific purpose you can add additional options. Example:
 
 `[paypal-donation purpose="Spline Importer" reference="3D Plugins"]`
 
-as an example.
-
 This donation plugin generates valid XHTML Transitional and Strict code.
-
-For complete usage instructions see: [PayPal Donations](http://wpstorm.net/wordpress-plugins/paypal-donations/ "Complete Usage Instructions for PayPal Donations")
-
-See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changelog/) for what's new. Available [Translations](http://wpstorm.net/wordpress-plugins/paypal-donations/#translations).
 
 = Related Links =
 
@@ -44,6 +38,7 @@ See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changel
   "Use this for support and feature requests")
 * [GitHub](https://github.com/artstorm/paypal-donations 
   "Develop and contribute your code or report bugs")
+
 
 == Installation ==
 
@@ -58,6 +53,7 @@ See the [Changelog](http://wordpress.org/extend/plugins/paypal-donations/changel
 1. Deactivate PayPal Donations in the 'Plugins' menu in Wordpress.
 2. After Deactivation a 'Delete' link appears below the plugin name, follow the link and confim with 'Yes, Delete these files'.
 3. This will delete all the plugin files from the server as well as erasing all options the plugin has stored in the database.
+
 
 == Frequently Asked Questions ==
 
@@ -77,10 +73,12 @@ If you want to contribute improved code or new features for the plugin. Please
 open a pull request at the [PayPal Donations GitHub repository](https://github.com/artstorm/paypal-donations).
 Contributions are appreciated and encouraged.
 
+
 == Screenshots ==
 
 1. Admin page where you setup the plugin
 1. Sidebar Widget Admin Options
+
 
 == Changelog ==
 
