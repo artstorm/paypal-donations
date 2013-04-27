@@ -1,13 +1,13 @@
-Paypal Donations
-================
+# Paypal Donations
+
+[![Build Status](https://travis-ci.org/artstorm/paypal-donations.png?branch=develop)](https://travis-ci.org/artstorm/paypal-donations)
 
 WordPress Plugin for an easy and simple setup and insertion of PayPal donate
 buttons with a shortcode or through a sidebar Widget. Donation purpose can be
 set for each button. A few other customization options are available as well.
 
-* WordPress Repository: http://wordpress.org/extend/plugins/paypal-donations/
-* Support Forum:        http://wordpress.org/support/plugin/paypal-donations
-* Issues:               https://github.com/artstorm/paypal-donations/issues
+* [WordPress Repository](http://wordpress.org/extend/plugins/paypal-donations/)
+* [Support Forum](http://wordpress.org/support/plugin/paypal-donations)
 
 
 ## Contributing to this project
