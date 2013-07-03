@@ -37,13 +37,16 @@ spl_autoload_register('PayPalDonations::autoload');
  */
 class PayPalDonations
 {
+    /** Holds the plugin instance */
+    private static $instance = false;
+
+    /** Define plugin constants */
     const MIN_PHP_VERSION  = '5.2.4';
     const MIN_WP_VERSION   = '3.0';
     const OPTION_DB_KEY    = 'paypal_donations_options';
     const TEXT_DOMAIN      = 'paypal-donations';
     const FILE             = __FILE__;
 
-    private static $instance = false;
 
     // -------------------------------------------------------------------------
     // Define constant data arrays
@@ -157,8 +160,6 @@ class PayPalDonations
 
     /**
      * PSR-0 compliant autoloader to load classes as needed.
-     *
-     * @since  1.7
      *
      * @param  string  $classname  The name of the class
      * @return null    Return early if the class name does not start with the
