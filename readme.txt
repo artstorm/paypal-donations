@@ -82,6 +82,9 @@ Contributions are appreciated and encouraged.
 
 == Changelog ==
 
+= Version 1.8.2 - 22 Mar 2014 =
+ * Adds the option to have PayPal open in a new tab.
+
 = Version 1.8.1 - 27 Apr 2013 =
  * Various minor code improvements.
  * Bumps required WordPress version to v3.0.
