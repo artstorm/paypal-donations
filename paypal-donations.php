@@ -9,7 +9,7 @@ Version: 1.8.2
 License: GPLv2 or later
 Text Domain: paypal-donations
 
-Copyright 2009-2013  Johan Steen  (email : artstorm [at] gmail [dot] com)
+Copyright 2009-2014  Johan Steen  (email : artstorm [at] gmail [dot] com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
