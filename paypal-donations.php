@@ -7,7 +7,7 @@ Author: Johan Steen
 Author URI: http://johansteen.se/
 Version: 1.8.1
 License: GPLv2 or later
-Text Domain: paypal-donations 
+Text Domain: paypal-donations
 
 Copyright 2009-2013  Johan Steen  (email : artstorm [at] gmail [dot] com)
 
@@ -179,7 +179,7 @@ class PayPalDonations
             $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
             $fileName .= DIRECTORY_SEPARATOR;
         }
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'lib_'.$className);
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, 'src_'.$className);
         $fileName .='.php';
 
         require $fileName;
@@ -252,7 +252,7 @@ class PayPalDonations
             $button_url
         );
     }
-    
+
     /**
      * Generate the PayPal button HTML code
      */
@@ -271,7 +271,7 @@ class PayPalDonations
         $amount = (!$amount) ? $pd_options['amount'] : $amount;
         $return_page = (!$return_page) ? $pd_options['return_page'] : $return_page;
         $button_url = (!$button_url) ? $pd_options['button_url'] : $button_url;
-        
+
         $data = array(
             'pd_options' => $pd_options,
             'return_page' => $return_page,
