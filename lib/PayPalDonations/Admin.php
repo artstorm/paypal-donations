@@ -57,7 +57,7 @@ class PayPalDonations_Admin
             array($this, 'renderpage')
         );
     }
-     
+
     public function renderpage()
     {
         $data = array(
@@ -303,6 +303,20 @@ class PayPalDonations_Admin
             'extras_section',
             array(
                 'label_for' => 'center_button',
+                'description' => ''
+            )
+        );
+        add_settings_field(
+            'new_tab',
+            __(
+                'Open PayPal in New Tab',
+                PayPalDonations::TEXT_DOMAIN
+            ),
+            array($this, 'newTabCallback'),
+            self::PAGE_SLUG,
+            'extras_section',
+            array(
+                'label_for' => 'new_tab',
                 'description' => ''
             )
         );
@@ -567,6 +581,23 @@ class PayPalDonations_Admin
         echo "<p class='description'>{$args['description']}</p>";
     }
 
+    public function newTabCallback($args)
+    {
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        $checked = isset($options['new_tab']) ?
+            $options['new_tab'] :
+            false;
+        echo "<input type='checkbox' id='new_tab' ";
+        echo "name='{$optionKey}[new_tab]' value='1' ";
+        if ($checked) {
+            echo 'checked ';
+        }
+        echo "/>";
+
+        echo "<p class='description'>{$args['description']}</p>";
+    }
+
     public function setCheckoutLangugageCallback($args)
     {
         $optionKey = PayPalDonations::OPTION_DB_KEY;
@@ -639,7 +670,7 @@ class PayPalDonations_Admin
     // -------------------------------------------------------------------------
     // HTML and Form element methods
     // -------------------------------------------------------------------------
-    
+
     /**
      * Checkbox.
      * Renders the HTML for an input checkbox.
