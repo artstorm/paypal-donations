@@ -328,7 +328,10 @@ class PayPalDonations_Admin
             'extras_section',
             array(
                 'label_for' => 'remove_lf',
-                'description' => ''
+                'description' => __(
+                    'Enable this if your theme or a plugin adds autostyling to shortcodes/widgets.',
+                    PayPalDonations::TEXT_DOMAIN
+                ),
             )
         );
         add_settings_field(
