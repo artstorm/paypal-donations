@@ -82,6 +82,11 @@ Contributions are appreciated and encouraged.
 
 == Changelog ==
 
+= Version 1.8.3 - 11 Apr 2014 =
+ * Adds a Remove Line Feeds option on the Advanced tab, that makes the PayPal
+   form output not be affected if using a theme or a plugin that modifies
+   WordPress to start auto styling shortcodes/widgets.
+
 = Version 1.8.2 - 22 Mar 2014 =
  * Adds the option to have PayPal open in a new tab.
 
