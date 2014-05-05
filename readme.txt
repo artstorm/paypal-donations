@@ -82,6 +82,11 @@ Contributions are appreciated and encouraged.
 
 == Changelog ==
 
+= Version 1.8.4 - 5 May 2014 =
+ * Additional currencies: Malaysian Ringgit, Russian Ruble.
+ * Additional Checkout Languages: Belgium, Switzerland, Poland, Russia.
+ * Removes PHP notice when running WordPress in debug mode.
+
 = Version 1.8.3 - 11 Apr 2014 =
  * Adds a Remove Line Feeds option on the Advanced tab, that makes the PayPal
    form output not be affected if using a theme or a plugin that modifies
