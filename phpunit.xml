@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit 
-    colors="true" 
-    stopOnFailure="false" 
-    bootstrap="utest/bootstrap.php">
-    backupGlobals="false"
-    <testsuites>
-        <testsuite name="complete">
-            <directory>utest</directory>
-        </testsuite>
-    </testsuites>
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite>
+			<directory prefix="test-" suffix=".php">./tests/</directory>
+		</testsuite>
+	</testsuites>
 </phpunit>
