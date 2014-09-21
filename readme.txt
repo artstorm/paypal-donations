@@ -82,6 +82,10 @@ Contributions are appreciated and encouraged.
 
 == Changelog ==
 
+= Version 1.8.5 - 21 Sep 2014 =
+ * Add support for PayPal Sandbox.
+ * Update Swedish translation.
+
 = Version 1.8.4 - 5 May 2014 =
  * Additional currencies: Malaysian Ringgit, Russian Ruble.
  * Additional Checkout Languages: Belgium, Switzerland, Poland, Russia.
