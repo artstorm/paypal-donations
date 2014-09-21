@@ -335,13 +335,13 @@ class PayPalDonations_Admin
             )
         );
         add_settings_field(
-            'set_paypal_sandbox',
+            'sandbox',
             __('Enable PayPal Sandbox', PayPalDonations::TEXT_DOMAIN),
             array($this, 'setPayPalSandboxCallback'),
             self::PAGE_SLUG,
             'extras_section',
             array(
-                'label_for' => 'set_paypal_sandbox',
+                'label_for' => 'sandbox',
                 'description' => sprintf(
                     __('Enable PayPal sandbox for testing. Visit %s for more information and to register a merchant and customer testing accounts.', PayPalDonations::TEXT_DOMAIN),
                     '<a href="http://developer.paypal.com/">http://developer.paypal.com/</a>'
@@ -645,7 +645,19 @@ class PayPalDonations_Admin
 
     public function setPayPalSandboxCallback($args)
     {
-        echo 'not implemented';
+        $optionKey = PayPalDonations::OPTION_DB_KEY;
+        $options = get_option($optionKey);
+        $checked = isset($options['sandbox']) ?
+            $options['sandbox'] :
+            false;
+        echo "<input type='checkbox' id='sandbox' ";
+        echo "name='{$optionKey}[sandbox]' value='1' ";
+        if ($checked) {
+            echo 'checked ';
+        }
+        echo "/>";
+
+        echo "<p class='description'>{$args['description']}</p>";
     }
 
     public function setCheckoutLangugageCallback($args)
